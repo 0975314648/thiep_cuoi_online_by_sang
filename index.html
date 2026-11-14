@@ -136,32 +136,41 @@
         body.mobile-edit-active .mobile-edit-badge {
             display: flex;
         }
-        body.mobile-edit-active .editable-text-box {
-            outline: 1.5px dashed #9C6653;
-            outline-offset: 4px;
-            border-radius: 8px;
+        body.mobile-edit-active .editable-text-box,
+        body.mobile-edit-active [data-edit-key] {
+            outline: 1.5px dashed rgba(156, 102, 83, 0.85);
+            outline-offset: 3px;
+            border-radius: 6px;
             cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+        body.mobile-edit-active .editable-text-box:hover,
+        body.mobile-edit-active [data-edit-key]:hover {
+            background-color: rgba(197, 155, 118, 0.16);
         }
     </style>
 </head>
 <body class="bg-[#ECE5DC] text-espresso antialiased selection:bg-terracotta/20 selection:text-espresso overflow-x-hidden">
 
     <!-- =========================================================================
-         0. MOBILE TOP STICKY BAR WHEN IN "CHẾ ĐỘ SỬA TRỰC TIẾP TRÊN ĐIỆN THOẠI"
+         0. MOBILE TOP STICKY BAR WHEN IN "CHẾ ĐỘ SỬA TOÀN BỘ THIỆP"
     ========================================================================== -->
-    <div id="mobileEditBanner" class="hidden fixed top-0 inset-x-0 z-50 bg-espresso text-ivory px-3 py-2.5 shadow-xl border-b border-rosegold/40">
+    <div id="mobileEditBanner" class="hidden fixed top-0 inset-x-0 z-[55] bg-espresso text-ivory px-3 py-2.5 shadow-xl border-b border-rosegold/40">
         <div class="max-w-[500px] mx-auto flex items-center justify-between gap-2">
             <div class="flex items-center gap-2 min-w-0">
                 <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse shrink-0"></span>
                 <p class="text-[11px] font-medium truncate">
-                    <strong>Chế độ sửa ĐT:</strong> Chạm vào ảnh bất kỳ để đổi
+                    <strong>Đang sửa:</strong> Chạm vào chữ hoặc ảnh bất kỳ
                 </p>
             </div>
             <div class="flex items-center gap-1.5 shrink-0">
-                <button type="button" onclick="openMobilePublishSheet()" class="bg-terracotta hover:bg-[#875544] text-ivory px-3 py-1.5 rounded-full text-[11px] font-semibold shadow transition">
-                    📲 Lưu &amp; Lấy File
+                <button type="button" id="toggleCoverViewBtn" onclick="toggleEnvelopePreviewInEdit()" class="bg-white/15 hover:bg-white/25 text-ivory px-2.5 py-1.5 rounded-full text-[11px] font-medium transition">
+                    Bìa
                 </button>
-                <button type="button" onclick="toggleMobileDirectEdit()" class="bg-white/15 hover:bg-white/25 text-ivory px-2.5 py-1.5 rounded-full text-[11px] transition">
+                <button type="button" onclick="openMobilePublishSheet()" class="bg-terracotta hover:bg-[#875544] text-ivory px-3 py-1.5 rounded-full text-[11px] font-semibold shadow transition">
+                    📲 Lưu &amp; Xuất
+                </button>
+                <button type="button" onclick="exitMobileDirectEdit()" class="bg-white/15 hover:bg-white/25 text-ivory px-2.5 py-1.5 rounded-full text-[11px] transition">
                     Xong
                 </button>
             </div>
@@ -179,8 +188,8 @@
 
             <!-- Top Monogram & Save The Date -->
             <div class="relative z-10 mt-2">
-                <p class="text-[10px] tracking-[0.35em] uppercase text-terracotta font-medium mb-2">Save The Date</p>
-                <div class="w-10 h-10 rounded-full border border-rosegold/60 flex items-center justify-center mx-auto font-serif text-sm italic text-terracotta">
+                <p data-edit-key="envSaveTheDate" data-edit-label="Nhãn đầu bìa thiệp" class="text-[10px] tracking-[0.35em] uppercase text-terracotta font-medium mb-2 inline-block px-2">Save The Date</p>
+                <div data-edit-key="envMonogram" data-edit-label="Chữ viết tắt cặp đôi (Monogram)" class="w-10 h-10 rounded-full border border-rosegold/60 flex items-center justify-center mx-auto font-serif text-sm italic text-terracotta">
                     S&amp;T
                 </div>
             </div>
@@ -195,24 +204,26 @@
                     </button>
                 </div>
 
-                <p class="font-serif italic text-base text-taupe mb-1">Trân trọng kính mời</p>
-                <p id="envelopeGuestName" class="text-sm font-medium text-terracotta tracking-wide mb-3 px-4 py-1 rounded-full bg-champagne/90 border border-sand">
+                <p data-edit-key="envInvitePrefix" data-edit-label="Lời mời đầu bìa" class="font-serif italic text-base text-taupe mb-1 px-2">Trân trọng kính mời</p>
+                <p id="envelopeGuestName" data-edit-key="envDefaultGuest" data-edit-label="Tên khách mời mặc định (Bìa)" class="text-sm font-medium text-terracotta tracking-wide mb-3 px-4 py-1 rounded-full bg-champagne/90 border border-sand">
                     Quý Khách &amp; Gia Đình
                 </p>
 
                 <h1 class="font-script text-5xl sm:text-6xl text-espresso leading-tight">
-                    Sáng <span class="text-rosegold text-4xl sm:text-5xl">&amp;</span> Thu
+                    <span data-edit-key="coupleShortGroom" data-edit-label="Tên chú rể (Ngắn)">Sáng</span>
+                    <span class="text-rosegold text-4xl sm:text-5xl mx-1">&amp;</span>
+                    <span data-edit-key="coupleShortBride" data-edit-label="Tên cô dâu (Ngắn)">Thu</span>
                 </h1>
-                <p class="font-serif text-base tracking-[0.25em] text-taupe mt-1">20 . 12 . 2026</p>
+                <p data-edit-key="weddingDateDisplay" data-edit-label="Ngày cưới hiển thị" class="font-serif text-base tracking-[0.25em] text-taupe mt-1 px-2">20 . 12 . 2026</p>
             </div>
 
             <!-- Wax Seal Button ("Mở Thiệp Mời") -->
             <div class="relative z-10 mb-2 flex flex-col items-center">
                 <button onclick="openWeddingInvitation()" class="group relative inline-flex items-center gap-3 bg-terracotta hover:bg-[#875544] text-ivory px-8 py-3.5 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 text-xs font-medium tracking-[0.2em] uppercase">
                     <span class="w-5 h-5 rounded-full bg-rosegold/30 border border-ivory/40 flex items-center justify-center text-[10px] font-serif italic">♥</span>
-                    <span>Mở Thiệp Mời</span>
+                    <span data-edit-key="envOpenBtnText" data-edit-label="Chữ trên nút mở thiệp">Mở Thiệp Mời</span>
                 </button>
-                <span class="text-[11px] text-taupe/75 mt-2.5 font-light">Chạm để mở thiệp &amp; phát bài hát Lễ Đường</span>
+                <span data-edit-key="envOpenHint" data-edit-label="Ghi chú dưới nút mở thiệp" class="text-[11px] text-taupe/75 mt-2.5 font-light px-2">Chạm để mở thiệp &amp; phát bài hát Lễ Đường</span>
             </div>
         </div>
     </div>
@@ -229,11 +240,14 @@
     <!-- Shared Hidden Input for Mobile MP3 Picking -->
     <input type="file" id="localMp3Input" accept="audio/mp3,audio/*" class="hidden" onchange="handleLocalMp3File(event)">
 
-    <div class="fixed bottom-4 right-3 sm:right-6 z-40 flex items-center gap-2">
-        <!-- Nút Bật Chế Độ Chạm Đổi Ảnh Trực Tiếp Trên Điện Thoại -->
+    <!-- Shared Hidden Input for Importing Saved Draft JSON -->
+    <input type="file" id="importDraftJsonInput" accept="application/json,.json" class="hidden" onchange="handleImportDraftJson(event)">
+
+    <div class="fixed bottom-4 right-3 sm:right-6 z-[45] flex items-center gap-2">
+        <!-- Nút Bật Chế Độ Chạm Sửa Toàn Bộ Chữ & Ảnh -->
         <button id="openEditorBtn" onclick="toggleMobileDirectEdit()" class="inline-flex items-center gap-1.5 bg-ivory/95 backdrop-blur-md text-espresso hover:text-terracotta border border-rosegold/70 shadow-lg px-3.5 py-2.5 rounded-full text-xs font-semibold tracking-wide transition">
             <span id="mobileEditBtnIcon">✏️</span>
-            <span id="mobileEditBtnText">Đổi Ảnh / Nhạc</span>
+            <span id="mobileEditBtnText">Sửa Thiệp</span>
         </button>
 
         <a href="#rsvp" class="bg-ivory/95 backdrop-blur-md text-terracotta border border-sand shadow-md hover:shadow-lg px-3.5 py-2.5 rounded-full text-[11px] font-medium tracking-wider uppercase transition">
@@ -253,7 +267,7 @@
     </div>
 
     <!-- Subtle Custom Toast Notification -->
-    <div id="toastMessageBox" class="fixed top-14 left-1/2 -translate-x-1/2 z-50 pointer-events-none opacity-0 -translate-y-3 transition-all duration-300 bg-espresso text-ivory px-5 py-2.5 rounded-full shadow-xl text-xs font-medium tracking-wide border border-rosegold/30 text-center max-w-[90vw]">
+    <div id="toastMessageBox" class="fixed top-14 left-1/2 -translate-x-1/2 z-[70] pointer-events-none opacity-0 -translate-y-3 transition-all duration-300 bg-espresso text-ivory px-5 py-2.5 rounded-full shadow-xl text-xs font-medium tracking-wide border border-rosegold/30 text-center max-w-[90vw]">
         <span id="toastText">Đã lưu thay đổi!</span>
     </div>
 
@@ -263,15 +277,16 @@
     <main class="relative w-full max-w-[500px] mx-auto paper-texture shadow-[0_12px_60px_rgba(43,37,34,0.12)] border-x border-sand/80 min-h-screen overflow-x-hidden">
 
         <!-- =====================================================================
-             SECTION A: EDITORIAL HERO COVER (TAP PHOTO TO CHANGE ON MOBILE)
+             SECTION A: EDITORIAL HERO COVER (TAP PHOTO OR TEXT TO CHANGE)
         ====================================================================== -->
         <section class="relative px-6 pt-10 pb-14 text-center overflow-hidden">
             <!-- Top Editorial Header -->
             <div class="cine-reveal">
-                <p class="text-[10px] tracking-[0.35em] uppercase text-terracotta font-medium">The Wedding Celebration</p>
+                <p data-edit-key="heroTopLabel" data-edit-label="Tiêu đề nhỏ trên cùng" class="text-[10px] tracking-[0.35em] uppercase text-terracotta font-medium inline-block px-2">The Wedding Celebration</p>
                 <div class="gold-divider w-24 mx-auto my-3"></div>
                 <p class="font-serif italic text-base text-taupe">
-                    Trân trọng kính mời <span id="heroGuestName" class="text-espresso font-semibold">Bạn và Gia đình</span>
+                    <span data-edit-key="heroInvitePrefix" data-edit-label="Lời kính mời đầu trang">Trân trọng kính mời</span>
+                    <span id="heroGuestName" data-edit-key="heroDefaultGuest" data-edit-label="Tên khách mời mặc định (Trang chính)" class="text-espresso font-semibold ml-1">Bạn và Gia đình</span>
                 </p>
             </div>
 
@@ -284,37 +299,39 @@
                     <!-- Inner Hairline Frame -->
                     <div class="absolute inset-3 border border-white/35 rounded-xl pointer-events-none"></div>
 
-                    <!-- Overlay Calligraphy Names inside Portrait Bottom -->
-                    <div class="absolute bottom-6 inset-x-4 text-white pointer-events-none">
-                        <p class="text-[10px] tracking-[0.3em] uppercase text-white/85 mb-1">We Are Getting Married</p>
-                        <h2 class="font-script text-5xl sm:text-6xl text-white drop-shadow">
-                            Sáng <span class="text-rosegold text-4xl">&amp;</span> Thu
-                        </h2>
-                    </div>
-
-                    <!-- Mobile Direct Tap-to-Change Overlay -->
-                    <button type="button" onclick="triggerMobilePhotoPicker({ type: 'hero' })" class="mobile-edit-badge absolute inset-0 bg-espresso/50 backdrop-blur-[2px] flex-col items-center justify-center text-ivory p-4">
+                    <!-- Mobile Direct Tap-to-Change Overlay (Placed behind bottom text so both photo & text stay editable) -->
+                    <button type="button" onclick="triggerMobilePhotoPicker({ type: 'hero' })" class="mobile-edit-badge absolute inset-0 bg-espresso/45 backdrop-blur-[1px] flex-col items-center justify-center text-ivory p-4 pb-24">
                         <span class="text-3xl mb-2">📷</span>
                         <span class="bg-terracotta text-ivory px-4 py-2 rounded-full text-xs font-semibold uppercase tracking-wider shadow-lg">
                             Chạm Để Đổi Ảnh Chính Này
                         </span>
                         <span class="text-[11px] text-ivory/85 mt-1.5">Chọn trực tiếp từ Album điện thoại</span>
                     </button>
+
+                    <!-- Overlay Calligraphy Names inside Portrait Bottom -->
+                    <div class="absolute bottom-6 inset-x-4 text-white z-10">
+                        <p data-edit-key="heroPhotoSubtitle" data-edit-label="Dòng phụ trên ảnh chính" class="text-[10px] tracking-[0.3em] uppercase text-white/90 mb-1 inline-block px-2">We Are Getting Married</p>
+                        <h2 class="font-script text-5xl sm:text-6xl text-white drop-shadow">
+                            <span data-edit-key="coupleShortGroom" data-edit-label="Tên chú rể (Ngắn)">Sáng</span>
+                            <span class="text-rosegold text-4xl mx-1">&amp;</span>
+                            <span data-edit-key="coupleShortBride" data-edit-label="Tên cô dâu (Ngắn)">Thu</span>
+                        </h2>
+                    </div>
                 </div>
             </div>
 
             <!-- Wedding Date & Poetic Quote -->
             <div class="cine-reveal delay-200">
                 <div class="inline-flex items-center gap-4 py-2 px-5 border-y border-rosegold/40 text-espresso font-serif text-lg tracking-[0.2em]">
-                    <span>CHỦ NHẬT</span>
+                    <span data-edit-key="heroDayOfWeek" data-edit-label="Thứ ngày cưới">CHỦ NHẬT</span>
                     <span class="text-terracotta">•</span>
-                    <span class="font-semibold">20 . 12 . 2026</span>
+                    <span data-edit-key="weddingDateDisplay" data-edit-label="Ngày cưới hiển thị" class="font-semibold">20 . 12 . 2026</span>
                 </div>
-                <p class="font-serif italic text-lg text-taupe mt-5 leading-relaxed px-2">
+                <p data-edit-key="heroQuote" data-edit-label="Câu trích dẫn lãng mạn" class="font-serif italic text-lg text-taupe mt-5 leading-relaxed px-2">
                     "Khoảnh khắc thấy em trên lễ đường, cùng ánh mắt bóng dáng thân thương...<br>
                     Nhiều năm ấy chớp mắt trôi qua, để ta giờ đây về chung một nhà."
                 </p>
-                <p class="text-[10px] tracking-[0.22em] uppercase text-rosegold mt-1.5">— Lễ Đường (Kai Đinh) —</p>
+                <p data-edit-key="heroQuoteAuthor" data-edit-label="Tác giả / Nguồn trích dẫn" class="text-[10px] tracking-[0.22em] uppercase text-rosegold mt-1.5 inline-block px-2">— Lễ Đường (Kai Đinh) —</p>
             </div>
         </section>
 
@@ -323,35 +340,35 @@
         ====================================================================== -->
         <section class="px-6 py-12 bg-champagne/65 border-y border-sand/70 text-center">
             <div class="cine-reveal">
-                <span class="text-[10px] tracking-[0.32em] uppercase text-terracotta font-medium">Gia Đình Hai Bên</span>
-                <h2 class="font-serif text-2xl sm:text-3xl font-semibold text-espresso mt-1 mb-6">Trân Trọng Báo Tin Lễ Thành Hôn</h2>
+                <span data-edit-key="familySubtitle" data-edit-label="Tiêu đề nhỏ phần gia đình" class="text-[10px] tracking-[0.32em] uppercase text-terracotta font-medium inline-block px-2">Gia Đình Hai Bên</span>
+                <h2 data-edit-key="familyHeading" data-edit-label="Tiêu đề báo tin lễ thành hôn" class="font-serif text-2xl sm:text-3xl font-semibold text-espresso mt-1 mb-6 px-2">Trân Trọng Báo Tin Lễ Thành Hôn</h2>
 
                 <!-- Two-Column Family Grid -->
                 <div class="grid grid-cols-2 gap-4 text-center py-5 px-3 bg-ivory/90 rounded-2xl border border-sand shadow-sm">
                     <!-- Nhà Trai -->
-                    <div class="border-r border-sand/80 pr-2">
-                        <p class="text-[10px] tracking-[0.2em] uppercase text-terracotta font-semibold mb-1.5">Nhà Trai</p>
-                        <p class="font-serif text-sm sm:text-base font-semibold text-espresso">Ông Nguyễn Văn Minh</p>
-                        <p class="font-serif text-sm sm:text-base font-semibold text-espresso">Bà Trần Thị Lan</p>
-                        <p class="text-[11px] text-taupe mt-1.5 font-light">Đống Đa, Hà Nội</p>
+                    <div class="border-r border-sand/80 pr-2 space-y-0.5">
+                        <p data-edit-key="groomSideLabel" data-edit-label="Tiêu đề Nhà Trai" class="text-[10px] tracking-[0.2em] uppercase text-terracotta font-semibold mb-1.5">Nhà Trai</p>
+                        <p data-edit-key="groomFather" data-edit-label="Tên Bố Chú Rể" class="font-serif text-sm sm:text-base font-semibold text-espresso">Ông Nguyễn Văn Minh</p>
+                        <p data-edit-key="groomMother" data-edit-label="Tên Mẹ Chú Rể" class="font-serif text-sm sm:text-base font-semibold text-espresso">Bà Trần Thị Lan</p>
+                        <p data-edit-key="groomFamilyAddress" data-edit-label="Địa chỉ Nhà Trai" class="text-[11px] text-taupe pt-1 font-light">Đống Đa, Hà Nội</p>
                     </div>
 
                     <!-- Nhà Gái -->
-                    <div class="pl-2">
-                        <p class="text-[10px] tracking-[0.2em] uppercase text-terracotta font-semibold mb-1.5">Nhà Gái</p>
-                        <p class="font-serif text-sm sm:text-base font-semibold text-espresso">Ông Ngô Hoàng Nam</p>
-                        <p class="font-serif text-sm sm:text-base font-semibold text-espresso">Bà Phạm Thu Hương</p>
-                        <p class="text-[11px] text-taupe mt-1.5 font-light">Cầu Giấy, Hà Nội</p>
+                    <div class="pl-2 space-y-0.5">
+                        <p data-edit-key="brideSideLabel" data-edit-label="Tiêu đề Nhà Gái" class="text-[10px] tracking-[0.2em] uppercase text-terracotta font-semibold mb-1.5">Nhà Gái</p>
+                        <p data-edit-key="brideFather" data-edit-label="Tên Bố Cô Dâu" class="font-serif text-sm sm:text-base font-semibold text-espresso">Ông Ngô Hoàng Nam</p>
+                        <p data-edit-key="brideMother" data-edit-label="Tên Mẹ Cô Dâu" class="font-serif text-sm sm:text-base font-semibold text-espresso">Bà Phạm Thu Hương</p>
+                        <p data-edit-key="brideFamilyAddress" data-edit-label="Địa chỉ Nhà Gái" class="text-[11px] text-taupe pt-1 font-light">Cầu Giấy, Hà Nội</p>
                     </div>
                 </div>
 
                 <!-- Groom & Bride Names -->
                 <div class="mt-7">
-                    <p class="text-xs uppercase tracking-[0.25em] text-taupe mb-2">Trân trọng báo tin lễ thành hôn của con chúng tôi</p>
+                    <p data-edit-key="familyAnnounceLine" data-edit-label="Lời dẫn giới thiệu cô dâu chú rể" class="text-xs uppercase tracking-[0.25em] text-taupe mb-2 px-2">Trân trọng báo tin lễ thành hôn của con chúng tôi</p>
                     <div class="flex flex-col items-center justify-center my-3">
-                        <span class="font-script text-4xl sm:text-5xl text-espresso">Nguyễn Văn Sáng</span>
+                        <span data-edit-key="groomFullName" data-edit-label="Họ tên đầy đủ Chú Rể" class="font-script text-4xl sm:text-5xl text-espresso px-2">Nguyễn Văn Sáng</span>
                         <span class="font-serif italic text-rosegold text-xl my-0.5">&amp;</span>
-                        <span class="font-script text-4xl sm:text-5xl text-espresso">Ngô Thị Thu</span>
+                        <span data-edit-key="brideFullName" data-edit-label="Họ tên đầy đủ Cô Dâu" class="font-script text-4xl sm:text-5xl text-espresso px-2">Ngô Thị Thu</span>
                     </div>
                 </div>
             </div>
@@ -359,14 +376,13 @@
 
         <!-- =====================================================================
              SECTION C: SCROLL-DRIVEN LOVE STORY ("CHUYỆN TÌNH YÊU")
-             (Directional Slide-In + Tap Directly on Any Photo or Text to Edit on Phone)
         ====================================================================== -->
         <section id="love-story" class="px-6 py-16 overflow-x-hidden">
             <div class="cine-reveal text-center mb-12">
-                <span class="text-[10px] tracking-[0.32em] uppercase text-terracotta font-medium">Our Love Story</span>
-                <h2 class="font-script text-5xl text-espresso mt-1 mb-2">Chuyện Tình Yêu</h2>
+                <span data-edit-key="storySubtitle" data-edit-label="Tiêu đề phụ Chuyện Tình Yêu" class="text-[10px] tracking-[0.32em] uppercase text-terracotta font-medium inline-block px-2">Our Love Story</span>
+                <h2 data-edit-key="storyHeading" data-edit-label="Tiêu đề Chuyện Tình Yêu" class="font-script text-5xl text-espresso mt-1 mb-2 px-2">Chuyện Tình Yêu</h2>
                 <div class="gold-divider w-20 mx-auto mb-3"></div>
-                <p class="font-serif italic text-base sm:text-lg text-taupe leading-relaxed">
+                <p data-edit-key="storyIntro" data-edit-label="Lời mở đầu Chuyện Tình Yêu" class="font-serif italic text-base sm:text-lg text-taupe leading-relaxed px-2">
                     Vuốt nhẹ lên để theo dõi từng trang ký ức của Sáng và Thu trượt vào theo nhịp chuyện tình yêu.
                 </p>
             </div>
@@ -376,23 +392,33 @@
                 <!-- Rendered via WEDDING_CONFIG.storyChapters -->
             </div>
 
+            <!-- Mobile Add Story Chapter Buttons (Only visible in Edit Mode) -->
+            <div class="mobile-edit-badge mt-8 pt-4 border-t border-sand flex items-center justify-center gap-2.5">
+                <button type="button" onclick="addStoryChapter('single')" class="flex-1 py-2.5 px-3 rounded-xl bg-terracotta text-ivory text-xs font-semibold shadow">
+                    + Thêm Chương (1 Ảnh)
+                </button>
+                <button type="button" onclick="addStoryChapter('pair')" class="flex-1 py-2.5 px-3 rounded-xl bg-espresso text-ivory text-xs font-semibold shadow">
+                    + Thêm Chương (2 Ảnh)
+                </button>
+            </div>
+
             <!-- Gentle Transition Bridge into the Wedding Ceremony -->
             <div class="cine-reveal mt-16 pt-10 border-t border-sand text-center">
-                <p class="font-serif italic text-xl sm:text-2xl text-espresso leading-relaxed">
-                    "Từ những ngày tháng bình dị ấy, chúng tôi đã sẵn sàng viết tiếp chương hạnh phúc nhất mang tên <span class="text-terracotta font-semibold">Gia Đình</span>."
+                <p data-edit-key="storyBridgeQuote" data-edit-label="Lời kết Chuyện Tình Yêu" class="font-serif italic text-xl sm:text-2xl text-espresso leading-relaxed px-2">
+                    "Từ những ngày tháng bình dị ấy, chúng tôi đã sẵn sàng viết tiếp chương hạnh phúc nhất mang tên Gia Đình."
                 </p>
                 <div class="w-px h-10 bg-rosegold/60 mx-auto mt-5"></div>
             </div>
         </section>
 
         <!-- =====================================================================
-             SECTION D: INTERACTIVE WEDDING PHOTO ALBUM (DIRECTIONAL SLIDE-IN + TAP TO CHANGE)
+             SECTION D: INTERACTIVE WEDDING PHOTO ALBUM
         ====================================================================== -->
         <section id="album" class="px-6 py-14 bg-champagne/75 border-y border-sand/80 overflow-x-hidden">
             <div class="cine-reveal text-center mb-8">
-                <span class="text-[10px] tracking-[0.32em] uppercase text-terracotta font-medium">Pre-Wedding Gallery</span>
-                <h2 class="font-script text-5xl text-espresso mt-1 mb-2">Album Hình Cưới</h2>
-                <p class="text-xs text-taupe font-light">Chạm vào ảnh để xem toàn màn hình (hoặc bật nút ✏️ Đổi Ảnh để thay ảnh từ điện thoại)</p>
+                <span data-edit-key="albumSubtitle" data-edit-label="Tiêu đề phụ Album" class="text-[10px] tracking-[0.32em] uppercase text-terracotta font-medium inline-block px-2">Pre-Wedding Gallery</span>
+                <h2 data-edit-key="albumHeading" data-edit-label="Tiêu đề Album Hình Cưới" class="font-script text-5xl text-espresso mt-1 mb-2 px-2">Album Hình Cưới</h2>
+                <p data-edit-key="albumHint" data-edit-label="Mô tả ngắn Album" class="text-xs text-taupe font-light px-2">Chạm vào ảnh để xem toàn màn hình</p>
             </div>
 
             <!-- Editorial Multi-Row Photo Showcase -->
@@ -416,116 +442,124 @@
         ====================================================================== -->
         <section id="events" class="px-6 py-16">
             <div class="cine-reveal text-center mb-10">
-                <span class="text-[10px] tracking-[0.32em] uppercase text-terracotta font-medium">Wedding Schedule</span>
-                <h2 class="font-script text-5xl text-espresso mt-1 mb-2">Thông Tin Hôn Lễ</h2>
-                <p class="font-serif italic text-base text-taupe">Sự hiện diện của bạn là niềm vinh hạnh lớn của gia đình chúng tôi</p>
+                <span data-edit-key="eventsSubtitle" data-edit-label="Tiêu đề phụ Thông Tin Hôn Lễ" class="text-[10px] tracking-[0.32em] uppercase text-terracotta font-medium inline-block px-2">Wedding Schedule</span>
+                <h2 data-edit-key="eventsHeading" data-edit-label="Tiêu đề Thông Tin Hôn Lễ" class="font-script text-5xl text-espresso mt-1 mb-2 px-2">Thông Tin Hôn Lễ</h2>
+                <p data-edit-key="eventsIntro" data-edit-label="Lời mời phần Thông Tin Hôn Lễ" class="font-serif italic text-base text-taupe px-2">Sự hiện diện của bạn là niềm vinh hạnh lớn của gia đình chúng tôi</p>
             </div>
 
             <div class="space-y-6">
                 <!-- Event 1: Lễ Thành Hôn -->
                 <div class="cine-reveal bg-white/95 rounded-2xl p-6 border border-sand shadow-sm text-center">
-                    <span class="inline-block text-[10px] tracking-[0.25em] uppercase text-terracotta bg-champagne px-3 py-1 rounded-full font-medium mb-3">
+                    <span data-edit-key="event1Badge" data-edit-label="Nhãn Sự Kiện 1" class="inline-block text-[10px] tracking-[0.25em] uppercase text-terracotta bg-champagne px-3 py-1 rounded-full font-medium mb-3">
                         Nghi Lễ Truyền Thống
                     </span>
-                    <h3 class="font-serif text-2xl font-semibold text-espresso mb-2">Lễ Thành Hôn</h3>
+                    <h3 data-edit-key="event1Title" data-edit-label="Tên Sự Kiện 1" class="font-serif text-2xl font-semibold text-espresso mb-2">Lễ Thành Hôn</h3>
                     
-                    <div class="py-3 px-4 my-3 bg-ivory rounded-xl border border-sand/70">
-                        <p class="text-terracotta font-semibold text-base">10:30 • Chủ Nhật</p>
-                        <p class="text-espresso text-sm font-medium mt-0.5">Ngày 20 tháng 12 năm 2026</p>
-                        <p class="text-[11px] text-taupe mt-0.5">(Tức ngày 12 tháng 11 năm Bính Ngọ)</p>
+                    <div class="py-3 px-4 my-3 bg-ivory rounded-xl border border-sand/70 space-y-0.5">
+                        <p data-edit-key="event1Time" data-edit-label="Giờ & Thứ Sự Kiện 1" class="text-terracotta font-semibold text-base">10:30 • Chủ Nhật</p>
+                        <p data-edit-key="event1Date" data-edit-label="Ngày dương lịch Sự Kiện 1" class="text-espresso text-sm font-medium">Ngày 20 tháng 12 năm 2026</p>
+                        <p data-edit-key="event1Subdate" data-edit-label="Ngày âm lịch / Ghi chú Sự Kiện 1" class="text-[11px] text-taupe">(Tức ngày 12 tháng 11 năm Bính Ngọ)</p>
                     </div>
 
-                    <p class="text-xs font-medium text-espresso mb-1">Tư Gia Nhà Trai</p>
-                    <p class="text-xs text-taupe font-light mb-5">Số 123 Đường Láng, Quận Đống Đa, Hà Nội</p>
+                    <p data-edit-key="event1Venue" data-edit-label="Tên địa điểm Sự Kiện 1" class="text-xs font-medium text-espresso mb-1">Tư Gia Nhà Trai</p>
+                    <p data-edit-key="event1Address" data-edit-label="Địa chỉ chi tiết Sự Kiện 1" class="text-xs text-taupe font-light mb-5">Số 123 Đường Láng, Quận Đống Đa, Hà Nội</p>
 
                     <div class="flex items-center justify-center gap-2.5">
-                        <a href="https://maps.google.com/?q=123+Duong+Lang+Dong+Da+Ha+Noi" target="_blank" rel="noopener noreferrer" class="flex-1 bg-terracotta hover:bg-[#875544] text-ivory py-2.5 px-4 rounded-xl text-xs font-medium tracking-wide transition">
-                            Xem Bản Đồ
+                        <a id="event1MapLink" href="https://maps.google.com/?q=123+Duong+Lang+Dong+Da+Ha+Noi" target="_blank" rel="noopener noreferrer" class="flex-1 bg-terracotta hover:bg-[#875544] text-ivory py-2.5 px-4 rounded-xl text-xs font-medium tracking-wide transition">
+                            <span data-edit-key="eventMapBtnText" data-edit-label="Chữ nút Xem Bản Đồ">Xem Bản Đồ</span>
                         </a>
-                        <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Le+Thanh+Hon+Sang+%26+Thu&dates=20261220T033000Z/20261220T060000Z&details=Chung+vui+cung+Sang+va+Thu&location=123+Duong+Lang,+Dong+Da,+Ha+Noi" target="_blank" rel="noopener noreferrer" class="border border-sand hover:border-terracotta text-espresso py-2.5 px-4 rounded-xl text-xs font-medium transition">
-                            Lưu Lịch
+                        <a id="event1CalLink" href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Le+Thanh+Hon+Sang+%26+Thu&dates=20261220T033000Z/20261220T060000Z&details=Chung+vui+cung+Sang+va+Thu&location=123+Duong+Lang,+Dong+Da,+Ha+Noi" target="_blank" rel="noopener noreferrer" class="border border-sand hover:border-terracotta text-espresso py-2.5 px-4 rounded-xl text-xs font-medium transition">
+                            <span data-edit-key="eventCalBtnText" data-edit-label="Chữ nút Lưu Lịch">Lưu Lịch</span>
                         </a>
                     </div>
+
+                    <button type="button" onclick="openEventLinkModal(1)" class="mobile-edit-badge mt-3 w-full items-center justify-center py-2 px-3 rounded-xl bg-champagne text-terracotta text-[11px] font-semibold border border-rosegold/40">
+                        🔗 Sửa Link Google Maps &amp; Lịch (Sự kiện 1)
+                    </button>
                 </div>
 
                 <!-- Event 2: Tiệc Cưới Chung Vui -->
                 <div class="cine-reveal bg-white/95 rounded-2xl p-6 border border-sand shadow-sm text-center">
-                    <span class="inline-block text-[10px] tracking-[0.25em] uppercase text-terracotta bg-champagne px-3 py-1 rounded-full font-medium mb-3">
+                    <span data-edit-key="event2Badge" data-edit-label="Nhãn Sự Kiện 2" class="inline-block text-[10px] tracking-[0.25em] uppercase text-terracotta bg-champagne px-3 py-1 rounded-full font-medium mb-3">
                         Tiệc Mừng Thân Mật
                     </span>
-                    <h3 class="font-serif text-2xl font-semibold text-espresso mb-2">Tiệc Cưới Chung Vui</h3>
+                    <h3 data-edit-key="event2Title" data-edit-label="Tên Sự Kiện 2" class="font-serif text-2xl font-semibold text-espresso mb-2">Tiệc Cưới Chung Vui</h3>
                     
-                    <div class="py-3 px-4 my-3 bg-ivory rounded-xl border border-sand/70">
-                        <p class="text-terracotta font-semibold text-base">18:00 • Chủ Nhật</p>
-                        <p class="text-espresso text-sm font-medium mt-0.5">Ngày 20 tháng 12 năm 2026</p>
-                        <p class="text-[11px] text-taupe mt-0.5">(Đón khách: 17:30 • Khai tiệc: 18:15)</p>
+                    <div class="py-3 px-4 my-3 bg-ivory rounded-xl border border-sand/70 space-y-0.5">
+                        <p data-edit-key="event2Time" data-edit-label="Giờ & Thứ Sự Kiện 2" class="text-terracotta font-semibold text-base">18:00 • Chủ Nhật</p>
+                        <p data-edit-key="event2Date" data-edit-label="Ngày dương lịch Sự Kiện 2" class="text-espresso text-sm font-medium">Ngày 20 tháng 12 năm 2026</p>
+                        <p data-edit-key="event2Subdate" data-edit-label="Ghi chú giờ đón khách Sự Kiện 2" class="text-[11px] text-taupe">(Đón khách: 17:30 • Khai tiệc: 18:15)</p>
                     </div>
 
-                    <p class="text-xs font-medium text-espresso mb-1">Trung Tâm Hội Nghị Long Biên Palace</p>
-                    <p class="text-xs text-taupe font-light mb-5">Sảnh Hoa Hồng, Khu Trung Đoàn 918, Phúc Đồng, Long Biên, Hà Nội</p>
+                    <p data-edit-key="event2Venue" data-edit-label="Tên địa điểm Sự Kiện 2" class="text-xs font-medium text-espresso mb-1">Trung Tâm Hội Nghị Long Biên Palace</p>
+                    <p data-edit-key="event2Address" data-edit-label="Địa chỉ chi tiết Sự Kiện 2" class="text-xs text-taupe font-light mb-5">Sảnh Hoa Hồng, Khu Trung Đoàn 918, Phúc Đồng, Long Biên, Hà Nội</p>
 
                     <div class="flex items-center justify-center gap-2.5">
-                        <a href="https://maps.google.com/?q=Long+Bien+Palace+Ha+Noi" target="_blank" rel="noopener noreferrer" class="flex-1 bg-terracotta hover:bg-[#875544] text-ivory py-2.5 px-4 rounded-xl text-xs font-medium tracking-wide transition">
-                            Xem Bản Đồ
+                        <a id="event2MapLink" href="https://maps.google.com/?q=Long+Bien+Palace+Ha+Noi" target="_blank" rel="noopener noreferrer" class="flex-1 bg-terracotta hover:bg-[#875544] text-ivory py-2.5 px-4 rounded-xl text-xs font-medium tracking-wide transition">
+                            <span data-edit-key="eventMapBtnText" data-edit-label="Chữ nút Xem Bản Đồ">Xem Bản Đồ</span>
                         </a>
-                        <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Tiec+Cuoi+Sang+%26+Thu&dates=20261220T110000Z/20261220T140000Z&details=Tiec+cuoi+Sang+va+Thu&location=Long+Bien+Palace,+Ha+Noi" target="_blank" rel="noopener noreferrer" class="border border-sand hover:border-terracotta text-espresso py-2.5 px-4 rounded-xl text-xs font-medium transition">
-                            Lưu Lịch
+                        <a id="event2CalLink" href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Tiec+Cuoi+Sang+%26+Thu&dates=20261220T110000Z/20261220T140000Z&details=Tiec+cuoi+Sang+va+Thu&location=Long+Bien+Palace,+Ha+Noi" target="_blank" rel="noopener noreferrer" class="border border-sand hover:border-terracotta text-espresso py-2.5 px-4 rounded-xl text-xs font-medium transition">
+                            <span data-edit-key="eventCalBtnText" data-edit-label="Chữ nút Lưu Lịch">Lưu Lịch</span>
                         </a>
                     </div>
+
+                    <button type="button" onclick="openEventLinkModal(2)" class="mobile-edit-badge mt-3 w-full items-center justify-center py-2 px-3 rounded-xl bg-champagne text-terracotta text-[11px] font-semibold border border-rosegold/40">
+                        🔗 Sửa Link Google Maps &amp; Lịch (Sự kiện 2)
+                    </button>
                 </div>
             </div>
 
             <!-- Dress Code Palette Card -->
             <div class="cine-reveal mt-6 bg-champagne/70 rounded-2xl p-5 border border-sand text-center">
-                <p class="text-[10px] tracking-[0.25em] uppercase text-terracotta font-semibold mb-1.5">Dress Code Gợi Ý</p>
-                <p class="text-xs text-taupe mb-3">Trang phục tông màu nhẹ nhàng để cùng lưu giữ những khung hình thật hài hòa</p>
+                <p data-edit-key="dressCodeTitle" data-edit-label="Tiêu đề Dress Code" class="text-[10px] tracking-[0.25em] uppercase text-terracotta font-semibold mb-1.5 inline-block px-2">Dress Code Gợi Ý</p>
+                <p data-edit-key="dressCodeSubtitle" data-edit-label="Mô tả Dress Code" class="text-xs text-taupe mb-3 px-2">Trang phục tông màu nhẹ nhàng để cùng lưu giữ những khung hình thật hài hòa</p>
                 <div class="flex items-center justify-center gap-4">
                     <div class="flex flex-col items-center">
                         <span class="w-7 h-7 rounded-full bg-[#FAF7F2] border border-sand shadow-sm"></span>
-                        <span class="text-[10px] text-taupe mt-1">Trắng Kem</span>
+                        <span data-edit-key="dressColor1" data-edit-label="Tên màu Dress Code 1" class="text-[10px] text-taupe mt-1 px-1">Trắng Kem</span>
                     </div>
                     <div class="flex flex-col items-center">
                         <span class="w-7 h-7 rounded-full bg-[#E5D5C5] border border-sand shadow-sm"></span>
-                        <span class="text-[10px] text-taupe mt-1">Be Sữa</span>
+                        <span data-edit-key="dressColor2" data-edit-label="Tên màu Dress Code 2" class="text-[10px] text-taupe mt-1 px-1">Be Sữa</span>
                     </div>
                     <div class="flex flex-col items-center">
                         <span class="w-7 h-7 rounded-full bg-[#C59B76] border border-sand shadow-sm"></span>
-                        <span class="text-[10px] text-taupe mt-1">Vàng Đồng</span>
+                        <span data-edit-key="dressColor3" data-edit-label="Tên màu Dress Code 3" class="text-[10px] text-taupe mt-1 px-1">Vàng Đồng</span>
                     </div>
                     <div class="flex flex-col items-center">
                         <span class="w-7 h-7 rounded-full bg-[#2B2522] border border-sand shadow-sm"></span>
-                        <span class="text-[10px] text-taupe mt-1">Đen</span>
+                        <span data-edit-key="dressColor4" data-edit-label="Tên màu Dress Code 4" class="text-[10px] text-taupe mt-1 px-1">Đen</span>
                     </div>
                 </div>
             </div>
         </section>
 
         <!-- =====================================================================
-             SECTION F: CALENDAR & LIVE COUNTDOWN TIMER ("THÁNG 12.2026 & ĐẾM NGƯỢC")
+             SECTION F: CALENDAR & LIVE COUNTDOWN TIMER
         ====================================================================== -->
         <section class="px-6 py-14 bg-espresso text-ivory text-center">
             <div class="cine-reveal">
-                <p class="text-[10px] tracking-[0.3em] uppercase text-rosegold mb-1">Save The Date</p>
-                <h2 class="font-script text-4xl sm:text-5xl text-ivory mb-6">Tháng 12 . 2026</h2>
+                <p data-edit-key="calendarSubtitle" data-edit-label="Nhãn đầu mục Lịch" class="text-[10px] tracking-[0.3em] uppercase text-rosegold mb-1 inline-block px-2">Save The Date</p>
+                <h2 data-edit-key="calendarHeading" data-edit-label="Tiêu đề Tháng Năm Lịch" class="font-script text-4xl sm:text-5xl text-ivory mb-4 px-2">Tháng 12 . 2026</h2>
 
-                <!-- CineLove Mini Calendar Card for December 2026 -->
+                <!-- Quick Edit Date Button (Only visible in Edit Mode) -->
+                <div class="mobile-edit-badge justify-center mb-4">
+                    <button type="button" onclick="openMobilePublishSheet()" class="px-3.5 py-1.5 rounded-full bg-terracotta text-ivory text-[11px] font-semibold shadow">
+                        📅 Đổi Ngày Đếm Ngược &amp; Tự Cập Nhật Lịch
+                    </button>
+                </div>
+
+                <!-- Dynamic CineLove Mini Calendar Card -->
                 <div class="max-w-xs mx-auto bg-white/5 border border-rosegold/30 rounded-2xl p-4 mb-8">
                     <div class="grid grid-cols-7 gap-1 text-[10px] uppercase tracking-wider text-rosegold font-semibold pb-2 mb-2 border-b border-white/10">
                         <span>T2</span><span>T3</span><span>T4</span><span>T5</span><span>T6</span><span>T7</span><span>CN</span>
                     </div>
-                    <div class="grid grid-cols-7 gap-y-2 text-xs text-ivory/80 font-light items-center">
-                        <span></span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span>
-                        <span>7</span><span>8</span><span>9</span><span>10</span><span>11</span><span>12</span><span>13</span>
-                        <span>14</span><span>15</span><span>16</span><span>17</span><span>18</span><span>19</span>
-                        <span class="relative mx-auto w-7 h-7 rounded-full bg-terracotta text-ivory font-semibold flex items-center justify-center shadow-md ring-2 ring-rosegold">
-                            20
-                        </span>
-                        <span>21</span><span>22</span><span>23</span><span>24</span><span>25</span><span>26</span><span>27</span>
-                        <span>28</span><span>29</span><span>30</span><span>31</span><span></span><span></span><span></span>
+                    <div id="calendarDaysGrid" class="grid grid-cols-7 gap-y-2 text-xs text-ivory/80 font-light items-center">
+                        <!-- Dynamically rendered from WEDDING_CONFIG.weddingDateISO -->
                     </div>
                 </div>
 
-                <p class="text-[10px] tracking-[0.28em] uppercase text-rosegold/90 mb-3">Đếm Ngược Tới Ngày Chung Đôi</p>
+                <p data-edit-key="countdownLabel" data-edit-label="Tiêu đề đồng hồ đếm ngược" class="text-[10px] tracking-[0.28em] uppercase text-rosegold/90 mb-3 inline-block px-2">Đếm Ngược Tới Ngày Chung Đôi</p>
                 <div class="grid grid-cols-4 gap-2.5 max-w-sm mx-auto">
                     <div class="bg-white/5 border border-rosegold/30 rounded-xl py-3.5 px-2">
                         <span id="cdDays" class="block font-serif text-2xl sm:text-3xl font-semibold text-rosegold">00</span>
@@ -552,10 +586,10 @@
         ====================================================================== -->
         <section id="rsvp" class="px-6 py-16">
             <div class="cine-reveal text-center mb-8">
-                <span class="text-[10px] tracking-[0.32em] uppercase text-terracotta font-medium">R.S.V.P &amp; Wishes</span>
-                <h2 class="font-script text-5xl text-espresso mt-1 mb-2">Xác Nhận Tham Dự</h2>
-                <p class="text-xs text-taupe leading-relaxed">
-                    Vui lòng phản hồi trước ngày <strong>15/12/2026</strong> để gia đình đón tiếp bạn chu đáo nhất
+                <span data-edit-key="rsvpSubtitle" data-edit-label="Tiêu đề phụ RSVP" class="text-[10px] tracking-[0.32em] uppercase text-terracotta font-medium inline-block px-2">R.S.V.P &amp; Wishes</span>
+                <h2 data-edit-key="rsvpHeading" data-edit-label="Tiêu đề Xác Nhận Tham Dự" class="font-script text-5xl text-espresso mt-1 mb-2 px-2">Xác Nhận Tham Dự</h2>
+                <p data-edit-key="rsvpDeadlineNote" data-edit-label="Lời nhắn hạn xác nhận tham dự" class="text-xs text-taupe leading-relaxed px-2">
+                    Vui lòng phản hồi trước ngày 15/12/2026 để gia đình đón tiếp bạn chu đáo nhất
                 </p>
             </div>
 
@@ -586,19 +620,19 @@
                 </div>
 
                 <div>
-                    <label class="block text-xs font-medium text-espresso mb-1">Lời chúc gửi tới Sáng &amp; Thu *</label>
+                    <label class="block text-xs font-medium text-espresso mb-1">Lời chúc gửi tới cô dâu chú rể *</label>
                     <textarea id="rsvpWish" rows="3" required placeholder="Gửi lời chúc phúc tới đôi uyên ương..." class="w-full px-3.5 py-2.5 bg-ivory border border-sand rounded-xl text-sm focus:outline-none focus:border-terracotta"></textarea>
                 </div>
 
                 <button type="submit" class="w-full bg-terracotta hover:bg-[#875544] text-ivory font-medium py-3 rounded-xl text-xs uppercase tracking-[0.18em] transition shadow">
-                    Gửi Xác Nhận &amp; Lời Chúc
+                    <span data-edit-key="rsvpBtnText" data-edit-label="Chữ trên nút gửi lời chúc">Gửi Xác Nhận &amp; Lời Chúc</span>
                 </button>
             </form>
 
             <!-- Live Guestbook List ("Sổ Lưu Bút") -->
             <div class="cine-reveal mt-10">
                 <div class="flex items-center justify-between mb-4">
-                    <h3 class="font-serif text-xl font-semibold text-espresso">Sổ Lưu Bút Yêu Thương</h3>
+                    <h3 data-edit-key="guestbookHeading" data-edit-label="Tiêu đề Sổ Lưu Bút" class="font-serif text-xl font-semibold text-espresso px-1">Sổ Lưu Bút Yêu Thương</h3>
                     <span id="wishesCounter" class="text-[11px] text-terracotta bg-champagne px-3 py-1 rounded-full font-medium">
                         4 lời chúc
                     </span>
@@ -615,9 +649,9 @@
         ====================================================================== -->
         <section class="px-6 py-14 bg-champagne/80 border-t border-sand text-center">
             <div class="cine-reveal">
-                <span class="text-[10px] tracking-[0.32em] uppercase text-terracotta font-medium">Wedding Gift</span>
-                <h2 class="font-script text-5xl text-espresso mt-1 mb-2">Hộp Mừng Cưới</h2>
-                <p class="text-xs text-taupe leading-relaxed mb-6">
+                <span data-edit-key="giftSubtitle" data-edit-label="Tiêu đề phụ Hộp Mừng Cưới" class="text-[10px] tracking-[0.32em] uppercase text-terracotta font-medium inline-block px-2">Wedding Gift</span>
+                <h2 data-edit-key="giftHeading" data-edit-label="Tiêu đề Hộp Mừng Cưới" class="font-script text-5xl text-espresso mt-1 mb-2 px-2">Hộp Mừng Cưới</h2>
+                <p data-edit-key="giftIntro" data-edit-label="Lời nhắn Hộp Mừng Cưới" class="text-xs text-taupe leading-relaxed mb-6 px-2">
                     Nếu bạn ở xa chưa thể sắp xếp về chung vui trực tiếp, bạn có thể gửi quà mừng hạnh phúc tới Sáng &amp; Thu tại đây.
                 </p>
 
@@ -630,23 +664,41 @@
                 <div id="giftQrPanel" class="hidden mt-6 grid grid-cols-1 sm:grid-cols-2 gap-4 text-center">
                     <!-- Groom QR -->
                     <div class="bg-ivory p-4 rounded-2xl border border-sand shadow-sm">
-                        <p class="text-[10px] uppercase tracking-widest text-terracotta font-semibold mb-2">Mừng Cưới Chú Rể</p>
-                        <img id="groomQrImg" src="" alt="QR Chú Rể" class="w-36 h-36 mx-auto rounded-xl border border-sand p-1 bg-white mb-2.5" onerror="this.src='https://placehold.co/300x300/FAF7F2/9C6653?text=QR+Chu+Re'">
+                        <p data-edit-key="groomGiftTitle" data-edit-label="Tiêu đề QR Chú Rể" class="text-[10px] uppercase tracking-widest text-terracotta font-semibold mb-2">Mừng Cưới Chú Rể</p>
+                        <div class="relative w-36 h-36 mx-auto rounded-xl overflow-hidden border border-sand bg-white mb-2.5">
+                            <img id="groomQrImg" src="" alt="QR Chú Rể" class="w-full h-full object-contain p-1" onerror="this.src='https://placehold.co/300x300/FAF7F2/9C6653?text=QR+Chu+Re'">
+                            <button type="button" onclick="triggerMobilePhotoPicker({ type: 'qr', role: 'groom' })" class="mobile-edit-badge absolute inset-0 bg-espresso/60 flex-col items-center justify-center text-ivory p-2 text-center">
+                                <span class="text-lg mb-0.5">📷</span>
+                                <span class="bg-terracotta px-2 py-0.5 rounded-full text-[10px] font-semibold">Đổi ảnh QR</span>
+                            </button>
+                        </div>
                         <p id="groomBankName" class="text-xs font-semibold text-espresso">Techcombank</p>
                         <p id="groomAccHolder" class="text-[11px] text-taupe">NGUYEN VAN SANG</p>
                         <button onclick="copyBankAccount('groom')" class="mt-2.5 w-full py-1.5 px-3 rounded-lg bg-champagne hover:bg-sand/70 text-espresso text-[11px] font-medium transition">
                             Sao chép STK
                         </button>
+                        <button type="button" onclick="openBankEditModal('groom')" class="mobile-edit-badge mt-2 w-full items-center justify-center py-1.5 px-3 rounded-lg bg-terracotta text-ivory text-[11px] font-semibold">
+                            ✏️ Sửa Ngân Hàng / STK
+                        </button>
                     </div>
 
                     <!-- Bride QR -->
                     <div class="bg-ivory p-4 rounded-2xl border border-sand shadow-sm">
-                        <p class="text-[10px] uppercase tracking-widest text-terracotta font-semibold mb-2">Mừng Cưới Cô Dâu</p>
-                        <img id="brideQrImg" src="" alt="QR Cô Dâu Ngô Thị Thu" class="w-36 h-36 mx-auto rounded-xl border border-sand p-1 bg-white mb-2.5" onerror="this.src='https://placehold.co/300x300/FAF7F2/9C6653?text=QR+Co+Dau'">
+                        <p data-edit-key="brideGiftTitle" data-edit-label="Tiêu đề QR Cô Dâu" class="text-[10px] uppercase tracking-widest text-terracotta font-semibold mb-2">Mừng Cưới Cô Dâu</p>
+                        <div class="relative w-36 h-36 mx-auto rounded-xl overflow-hidden border border-sand bg-white mb-2.5">
+                            <img id="brideQrImg" src="" alt="QR Cô Dâu Ngô Thị Thu" class="w-full h-full object-contain p-1" onerror="this.src='https://placehold.co/300x300/FAF7F2/9C6653?text=QR+Co+Dau'">
+                            <button type="button" onclick="triggerMobilePhotoPicker({ type: 'qr', role: 'bride' })" class="mobile-edit-badge absolute inset-0 bg-espresso/60 flex-col items-center justify-center text-ivory p-2 text-center">
+                                <span class="text-lg mb-0.5">📷</span>
+                                <span class="bg-terracotta px-2 py-0.5 rounded-full text-[10px] font-semibold">Đổi ảnh QR</span>
+                            </button>
+                        </div>
                         <p id="brideBankName" class="text-xs font-semibold text-espresso">Vietcombank</p>
                         <p id="brideAccHolder" class="text-[11px] text-taupe">NGO THI THU</p>
                         <button onclick="copyBankAccount('bride')" class="mt-2.5 w-full py-1.5 px-3 rounded-lg bg-champagne hover:bg-sand/70 text-espresso text-[11px] font-medium transition">
                             Sao chép STK
+                        </button>
+                        <button type="button" onclick="openBankEditModal('bride')" class="mobile-edit-badge mt-2 w-full items-center justify-center py-1.5 px-3 rounded-lg bg-terracotta text-ivory text-[11px] font-semibold">
+                            ✏️ Sửa Ngân Hàng / STK
                         </button>
                     </div>
                 </div>
@@ -657,11 +709,11 @@
              SECTION I: EDITORIAL FOOTER
         ====================================================================== -->
         <footer class="px-6 py-12 bg-espresso text-ivory/80 text-center">
-            <h3 class="font-script text-4xl text-rosegold mb-1">Sáng &amp; Thu</h3>
-            <p class="text-[11px] tracking-[0.25em] uppercase text-ivory/60 mb-4">Thank You For Being Part Of Our Story</p>
+            <h3 data-edit-key="footerCoupleName" data-edit-label="Tên cặp đôi ở cuối trang" class="font-script text-4xl text-rosegold mb-1 inline-block px-2">Sáng &amp; Thu</h3>
+            <p data-edit-key="footerTagline" data-edit-label="Lời cảm ơn cuối trang" class="text-[11px] tracking-[0.25em] uppercase text-ivory/60 mb-4 px-2">Thank You For Being Part Of Our Story</p>
             <div class="gold-divider w-16 mx-auto mb-4"></div>
-            <p class="text-[11px] text-ivory/50 font-light">
-                Mẹo gửi thiệp riêng: Thêm <code class="text-rosegold">?to=TênKhách</code> vào cuối đường dẫn
+            <p data-edit-key="footerNote" data-edit-label="Ghi chú chân trang" class="text-[11px] text-ivory/50 font-light px-2">
+                Mẹo gửi thiệp riêng: Thêm ?to=TênKhách vào cuối đường dẫn
             </p>
         </footer>
     </main>
@@ -669,59 +721,7 @@
     <!-- =========================================================================
          4. FULLSCREEN MANUAL PHOTO LIGHTBOX MODAL
     ========================================================================== -->
-    <div id="lightboxModal" class="fixed inset-0 z-50 bg-espresso/95 backdrop-blur-md hidden flex-col items-center justify-between p-4 select-none">
-        <div class="w-full max-w-lg flex items-center justify-between text-ivory pt-1">
-            <span id="lightboxCounter" class="text-xs tracking-[0.2em] uppercase text-rosegold font-medium">1 / 10</span>
-            <button onclick="closeLightbox()" aria-label="Đóng ảnh" class="w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 text-ivory flex items-center justify-center text-sm transition">
-                ✕
-            </button>
-        </div>
-
-        <div id="lightboxTouchArea" class="relative w-full max-w-lg my-auto flex items-center justify-center">
-            <img id="lightboxImage" src="" alt="Ảnh cưới Sáng & Thu" class="max-h-[72vh] max-w-full object-contain rounded-xl shadow-2xl">
-        </div>
-
-        <div class="w-full max-w-lg flex flex-col items-center pb-2">
-            <p id="lightboxCaption" class="font-serif italic text-base sm:text-lg text-ivory/95 text-center mb-4 px-2"></p>
-            <div class="flex items-center gap-6">
-                <button onclick="stepLightbox(-1)" class="px-5 py-2 rounded-full bg-white/10 hover:bg-white/20 text-ivory text-xs tracking-wider uppercase transition">
-                    &larr; Ảnh Trước
-                </button>
-                <button onclick="stepLightbox(1)" class="px-5 py-2 rounded-full bg-terracotta hover:bg-[#875544] text-ivory text-xs tracking-wider uppercase transition">
-                    Ảnh Sau &rarr;
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- =========================================================================
-         4B. BẢNG LƯU & ĐỔI NHẠC SIÊU GỌN CHO ĐIỆN THOẠI (BOTTOM SHEET)
-         (Không cần tạo thư mục assets/ hay tải JSON phức tạp)
-    ========================================================================== -->
-    <div id="mobilePublishModal" class="fixed inset-0 z-50 hidden bg-espresso/65 backdrop-blur-sm items-end sm:items-center justify-center p-0 sm:p-4">
-        <div class="w-full max-w-[500px] bg-ivory text-espresso rounded-t-3xl sm:rounded-3xl border border-sand shadow-2xl overflow-hidden max-h-[88vh] flex flex-col">
-            <!-- Header -->
-            <div class="px-5 py-4 bg-champagne border-b border-sand flex items-center justify-between">
-                <div>
-                    <p class="text-[10px] tracking-[0.25em] uppercase text-terracotta font-semibold">Mobile Quick Studio</p>
-                    <h3 class="font-serif text-xl font-semibold text-espresso">Đổi Nhạc &amp; Xuất Thiệp Trên ĐT</h3>
-                </div>
-                <button type="button" onclick="closeMobilePublishSheet()" class="w-8 h-8 rounded-full bg-ivory border border-sand flex items-center justify-center text-sm">
-                    ✕
-                </button>
-            </div>
-
-            <!-- Body -->
-            <div class="p-5 overflow-y-auto space-y-4 text-xs">
-                <!-- Bước 1: Đổi ảnh siêu dễ -->
-                <div class="bg-white p-4 rounded-2xl border border-sand">
-                    <p class="font-semibold text-terracotta uppercase tracking-wider text-[10px] mb-1">1. Cách Đổi Ảnh Nhanh Nhất Trên Điện Thoại</p>
-                    <p class="text-taupe leading-relaxed">
-                        Chỉ cần đóng bảng này lại và <strong>chạm ngón tay trực tiếp vào bất kỳ bức ảnh nào trên thiệp</strong> (có nhãn <span class="text-terracotta font-medium">📷 Chạm để đổi ảnh</span>). Điện thoại sẽ mở ngay Thư viện Ảnh của bạn, tự động nén nhẹ và lưu ngay trên máy!
-                    </p>
-                </div>
-
-                <!-- Bước 2: Đổi nhạc MP3 -->
+    <div id="lightboxModal" class="fixed inset-0 z-[60] bg-espresso/95 backdrop-blur-md hidden flex-col items-center justify-between p-4 select-none">
                 <div class="bg-white p-4 rounded-2xl border border-sand space-y-2.5">
                     <p class="font-semibold text-terracotta uppercase tracking-wider text-[10px]">2. Nhạc Nền Bài Hát "Lễ Đường - Kai Đinh"</p>
                     <p class="text-taupe leading-relaxed">
@@ -764,13 +764,123 @@
     </div>
 
     <!-- =========================================================================
-         4C. MODAL SỬA CHỮ NHANH TRÊN ĐIỆN THOẠI (CHẠM VÀO ĐOẠN CHỮ ĐỂ SỬA)
+         4B. BẢNG LƯU, CÀI ĐẶT CHUNG & XUẤT THIỆP (BOTTOM SHEET)
     ========================================================================== -->
-    <div id="mobileTextEditModal" class="fixed inset-0 z-50 hidden bg-espresso/65 backdrop-blur-sm items-center justify-center p-4">
+    <div id="mobilePublishModal" class="fixed inset-0 z-[60] hidden bg-espresso/65 backdrop-blur-sm items-end sm:items-center justify-center p-0 sm:p-4">
+        <div class="w-full max-w-[500px] bg-ivory text-espresso rounded-t-3xl sm:rounded-3xl border border-sand shadow-2xl overflow-hidden max-h-[88vh] flex flex-col">
+            <!-- Header -->
+            <div class="px-5 py-4 bg-champagne border-b border-sand flex items-center justify-between">
+                <div>
+                    <p class="text-[10px] tracking-[0.25em] uppercase text-terracotta font-semibold">Full Invitation Studio</p>
+                    <h3 class="font-serif text-xl font-semibold text-espresso">Cài Đặt &amp; Xuất File Thiệp</h3>
+                </div>
+                <button type="button" onclick="closeMobilePublishSheet()" class="w-8 h-8 rounded-full bg-ivory border border-sand flex items-center justify-center text-sm">
+                    ✕
+                </button>
+            </div>
+
+            <!-- Body -->
+            <div class="p-5 overflow-y-auto space-y-4 text-xs">
+                <!-- Hướng dẫn nhanh -->
+                <div class="bg-white p-4 rounded-2xl border border-sand">
+                    <p class="font-semibold text-terracotta uppercase tracking-wider text-[10px] mb-1">1. Chạm Trực Tiếp Để Sửa Mọi Thứ</p>
+                    <p class="text-taupe leading-relaxed">
+                        Khi bật chế độ sửa, mọi <strong>ô chữ có viền nét đứt</strong> và mọi <strong>hình ảnh (kể cả Bìa, Ảnh chính, Câu chuyện, Album &amp; Mã QR)</strong> đều chạm vào là sửa được ngay. Dùng nút <strong>Bìa</strong> trên thanh đen phía trên để qua lại giữa bìa thiệp và nội dung bên trong.
+                    </p>
+                </div>
+
+                <!-- Cài đặt Ngày Cưới, Tiêu đề Tab & Webhook RSVP -->
+                <div class="bg-white p-4 rounded-2xl border border-sand space-y-3">
+                    <p class="font-semibold text-terracotta uppercase tracking-wider text-[10px]">2. Ngày Cưới, Tiêu Đề Trang &amp; Link Lưu RSVP</p>
+                    <div>
+                        <label class="block text-[11px] font-medium text-espresso mb-1">Ngày &amp; giờ cưới (Tự động cập nhật Lịch &amp; Đếm ngược)</label>
+                        <input type="datetime-local" id="studioWeddingDateInput" onchange="updateWeddingDateFromInput(this.value)" class="w-full px-3 py-2 bg-ivory border border-sand rounded-xl text-xs focus:outline-none focus:border-terracotta">
+                    </div>
+                    <div>
+                        <label class="block text-[11px] font-medium text-espresso mb-1">Tiêu đề tab trình duyệt (khi gửi link Zalo/FB)</label>
+                        <input type="text" id="studioPageTitleInput" oninput="updateGeneralField('pageTitle', this.value)" class="w-full px-3 py-2 bg-ivory border border-sand rounded-xl text-xs focus:outline-none focus:border-terracotta">
+                    </div>
+                    <div>
+                        <label class="block text-[11px] font-medium text-espresso mb-1">Link Google Apps Script nhận RSVP (tuỳ chọn)</label>
+                        <input type="text" id="studioWebhookInput" placeholder="https://script.google.com/macros/s/.../exec" oninput="updateGeneralField('rsvpWebhookUrl', this.value)" class="w-full px-3 py-2 bg-ivory border border-sand rounded-xl text-xs focus:outline-none focus:border-terracotta">
+                    </div>
+                </div>
+
+                <!-- Đổi nhạc MP3 -->
+                <div class="bg-white p-4 rounded-2xl border border-sand space-y-2.5">
+                    <p class="font-semibold text-terracotta uppercase tracking-wider text-[10px]">3. Nhạc Nền Bài Hát</p>
+                    <div class="grid grid-cols-1 gap-2">
+                        <input type="text" id="studioSongTitleInput" placeholder="Tên bài hát hiển thị..." oninput="updateGeneralField('songTitle', this.value)" class="w-full px-3 py-2 bg-ivory border border-sand rounded-xl text-xs focus:outline-none focus:border-terracotta">
+                        <input type="text" id="mobileMp3UrlInput" placeholder="Đường dẫn file MP3 (vd: ./assets/le-duong.mp3)" oninput="updateGeneralField('mp3Url', this.value)" class="w-full px-3 py-2 bg-ivory border border-sand rounded-xl text-xs focus:outline-none focus:border-terracotta">
+                    </div>
+                    <div class="flex gap-2">
+                        <button type="button" onclick="document.getElementById('localMp3Input').click()" class="flex-1 py-2.5 px-3 rounded-xl bg-champagne hover:bg-sand/70 text-espresso font-semibold transition">
+                            📂 Chọn File MP3 Từ Máy
+                        </button>
+                        <button type="button" onclick="toggleBackgroundMusic()" class="py-2.5 px-3.5 rounded-xl bg-espresso text-ivory font-medium">
+                            ▶ / ❚❚
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Xuất 1 file HTML duy nhất -->
+                <div class="bg-white p-4 rounded-2xl border border-rosegold/60 space-y-3 shadow-sm">
+                    <p class="font-semibold text-terracotta uppercase tracking-wider text-[10px]">4. Xuất Thiệp Hoàn Chỉnh Để Đẩy Lên GitHub</p>
+                    <p class="text-taupe leading-relaxed">
+                        Toàn bộ <strong>chữ và ảnh mới</strong> bạn vừa chỉnh sẽ được đóng gói gọn vào <strong>1 file <code>index.html</code> duy nhất</strong> (tự động ẩn nút sửa với khách; muốn sửa lại chỉ cần thêm <code>?edit=1</code> vào cuối link).
+                    </p>
+                    <button type="button" onclick="exportSingleSelfContainedHtml()" class="w-full py-3 px-4 rounded-xl bg-terracotta hover:bg-[#875544] text-ivory font-semibold text-xs uppercase tracking-wider shadow-md transition">
+                        📦 Tải File index.html Hoàn Chỉnh
+                    </button>
+                    <div class="grid grid-cols-2 gap-2 pt-1">
+                        <button type="button" onclick="exportDraftJson()" class="py-2 px-3 rounded-xl bg-champagne hover:bg-sand/70 text-espresso text-[11px] font-medium transition">
+                            💾 Lưu Bản Nháp (.json)
+                        </button>
+                        <button type="button" onclick="document.getElementById('importDraftJsonInput').click()" class="py-2 px-3 rounded-xl bg-champagne hover:bg-sand/70 text-espresso text-[11px] font-medium transition">
+                            📂 Nạp Bản Nháp (.json)
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- =========================================================================
+         4C. MODAL SỬA CHỮ ĐA NĂNG (CHO MỌI ĐOẠN CHỮ & CHÚ THÍCH ALBUM)
+    ========================================================================== -->
+    <div id="universalTextModal" class="fixed inset-0 z-[60] hidden bg-espresso/65 backdrop-blur-sm items-center justify-center p-4">
         <div class="w-full max-w-sm bg-ivory rounded-3xl border border-sand shadow-2xl p-5 space-y-3">
+            <div class="flex items-center justify-between gap-2">
+                <h4 id="universalTextModalTitle" class="font-serif text-lg font-semibold text-espresso truncate">Sửa Nội Dung</h4>
+                <button type="button" onclick="closeUniversalTextModal()" class="w-7 h-7 rounded-full bg-champagne text-xs shrink-0">✕</button>
+            </div>
+            <div>
+                <textarea id="universalTextArea" rows="4" class="w-full px-3 py-2.5 bg-white border border-sand rounded-xl text-sm focus:outline-none focus:border-terracotta"></textarea>
+                <p class="text-[10px] text-taupe mt-1">Mẹo: Bạn có thể nhấn Enter để xuống dòng.</p>
+            </div>
+            <div class="flex gap-2">
+                <button type="button" onclick="closeUniversalTextModal()" class="flex-1 py-2.5 rounded-xl bg-champagne text-espresso text-xs font-medium">
+                    Huỷ
+                </button>
+                <button type="button" onclick="saveUniversalTextModal()" class="flex-1 py-2.5 rounded-xl bg-terracotta text-ivory text-xs font-semibold uppercase tracking-wider">
+                    Lưu Thay Đổi
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- =========================================================================
+         4D. MODAL SỬA CHƯƠNG CHUYỆN TÌNH YÊU
+    ========================================================================== -->
+    <div id="mobileTextEditModal" class="fixed inset-0 z-[60] hidden bg-espresso/65 backdrop-blur-sm items-center justify-center p-4">
+        <div class="w-full max-w-sm bg-ivory rounded-3xl border border-sand shadow-2xl p-5 space-y-3 max-h-[88vh] overflow-y-auto">
             <div class="flex items-center justify-between">
                 <h4 class="font-serif text-lg font-semibold text-espresso">Sửa Nội Dung Chương</h4>
                 <button type="button" onclick="closeMobileTextModal()" class="w-7 h-7 rounded-full bg-champagne text-xs">✕</button>
+            </div>
+            <div>
+                <label class="block text-[11px] text-taupe mb-1">Số chương (vd: Chương 01)</label>
+                <input type="text" id="mEditChapterNum" class="w-full px-3 py-2 bg-white border border-sand rounded-xl text-xs">
             </div>
             <div>
                 <label class="block text-[11px] text-taupe mb-1">Mốc thời gian</label>
@@ -788,24 +898,84 @@
                 <label class="block text-[11px] text-taupe mb-1">Câu trích dẫn</label>
                 <input type="text" id="mEditQuote" class="w-full px-3 py-2 bg-white border border-sand rounded-xl text-xs italic">
             </div>
-            <button type="button" onclick="saveMobileTextModal()" class="w-full py-2.5 rounded-xl bg-terracotta text-ivory text-xs font-semibold uppercase tracking-wider">
-                Lưu Nội Dung
+            <div class="flex gap-2 pt-1">
+                <button type="button" onclick="deleteActiveStoryChapter()" class="px-3.5 py-2.5 rounded-xl bg-rose-100 text-rose-700 text-xs font-semibold">
+                    🗑️ Xoá
+                </button>
+                <button type="button" onclick="saveMobileTextModal()" class="flex-1 py-2.5 rounded-xl bg-terracotta text-ivory text-xs font-semibold uppercase tracking-wider">
+                    Lưu Nội Dung
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- =========================================================================
+         4E. MODAL SỬA LINK BẢN ĐỒ & LỊCH SỰ KIỆN
+    ========================================================================== -->
+    <div id="eventLinkModal" class="fixed inset-0 z-[60] hidden bg-espresso/65 backdrop-blur-sm items-center justify-center p-4">
+        <div class="w-full max-w-sm bg-ivory rounded-3xl border border-sand shadow-2xl p-5 space-y-3">
+            <div class="flex items-center justify-between">
+                <h4 id="eventLinkModalTitle" class="font-serif text-lg font-semibold text-espresso">Sửa Link Sự Kiện</h4>
+                <button type="button" onclick="closeEventLinkModal()" class="w-7 h-7 rounded-full bg-champagne text-xs">✕</button>
+            </div>
+            <div>
+                <label class="block text-[11px] text-taupe mb-1">Đường dẫn Google Maps</label>
+                <input type="text" id="editEventMapInput" placeholder="https://maps.google.com/..." class="w-full px-3 py-2 bg-white border border-sand rounded-xl text-xs">
+            </div>
+            <div>
+                <label class="block text-[11px] text-taupe mb-1">Đường dẫn Lưu Lịch (Google Calendar)</label>
+                <input type="text" id="editEventCalInput" placeholder="https://calendar.google.com/..." class="w-full px-3 py-2 bg-white border border-sand rounded-xl text-xs">
+            </div>
+            <button type="button" onclick="saveEventLinkModal()" class="w-full py-2.5 rounded-xl bg-terracotta text-ivory text-xs font-semibold uppercase tracking-wider">
+                Lưu Đường Dẫn
             </button>
         </div>
     </div>
 
     <!-- =========================================================================
-         5. JAVASCRIPT CONFIGURATION & MOBILE-FIRST TAP-TO-EDIT ENGINE
+         4F. MODAL SỬA THÔNG TIN NGÂN HÀNG & QR MỪNG CƯỚI
+    ========================================================================== -->
+    <div id="bankEditModal" class="fixed inset-0 z-[60] hidden bg-espresso/65 backdrop-blur-sm items-center justify-center p-4">
+        <div class="w-full max-w-sm bg-ivory rounded-3xl border border-sand shadow-2xl p-5 space-y-3">
+            <div class="flex items-center justify-between">
+                <h4 id="bankEditModalTitle" class="font-serif text-lg font-semibold text-espresso">Sửa Thông Tin Ngân Hàng</h4>
+                <button type="button" onclick="closeBankEditModal()" class="w-7 h-7 rounded-full bg-champagne text-xs">✕</button>
+            </div>
+            <div>
+                <label class="block text-[11px] text-taupe mb-1">Tên ngân hàng</label>
+                <input type="text" id="editBankNameInput" class="w-full px-3 py-2 bg-white border border-sand rounded-xl text-xs">
+            </div>
+            <div>
+                <label class="block text-[11px] text-taupe mb-1">Số tài khoản</label>
+                <input type="text" id="editBankAccInput" class="w-full px-3 py-2 bg-white border border-sand rounded-xl text-xs">
+            </div>
+            <div>
+                <label class="block text-[11px] text-taupe mb-1">Tên chủ tài khoản</label>
+                <input type="text" id="editBankHolderInput" class="w-full px-3 py-2 bg-white border border-sand rounded-xl text-xs uppercase">
+            </div>
+            <div>
+                <label class="block text-[11px] text-taupe mb-1">Link ảnh QR (hoặc chạm thẳng vào ảnh QR để tải ảnh từ máy)</label>
+                <input type="text" id="editBankQrInput" class="w-full px-3 py-2 bg-white border border-sand rounded-xl text-xs">
+            </div>
+            <button type="button" onclick="saveBankEditModal()" class="w-full py-2.5 rounded-xl bg-terracotta text-ivory text-xs font-semibold uppercase tracking-wider">
+                Lưu Thông Tin
+            </button>
+        </div>
+    </div>
+
+    <!-- =========================================================================
+         5. JAVASCRIPT CONFIGURATION & FULL TAP-TO-EDIT ENGINE
     ========================================================================== -->
     <script>
         /**
          * =========================================================================
-         * CẤU HÌNH THIỆP CƯỚI SÁNG & NGÔ THỊ THU
+         * CẤU HÌNH THIỆP CƯỚI SÁNG & NGÔ THỊ THU (TOÀN BỘ CHỮ & ẢNH)
          * =========================================================================
          */
         /*__WEDDING_CONFIG_START__*/
         const WEDDING_CONFIG = {
             showEditorButton: true,
+            pageTitle: "Thiệp Mời Thành Hôn - Sáng & Thu | 20.12.2026",
             weddingDateISO: "2026-12-20T10:30:00+07:00",
             rsvpWebhookUrl: "",
             songTitle: "Lễ Đường - Kai Đinh",
@@ -814,6 +984,103 @@
 
             envelopePhoto: "https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=900&q=80",
             heroMainPhoto: "https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1000&q=80",
+
+            texts: {
+                envSaveTheDate: "Save The Date",
+                envMonogram: "S&T",
+                envInvitePrefix: "Trân trọng kính mời",
+                envDefaultGuest: "Quý Khách & Gia Đình",
+                coupleShortGroom: "Sáng",
+                coupleShortBride: "Thu",
+                weddingDateDisplay: "20 . 12 . 2026",
+                envOpenBtnText: "Mở Thiệp Mời",
+                envOpenHint: "Chạm để mở thiệp & phát bài hát Lễ Đường",
+
+                heroTopLabel: "The Wedding Celebration",
+                heroInvitePrefix: "Trân trọng kính mời",
+                heroDefaultGuest: "Bạn và Gia đình",
+                heroPhotoSubtitle: "We Are Getting Married",
+                heroDayOfWeek: "CHỦ NHẬT",
+                heroQuote: "\"Khoảnh khắc thấy em trên lễ đường, cùng ánh mắt bóng dáng thân thương...\nNhiều năm ấy chớp mắt trôi qua, để ta giờ đây về chung một nhà.\"",
+                heroQuoteAuthor: "— Lễ Đường (Kai Đinh) —",
+
+                familySubtitle: "Gia Đình Hai Bên",
+                familyHeading: "Trân Trọng Báo Tin Lễ Thành Hôn",
+                groomSideLabel: "Nhà Trai",
+                groomFather: "Ông Nguyễn Văn Minh",
+                groomMother: "Bà Trần Thị Lan",
+                groomFamilyAddress: "Đống Đa, Hà Nội",
+                brideSideLabel: "Nhà Gái",
+                brideFather: "Ông Ngô Hoàng Nam",
+                brideMother: "Bà Phạm Thu Hương",
+                brideFamilyAddress: "Cầu Giấy, Hà Nội",
+                familyAnnounceLine: "Trân trọng báo tin lễ thành hôn của con chúng tôi",
+                groomFullName: "Nguyễn Văn Sáng",
+                brideFullName: "Ngô Thị Thu",
+
+                storySubtitle: "Our Love Story",
+                storyHeading: "Chuyện Tình Yêu",
+                storyIntro: "Vuốt nhẹ lên để theo dõi từng trang ký ức của Sáng và Thu trượt vào theo nhịp chuyện tình yêu.",
+                storyBridgeQuote: "\"Từ những ngày tháng bình dị ấy, chúng tôi đã sẵn sàng viết tiếp chương hạnh phúc nhất mang tên Gia Đình.\"",
+
+                albumSubtitle: "Pre-Wedding Gallery",
+                albumHeading: "Album Hình Cưới",
+                albumHint: "Chạm vào ảnh để xem toàn màn hình",
+
+                eventsSubtitle: "Wedding Schedule",
+                eventsHeading: "Thông Tin Hôn Lễ",
+                eventsIntro: "Sự hiện diện của bạn là niềm vinh hạnh lớn của gia đình chúng tôi",
+                event1Badge: "Nghi Lễ Truyền Thống",
+                event1Title: "Lễ Thành Hôn",
+                event1Time: "10:30 • Chủ Nhật",
+                event1Date: "Ngày 20 tháng 12 năm 2026",
+                event1Subdate: "(Tức ngày 12 tháng 11 năm Bính Ngọ)",
+                event1Venue: "Tư Gia Nhà Trai",
+                event1Address: "Số 123 Đường Láng, Quận Đống Đa, Hà Nội",
+                event2Badge: "Tiệc Mừng Thân Mật",
+                event2Title: "Tiệc Cưới Chung Vui",
+                event2Time: "18:00 • Chủ Nhật",
+                event2Date: "Ngày 20 tháng 12 năm 2026",
+                event2Subdate: "(Đón khách: 17:30 • Khai tiệc: 18:15)",
+                event2Venue: "Trung Tâm Hội Nghị Long Biên Palace",
+                event2Address: "Sảnh Hoa Hồng, Khu Trung Đoàn 918, Phúc Đồng, Long Biên, Hà Nội",
+                eventMapBtnText: "Xem Bản Đồ",
+                eventCalBtnText: "Lưu Lịch",
+
+                dressCodeTitle: "Dress Code Gợi Ý",
+                dressCodeSubtitle: "Trang phục tông màu nhẹ nhàng để cùng lưu giữ những khung hình thật hài hòa",
+                dressColor1: "Trắng Kem",
+                dressColor2: "Be Sữa",
+                dressColor3: "Vàng Đồng",
+                dressColor4: "Đen",
+
+                calendarSubtitle: "Save The Date",
+                calendarHeading: "Tháng 12 . 2026",
+                countdownLabel: "Đếm Ngược Tới Ngày Chung Đôi",
+
+                rsvpSubtitle: "R.S.V.P & Wishes",
+                rsvpHeading: "Xác Nhận Tham Dự",
+                rsvpDeadlineNote: "Vui lòng phản hồi trước ngày 15/12/2026 để gia đình đón tiếp bạn chu đáo nhất",
+                rsvpBtnText: "Gửi Xác Nhận & Lời Chúc",
+                guestbookHeading: "Sổ Lưu Bút Yêu Thương",
+
+                giftSubtitle: "Wedding Gift",
+                giftHeading: "Hộp Mừng Cưới",
+                giftIntro: "Nếu bạn ở xa chưa thể sắp xếp về chung vui trực tiếp, bạn có thể gửi quà mừng hạnh phúc tới Sáng & Thu tại đây.",
+                groomGiftTitle: "Mừng Cưới Chú Rể",
+                brideGiftTitle: "Mừng Cưới Cô Dâu",
+
+                footerCoupleName: "Sáng & Thu",
+                footerTagline: "Thank You For Being Part Of Our Story",
+                footerNote: "Mẹo gửi thiệp riêng: Thêm ?to=TênKhách vào cuối đường dẫn"
+            },
+
+            eventsLinks: {
+                event1Map: "https://maps.google.com/?q=123+Duong+Lang+Dong+Da+Ha+Noi",
+                event1Cal: "https://calendar.google.com/calendar/render?action=TEMPLATE&text=Le+Thanh+Hon+Sang+%26+Thu&dates=20261220T033000Z/20261220T060000Z&details=Chung+vui+cung+Sang+va+Thu&location=123+Duong+Lang,+Dong+Da,+Ha+Noi",
+                event2Map: "https://maps.google.com/?q=Long+Bien+Palace+Ha+Noi",
+                event2Cal: "https://calendar.google.com/calendar/render?action=TEMPLATE&text=Tiec+Cuoi+Sang+%26+Thu&dates=20261220T110000Z/20261220T140000Z&details=Tiec+cuoi+Sang+va+Thu&location=Long+Bien+Palace,+Ha+Noi"
+            },
 
             storyChapters: [
                 {
@@ -979,14 +1246,33 @@
         };
         /*__WEDDING_CONFIG_END__*/
 
-        const DRAFT_STORAGE_KEY = "sang_thu_wedding_mobile_draft_v1";
         let isMobileEditMode = false;
         let pendingPhotoTarget = null;
         let activeTextEditIndex = null;
+        let activeUniversalSaveHandler = null;
+        let activeEventLinkNum = 1;
+        let activeBankRole = 'groom';
 
         // =========================================================================
-        // 1. TIỆN ÍCH NÉN ẢNH TRÊN ĐIỆN THOẠI & LƯU TỰ ĐỘNG (LOCALSTORAGE)
+        // 1. TIỆN ÍCH HIỂN THỊ, ESCAPE HTML & NÉN ẢNH TRÊN ĐIỆN THOẠI
         // =========================================================================
+        function escapeHtmlWithBreaks(str) {
+            return String(str == null ? '' : str)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/\n/g, '<br>');
+        }
+
+        function escapeAttr(str) {
+            return String(str == null ? '' : str)
+                .replace(/&/g, '&amp;')
+                .replace(/"/g, '&quot;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;');
+        }
+
         function showToast(message) {
             const box = document.getElementById('toastMessageBox');
             const text = document.getElementById('toastText');
@@ -999,40 +1285,6 @@
                 box.classList.remove('opacity-100', 'translate-y-0');
                 box.classList.add('opacity-0', '-translate-y-3');
             }, 3000);
-        }
-
-        function saveMobileDraftToStorage() {
-            try {
-                localStorage.setItem(DRAFT_STORAGE_KEY, JSON.stringify({
-                    envelopePhoto: WEDDING_CONFIG.envelopePhoto,
-                    heroMainPhoto: WEDDING_CONFIG.heroMainPhoto,
-                    storyChapters: WEDDING_CONFIG.storyChapters,
-                    albumRows: WEDDING_CONFIG.albumRows,
-                    mp3Url: WEDDING_CONFIG.mp3Url
-                }));
-            } catch (e) {
-                console.warn('Storage quota warning:', e);
-            }
-        }
-
-        function loadMobileDraftFromStorage() {
-            try {
-                const raw = localStorage.getItem(DRAFT_STORAGE_KEY);
-                if (!raw) return;
-                const saved = JSON.parse(raw);
-                if (saved && typeof saved === 'object') {
-                    if (saved.envelopePhoto) WEDDING_CONFIG.envelopePhoto = saved.envelopePhoto;
-                    if (saved.heroMainPhoto) WEDDING_CONFIG.heroMainPhoto = saved.heroMainPhoto;
-                    if (Array.isArray(saved.storyChapters)) WEDDING_CONFIG.storyChapters = saved.storyChapters;
-                    if (Array.isArray(saved.albumRows)) WEDDING_CONFIG.albumRows = saved.albumRows;
-                    if (saved.mp3Url) WEDDING_CONFIG.mp3Url = saved.mp3Url;
-                }
-            } catch (e) {}
-        }
-
-        function resetMobileSavedDraft() {
-            localStorage.removeItem(DRAFT_STORAGE_KEY);
-            window.location.reload();
         }
 
         // Nén ảnh chọn từ điện thoại xuống kích thước chuẩn web (nhẹ, nét, nhúng thẳng vào HTML được)
@@ -1067,23 +1319,144 @@
         }
 
         // =========================================================================
-        // 2. CHẾ ĐỘ CHẠM ĐỔI ẢNH & CHỮ TRỰC TIẾP TRÊN ĐIỆN THOẠI
+        // 2. ĐỒNG BỘ TOÀN BỘ CHỮ, LINK SỰ KIỆN & CHẾ ĐỘ CHẠM SỬA TOÀN BỘ GIAO DIỆN
         // =========================================================================
-        function toggleMobileDirectEdit() {
-            isMobileEditMode = !isMobileEditMode;
-            const banner = document.getElementById('mobileEditBanner');
-            const btnText = document.getElementById('mobileEditBtnText');
-            const btnIcon = document.getElementById('mobileEditBtnIcon');
+        function syncAllEditableTexts() {
+            if (WEDDING_CONFIG.pageTitle) {
+                document.title = WEDDING_CONFIG.pageTitle;
+            }
+            const nodes = document.querySelectorAll('[data-edit-key]');
+            nodes.forEach((el) => {
+                const key = el.getAttribute('data-edit-key');
+                if (WEDDING_CONFIG.texts && Object.prototype.hasOwnProperty.call(WEDDING_CONFIG.texts, key)) {
+                    el.innerHTML = escapeHtmlWithBreaks(WEDDING_CONFIG.texts[key]);
+                }
+            });
+        }
 
-            if (isMobileEditMode) {
+        function syncEventLinks() {
+            const links = WEDDING_CONFIG.eventsLinks || {};
+            const e1Map = document.getElementById('event1MapLink');
+            const e1Cal = document.getElementById('event1CalLink');
+            const e2Map = document.getElementById('event2MapLink');
+            const e2Cal = document.getElementById('event2CalLink');
+            if (e1Map && links.event1Map) e1Map.href = links.event1Map;
+            if (e1Cal && links.event1Cal) e1Cal.href = links.event1Cal;
+            if (e2Map && links.event2Map) e2Map.href = links.event2Map;
+            if (e2Cal && links.event2Cal) e2Cal.href = links.event2Cal;
+        }
+
+        function initUniversalTextClickDelegation() {
+            document.addEventListener('click', function(e) {
+                if (!isMobileEditMode) return;
+                const editableEl = e.target.closest('[data-edit-key]');
+                if (!editableEl) return;
+
+                e.preventDefault();
+                e.stopPropagation();
+
+                const key = editableEl.getAttribute('data-edit-key');
+                const label = editableEl.getAttribute('data-edit-label') || 'Sửa Nội Dung';
+                const currentVal = (WEDDING_CONFIG.texts && WEDDING_CONFIG.texts[key] != null)
+                    ? WEDDING_CONFIG.texts[key]
+                    : editableEl.innerText;
+
+                openUniversalTextModal(label, currentVal, (newValue) => {
+                    WEDDING_CONFIG.texts[key] = newValue;
+                    syncAllEditableTexts();
+                    showToast('✓ Đã cập nhật nội dung!');
+                });
+            }, true);
+        }
+
+        function openUniversalTextModal(titleLabel, initialValue, onSaveCallback) {
+            activeUniversalSaveHandler = onSaveCallback;
+            const titleEl = document.getElementById('universalTextModalTitle');
+            const textarea = document.getElementById('universalTextArea');
+            const modal = document.getElementById('universalTextModal');
+
+            if (titleEl) titleEl.textContent = titleLabel || 'Sửa Nội Dung';
+            if (textarea) textarea.value = initialValue || '';
+            if (modal) {
+                modal.classList.remove('hidden');
+                modal.classList.add('flex');
+                setTimeout(() => textarea && textarea.focus(), 80);
+            }
+        }
+
+        function closeUniversalTextModal() {
+            const modal = document.getElementById('universalTextModal');
+            if (modal) {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+            }
+            activeUniversalSaveHandler = null;
+        }
+
+        function saveUniversalTextModal() {
+            const textarea = document.getElementById('universalTextArea');
+            if (typeof activeUniversalSaveHandler === 'function' && textarea) {
+                activeUniversalSaveHandler(textarea.value);
+            }
+            closeUniversalTextModal();
+        }
+
+        function toggleMobileDirectEdit() {
+            if (!isMobileEditMode) {
+                isMobileEditMode = true;
                 document.body.classList.add('mobile-edit-active');
+                const banner = document.getElementById('mobileEditBanner');
+                const btnText = document.getElementById('mobileEditBtnText');
+                const btnIcon = document.getElementById('mobileEditBtnIcon');
                 if (banner) banner.classList.remove('hidden');
-                if (btnText) btnText.textContent = 'Lưu / Đổi Nhạc';
+                if (btnText) btnText.textContent = 'Lưu / Xuất';
                 if (btnIcon) btnIcon.textContent = '📲';
-                showToast('Chạm trực tiếp vào bất kỳ bức ảnh nào để đổi ảnh từ điện thoại!');
+
+                // Tự động mở Hộp Mừng Cưới để tiện sửa ảnh QR & STK
+                const giftPanel = document.getElementById('giftQrPanel');
+                if (giftPanel && giftPanel.classList.contains('hidden')) {
+                    toggleGiftBox();
+                }
+
+                updateToggleCoverButtonLabel();
+                showToast('Đã bật chế độ sửa: Chạm vào bất kỳ chữ hoặc ảnh nào để thay đổi!');
             } else {
                 openMobilePublishSheet();
             }
+        }
+
+        function exitMobileDirectEdit() {
+            isMobileEditMode = false;
+            document.body.classList.remove('mobile-edit-active');
+            const banner = document.getElementById('mobileEditBanner');
+            const btnText = document.getElementById('mobileEditBtnText');
+            const btnIcon = document.getElementById('mobileEditBtnIcon');
+            if (banner) banner.classList.add('hidden');
+            if (btnText) btnText.textContent = 'Sửa Thiệp';
+            if (btnIcon) btnIcon.textContent = '✏️';
+            showToast('Đã thoát chế độ sửa. Hãy nhớ bấm Lưu & Xuất để tải file mới!');
+        }
+
+        function toggleEnvelopePreviewInEdit() {
+            const cover = document.getElementById('envelopeCover');
+            if (!cover) return;
+            const isHidden = cover.style.display === 'none' || cover.classList.contains('opacity-0');
+            if (isHidden) {
+                cover.style.display = 'flex';
+                cover.classList.remove('opacity-0', 'pointer-events-none', 'scale-105');
+            } else {
+                cover.classList.add('opacity-0', 'pointer-events-none');
+                cover.style.display = 'none';
+            }
+            updateToggleCoverButtonLabel();
+        }
+
+        function updateToggleCoverButtonLabel() {
+            const btn = document.getElementById('toggleCoverViewBtn');
+            const cover = document.getElementById('envelopeCover');
+            if (!btn || !cover) return;
+            const isHidden = cover.style.display === 'none' || cover.classList.contains('opacity-0');
+            btn.textContent = isHidden ? 'Sửa Bìa' : 'Vào Trong';
         }
 
         function triggerMobilePhotoPicker(targetDescriptor) {
@@ -1099,7 +1472,7 @@
             const file = event.target.files && event.target.files[0];
             if (!file || !pendingPhotoTarget) return;
 
-            showToast('Đang tối ưu ảnh từ điện thoại...');
+            showToast('Đang tối ưu ảnh từ thiết bị...');
             try {
                 const compressedDataUrl = await compressImageFromPhone(file, 1080, 0.8);
                 const t = pendingPhotoTarget;
@@ -1110,6 +1483,11 @@
                 } else if (t.type === 'hero') {
                     WEDDING_CONFIG.heroMainPhoto = compressedDataUrl;
                     syncHeroAndCoverImages();
+                } else if (t.type === 'qr') {
+                    if (WEDDING_CONFIG.bankInfo[t.role]) {
+                        WEDDING_CONFIG.bankInfo[t.role].qrUrl = compressedDataUrl;
+                        initGiftBox();
+                    }
                 } else if (t.type === 'story') {
                     const chap = WEDDING_CONFIG.storyChapters[t.index];
                     if (chap) {
@@ -1130,8 +1508,7 @@
                     }
                 }
 
-                saveMobileDraftToStorage();
-                showToast('✓ Đã đổi ảnh thành công! (Đã lưu trên điện thoại)');
+                showToast('✓ Đã thay ảnh thành công!');
             } catch (err) {
                 console.error(err);
                 showToast('Không thể đọc ảnh này, vui lòng thử ảnh khác.');
@@ -1143,6 +1520,7 @@
             const chap = WEDDING_CONFIG.storyChapters[chapterIdx];
             if (!chap) return;
             activeTextEditIndex = chapterIdx;
+            document.getElementById('mEditChapterNum').value = chap.chapterNumber || '';
             document.getElementById('mEditDate').value = chap.dateLabel || '';
             document.getElementById('mEditTitle').value = chap.title || '';
             document.getElementById('mEditNarrative').value = chap.narrative || '';
@@ -1163,24 +1541,146 @@
             if (activeTextEditIndex === null) return;
             const chap = WEDDING_CONFIG.storyChapters[activeTextEditIndex];
             if (chap) {
+                chap.chapterNumber = document.getElementById('mEditChapterNum').value.trim();
                 chap.dateLabel = document.getElementById('mEditDate').value.trim();
                 chap.title = document.getElementById('mEditTitle').value.trim();
                 chap.narrative = document.getElementById('mEditNarrative').value.trim();
                 chap.quote = document.getElementById('mEditQuote').value.trim();
                 renderLoveStoryChapters();
                 initScrollReveal();
-                saveMobileDraftToStorage();
-                showToast('✓ Đã cập nhật lời dẫn chuyện!');
+                showToast('✓ Đã cập nhật nội dung chương!');
             }
             closeMobileTextModal();
+        }
+
+        function deleteActiveStoryChapter() {
+            if (activeTextEditIndex === null) return;
+            if (WEDDING_CONFIG.storyChapters.length <= 1) {
+                showToast('Cần giữ lại ít nhất 1 chương chuyện tình yêu.');
+                return;
+            }
+            WEDDING_CONFIG.storyChapters.splice(activeTextEditIndex, 1);
+            renderLoveStoryChapters();
+            initScrollReveal();
+            closeMobileTextModal();
+            showToast('Đã xoá chương chuyện tình yêu.');
+        }
+
+        function addStoryChapter(layoutType) {
+            const nextNum = String(WEDDING_CONFIG.storyChapters.length + 1).padStart(2, '0');
+            if (layoutType === 'pair') {
+                WEDDING_CONFIG.storyChapters.push({
+                    layout: 'pair',
+                    chapterNumber: `Chương ${nextNum}`,
+                    dateLabel: 'Kỷ Niệm Đáng Nhớ',
+                    title: 'Tiêu Đề Chương Mới',
+                    narrative: 'Chạm vào đoạn chữ này để viết lời dẫn cho kỷ niệm đáng nhớ của hai bạn.',
+                    quote: '“Câu trích dẫn ngọt ngào dành cho chương này.”',
+                    photoLeft: 'https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=700&q=80',
+                    photoRight: 'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=700&q=80'
+                });
+            } else {
+                WEDDING_CONFIG.storyChapters.push({
+                    layout: 'single',
+                    chapterNumber: `Chương ${nextNum}`,
+                    dateLabel: 'Kỷ Niệm Đáng Nhớ',
+                    title: 'Tiêu Đề Chương Mới',
+                    narrative: 'Chạm vào đoạn chữ này để viết lời dẫn cho kỷ niệm đáng nhớ của hai bạn.',
+                    quote: '“Câu trích dẫn ngọt ngào dành cho chương này.”',
+                    photo: 'https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?auto=format&fit=crop&w=900&q=80',
+                    frameStyle: 'arch'
+                });
+            }
+            renderLoveStoryChapters();
+            initScrollReveal();
+            showToast(`Đã thêm Chương ${nextNum}! Chạm vào ảnh và chữ để chỉnh sửa.`);
+        }
+
+        function openEventLinkModal(eventNum) {
+            activeEventLinkNum = eventNum;
+            const title = document.getElementById('eventLinkModalTitle');
+            const mapIn = document.getElementById('editEventMapInput');
+            const calIn = document.getElementById('editEventCalInput');
+            if (title) title.textContent = `Sửa Đường Dẫn Sự Kiện ${eventNum}`;
+            if (mapIn) mapIn.value = WEDDING_CONFIG.eventsLinks[`event${eventNum}Map`] || '';
+            if (calIn) calIn.value = WEDDING_CONFIG.eventsLinks[`event${eventNum}Cal`] || '';
+            const modal = document.getElementById('eventLinkModal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeEventLinkModal() {
+            const modal = document.getElementById('eventLinkModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        function saveEventLinkModal() {
+            const mapVal = document.getElementById('editEventMapInput').value.trim();
+            const calVal = document.getElementById('editEventCalInput').value.trim();
+            WEDDING_CONFIG.eventsLinks[`event${activeEventLinkNum}Map`] = mapVal;
+            WEDDING_CONFIG.eventsLinks[`event${activeEventLinkNum}Cal`] = calVal;
+            syncEventLinks();
+            closeEventLinkModal();
+            showToast('✓ Đã cập nhật link Bản đồ & Lưu Lịch!');
+        }
+
+        function openBankEditModal(role) {
+            activeBankRole = role;
+            const info = WEDDING_CONFIG.bankInfo[role];
+            if (!info) return;
+            document.getElementById('bankEditModalTitle').textContent = role === 'groom' ? 'Ngân Hàng Chú Rể' : 'Ngân Hàng Cô Dâu';
+            document.getElementById('editBankNameInput').value = info.bankName || '';
+            document.getElementById('editBankAccInput').value = info.accountNumber || '';
+            document.getElementById('editBankHolderInput').value = info.accountHolder || '';
+            document.getElementById('editBankQrInput').value = info.qrUrl.startsWith('data:') ? '(Đang dùng ảnh QR tải từ máy)' : (info.qrUrl || '');
+            const modal = document.getElementById('bankEditModal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeBankEditModal() {
+            const modal = document.getElementById('bankEditModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        function saveBankEditModal() {
+            const info = WEDDING_CONFIG.bankInfo[activeBankRole];
+            if (!info) return;
+            info.bankName = document.getElementById('editBankNameInput').value.trim();
+            info.accountNumber = document.getElementById('editBankAccInput').value.trim();
+            info.accountHolder = document.getElementById('editBankHolderInput').value.trim();
+            const qrVal = document.getElementById('editBankQrInput').value.trim();
+            if (qrVal && !qrVal.startsWith('(Đang dùng ảnh QR')) {
+                info.qrUrl = qrVal;
+            }
+            initGiftBox();
+            closeBankEditModal();
+            showToast('✓ Đã cập nhật thông tin Hộp Mừng Cưới!');
         }
 
         function openMobilePublishSheet() {
             const modal = document.getElementById('mobilePublishModal');
             if (!modal) return;
             const mp3Input = document.getElementById('mobileMp3UrlInput');
+            const songTitleIn = document.getElementById('studioSongTitleInput');
+            const pageTitleIn = document.getElementById('studioPageTitleInput');
+            const webhookIn = document.getElementById('studioWebhookInput');
+            const dateIn = document.getElementById('studioWeddingDateInput');
+
             if (mp3Input) {
-                mp3Input.value = WEDDING_CONFIG.mp3Url.startsWith('data:') ? '(Đã gắn file MP3 từ điện thoại)' : WEDDING_CONFIG.mp3Url;
+                mp3Input.value = (WEDDING_CONFIG.mp3Url || '').startsWith('blob:') ? '(Đang nghe thử file MP3 từ máy)' : (WEDDING_CONFIG.mp3Url || '');
+            }
+            if (songTitleIn) songTitleIn.value = WEDDING_CONFIG.songTitle || '';
+            if (pageTitleIn) pageTitleIn.value = WEDDING_CONFIG.pageTitle || '';
+            if (webhookIn) webhookIn.value = WEDDING_CONFIG.rsvpWebhookUrl || '';
+            if (dateIn && WEDDING_CONFIG.weddingDateISO) {
+                const d = new Date(WEDDING_CONFIG.weddingDateISO);
+                if (!isNaN(d.getTime())) {
+                    const pad = (n) => String(n).padStart(2, '0');
+                    dateIn.value = `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
+                }
             }
             modal.classList.remove('hidden');
             modal.classList.add('flex');
@@ -1191,28 +1691,131 @@
             if (!modal) return;
             modal.classList.add('hidden');
             modal.classList.remove('flex');
-
-            // Tắt chế độ sửa nếu người dùng bấm đóng từ nút Xong
-            document.body.classList.remove('mobile-edit-active');
-            isMobileEditMode = false;
-            const banner = document.getElementById('mobileEditBanner');
-            const btnText = document.getElementById('mobileEditBtnText');
-            const btnIcon = document.getElementById('mobileEditBtnIcon');
-            if (banner) banner.classList.add('hidden');
-            if (btnText) btnText.textContent = 'Đổi Ảnh / Nhạc';
-            if (btnIcon) btnIcon.textContent = '✏️';
         }
 
-        // Xuất ra ĐÚNG 1 FILE index.html duy nhất chứa sẵn toàn bộ ảnh mới vừa chọn trên điện thoại
+        function updateWeddingDateFromInput(dateTimeLocalValue) {
+            if (!dateTimeLocalValue) return;
+            const parsed = new Date(dateTimeLocalValue);
+            if (isNaN(parsed.getTime())) return;
+
+            WEDDING_CONFIG.weddingDateISO = `${dateTimeLocalValue}:00+07:00`;
+            const pad = (n) => String(n).padStart(2, '0');
+            const day = pad(parsed.getDate());
+            const month = pad(parsed.getMonth() + 1);
+            const year = parsed.getFullYear();
+
+            WEDDING_CONFIG.texts.weddingDateDisplay = `${day} . ${month} . ${year}`;
+            WEDDING_CONFIG.texts.calendarHeading = `Tháng ${parsed.getMonth() + 1} . ${year}`;
+            syncAllEditableTexts();
+            renderCalendarGrid();
+            initCountdownTimer();
+            showToast(`✓ Đã đổi ngày cưới sang ${day}/${month}/${year}!`);
+        }
+
+        // Xuất bản nháp JSON để tiếp tục sửa sau nếu cần
+        function exportDraftJson() {
+            try {
+                const blob = new Blob([JSON.stringify(WEDDING_CONFIG, null, 2)], { type: 'application/json;charset=utf-8' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'thiep-cuoi-draft.json';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+                showToast('✓ Đã tải bản nháp thiep-cuoi-draft.json!');
+            } catch (e) {
+                showToast('Không thể xuất bản nháp.');
+            }
+        }
+
+        function handleImportDraftJson(event) {
+            const file = event.target.files && event.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                try {
+                    const imported = JSON.parse(e.target.result);
+                    if (imported && typeof imported === 'object') {
+                        Object.assign(WEDDING_CONFIG, imported);
+                        syncAllEditableTexts();
+                        syncHeroAndCoverImages();
+                        syncEventLinks();
+                        renderLoveStoryChapters();
+                        renderEditorialAlbum();
+                        renderCalendarGrid();
+                        initCountdownTimer();
+                        initGiftBox();
+                        initMp3Player();
+                        initScrollReveal();
+                        showToast('✓ Đã nạp lại toàn bộ dữ liệu từ bản nháp!');
+                        closeMobilePublishSheet();
+                    }
+                } catch (err) {
+                    showToast('File JSON không hợp lệ.');
+                }
+            };
+            reader.readAsText(file);
+            event.target.value = '';
+        }
+
+        // Xuất ra ĐÚNG 1 FILE index.html sạch sẽ, chứa toàn bộ chữ và ảnh mới
         function exportSingleSelfContainedHtml() {
             try {
                 const exportConfig = JSON.parse(JSON.stringify(WEDDING_CONFIG));
                 exportConfig.showEditorButton = false; // Tự ẩn nút sửa khi gửi cho khách
+                if ((exportConfig.mp3Url || '').startsWith('blob:')) {
+                    exportConfig.mp3Url = './assets/le-duong.mp3';
+                }
 
-                const currentDocHtml = document.documentElement.outerHTML;
-                const replacementBlock = `/*__WEDDING_CONFIG_START__*/\n        const WEDDING_CONFIG = ${JSON.stringify(exportConfig, null, 4)};\n        /*__WEDDING_CONFIG_END__*/`;
+                // Clone DOM để dọn sạch các trạng thái đang mở modal / edit mode trước khi xuất
+                const docClone = document.documentElement.cloneNode(true);
+                const bodyClone = docClone.querySelector('body');
+                if (bodyClone) bodyClone.classList.remove('mobile-edit-active');
 
-                const updatedHtml = '<!DOCTYPE html>\n' + currentDocHtml.replace(
+                const titleClone = docClone.querySelector('title');
+                if (titleClone && exportConfig.pageTitle) {
+                    titleClone.textContent = exportConfig.pageTitle;
+                }
+
+                // Ẩn các thanh công cụ & modal đang mở
+                ['mobileEditBanner', 'mobilePublishModal', 'universalTextModal', 'mobileTextEditModal', 'eventLinkModal', 'bankEditModal', 'lightboxModal'].forEach((id) => {
+                    const el = docClone.querySelector(`#${id}`);
+                    if (el) {
+                        el.classList.add('hidden');
+                        el.classList.remove('flex');
+                    }
+                });
+
+                // Đặt lại bìa thiệp về trạng thái ban đầu để khách mời thấy bìa đầu tiên
+                const coverClone = docClone.querySelector('#envelopeCover');
+                if (coverClone) {
+                    coverClone.classList.remove('opacity-0', 'pointer-events-none', 'scale-105');
+                    coverClone.removeAttribute('style');
+                }
+
+                // Đặt lại hộp QR về trạng thái thu gọn
+                const giftClone = docClone.querySelector('#giftQrPanel');
+                if (giftClone) giftClone.classList.add('hidden');
+
+                // Đặt lại container YouTube audio
+                const ytClone = docClone.querySelector('#ytAudioContainer');
+                if (ytClone) ytClone.innerHTML = '<div id="ytMusicPlayer"></div>';
+
+                // Xoá trạng thái is-visible để hiệu ứng trượt chạy mới từ đầu
+                docClone.querySelectorAll('.is-visible').forEach((el) => el.classList.remove('is-visible'));
+
+                // Xoá nội dung render động (sẽ tự render sạch từ WEDDING_CONFIG khi mở trang)
+                ['loveStoryChaptersContainer', 'editorialAlbumGrid', 'wishesListContainer', 'calendarDaysGrid'].forEach((id) => {
+                    const el = docClone.querySelector(`#${id}`);
+                    if (el) el.innerHTML = '';
+                });
+
+                const safeJson = JSON.stringify(exportConfig, null, 4).replace(/<\/script/gi, '<\\/script');
+                const replacementBlock = `/*__WEDDING_CONFIG_START__*/\n        const WEDDING_CONFIG = ${safeJson};\n        /*__WEDDING_CONFIG_END__*/`;
+
+                const updatedHtml = '<!DOCTYPE html>\n' + docClone.outerHTML.replace(
                     /\/\*__WEDDING_CONFIG_START__\*\/[\s\S]*?\/\*__WEDDING_CONFIG_END__\*\//,
                     replacementBlock
                 );
@@ -1226,7 +1829,7 @@
                 a.click();
                 document.body.removeChild(a);
                 URL.revokeObjectURL(url);
-                showToast('✓ Đã tải 1 file index.html hoàn chỉnh (gồm cả ảnh mới)!');
+                showToast('✓ Đã tải file index.html hoàn chỉnh! Hãy thay vào repo GitHub nhé.');
             } catch (e) {
                 console.error(e);
                 showToast('Có lỗi khi đóng gói file HTML.');
@@ -1258,6 +1861,7 @@
                 cover.classList.add('opacity-0', 'pointer-events-none', 'scale-105');
                 setTimeout(() => {
                     cover.style.display = 'none';
+                    updateToggleCoverButtonLabel();
                 }, 900);
             }
             startAmbientMusic();
@@ -1447,19 +2051,19 @@
                         ${imageSectionHtml}
                         <div onclick="openMobileTextModal(${idx})" class="story-text-reveal editable-text-box text-center px-2 py-1">
                             <div class="inline-flex items-center gap-2 text-[10px] tracking-[0.25em] uppercase text-terracotta font-semibold mb-1">
-                                <span>${chap.chapterNumber}</span>
+                                <span>${escapeHtmlWithBreaks(chap.chapterNumber)}</span>
                                 <span>•</span>
-                                <span>${chap.dateLabel}</span>
+                                <span>${escapeHtmlWithBreaks(chap.dateLabel)}</span>
                             </div>
-                            <h3 class="font-serif text-2xl font-semibold text-espresso mb-2">${chap.title}</h3>
+                            <h3 class="font-serif text-2xl font-semibold text-espresso mb-2">${escapeHtmlWithBreaks(chap.title)}</h3>
                             <p class="text-xs sm:text-sm text-taupe leading-relaxed mb-3 font-light">
-                                ${chap.narrative}
+                                ${escapeHtmlWithBreaks(chap.narrative)}
                             </p>
                             <p class="font-serif italic text-sm sm:text-base text-terracotta">
-                                ${chap.quote}
+                                ${escapeHtmlWithBreaks(chap.quote)}
                             </p>
                             <span class="mobile-edit-badge mt-2 inline-flex items-center justify-center text-[10px] text-terracotta bg-champagne px-2.5 py-0.5 rounded-full font-medium mx-auto">
-                                ✏️ Chạm vào chữ để sửa lời dẫn
+                                ✏️ Chạm vào chữ để sửa chương này
                             </span>
                         </div>
                     </article>
@@ -1468,7 +2072,7 @@
         }
 
         // =========================================================================
-        // 6. RENDER ALBUM HÌNH CƯỚI (CHẠM ĐỂ XEM LIGHTBOX HOẶC CHẠM ĐỂ ĐỔI ẢNH)
+        // 6. RENDER ALBUM HÌNH CƯỚI (ĐỔI ẢNH, SỬA CHÚ THÍCH, THÊM/XOÁ HÀNG)
         // =========================================================================
         const flatLightboxPhotos = [];
         let currentLightboxIndex = 0;
@@ -1479,6 +2083,33 @@
             } else {
                 openLightbox(lightboxIdx);
             }
+        }
+
+        function editAlbumPhotoCaption(event, rowIdx, side) {
+            event.stopPropagation();
+            const row = WEDDING_CONFIG.albumRows[rowIdx];
+            if (!row) return;
+            const targetObj = side === 'single' ? row.photo : row[side];
+            if (!targetObj) return;
+
+            openUniversalTextModal('Sửa Chú Thích Ảnh Album', targetObj.caption || '', (newCaption) => {
+                targetObj.caption = newCaption.trim();
+                renderEditorialAlbum();
+                initScrollReveal();
+                showToast('✓ Đã cập nhật chú thích ảnh!');
+            });
+        }
+
+        function deleteAlbumRow(event, rowIdx) {
+            event.stopPropagation();
+            if (WEDDING_CONFIG.albumRows.length <= 1) {
+                showToast('Cần giữ lại ít nhất 1 hàng ảnh trong Album.');
+                return;
+            }
+            WEDDING_CONFIG.albumRows.splice(rowIdx, 1);
+            renderEditorialAlbum();
+            initScrollReveal();
+            showToast('Đã xoá hàng ảnh khỏi Album.');
         }
 
         function renderEditorialAlbum() {
@@ -1496,21 +2127,26 @@
                     flatLightboxPhotos.push(row.right);
 
                     return `
-                        <div class="grid grid-cols-2 gap-3 relative">
-                            <button type="button" onclick="handleAlbumPhotoTap(${rowIdx}, 'left', ${leftIdx})" class="slide-pair-left group relative aspect-[3/4] rounded-2xl overflow-hidden border border-sand shadow-sm bg-ivory text-left focus:outline-none">
-                                <img src="${row.left.url}" alt="${row.left.caption}" class="w-full h-full object-cover transition duration-700 group-hover:scale-105" onerror="this.src='https://placehold.co/600x800/F2ECE4/9C6653?text=Wedding+Photo'">
-                                <div class="mobile-edit-badge absolute inset-0 bg-espresso/55 flex-col items-center justify-center text-ivory p-2 text-center">
-                                    <span class="text-xl mb-1">📷</span>
-                                    <span class="bg-terracotta px-2.5 py-1 rounded-full text-[10px] font-semibold uppercase">Đổi ảnh trái</span>
-                                </div>
+                        <div class="relative">
+                            <button type="button" onclick="deleteAlbumRow(event, ${rowIdx})" class="mobile-edit-badge absolute -top-2 -right-2 z-20 w-7 h-7 rounded-full bg-rose-600 text-white text-xs font-bold items-center justify-center shadow-md" title="Xoá hàng ảnh này">
+                                ✕
                             </button>
-                            <button type="button" onclick="handleAlbumPhotoTap(${rowIdx}, 'right', ${rightIdx})" class="slide-pair-right group relative aspect-[3/4] rounded-2xl overflow-hidden border border-sand shadow-sm bg-ivory text-left focus:outline-none">
-                                <img src="${row.right.url}" alt="${row.right.caption}" class="w-full h-full object-cover transition duration-700 group-hover:scale-105" onerror="this.src='https://placehold.co/600x800/F2ECE4/9C6653?text=Wedding+Photo'">
-                                <div class="mobile-edit-badge absolute inset-0 bg-espresso/55 flex-col items-center justify-center text-ivory p-2 text-center">
-                                    <span class="text-xl mb-1">📷</span>
-                                    <span class="bg-terracotta px-2.5 py-1 rounded-full text-[10px] font-semibold uppercase">Đổi ảnh phải</span>
+                            <div class="grid grid-cols-2 gap-3 relative">
+                                <div onclick="handleAlbumPhotoTap(${rowIdx}, 'left', ${leftIdx})" class="slide-pair-left group relative aspect-[3/4] rounded-2xl overflow-hidden border border-sand shadow-sm bg-ivory text-left cursor-pointer">
+                                    <img src="${row.left.url}" alt="${escapeAttr(row.left.caption)}" class="w-full h-full object-cover transition duration-700 group-hover:scale-105" onerror="this.src='https://placehold.co/600x800/F2ECE4/9C6653?text=Wedding+Photo'">
+                                    <div class="mobile-edit-badge absolute inset-0 bg-espresso/55 flex-col items-center justify-center gap-2 text-ivory p-2 text-center">
+                                        <span class="bg-terracotta px-2.5 py-1 rounded-full text-[10px] font-semibold uppercase">📷 Đổi ảnh trái</span>
+                                        <button type="button" onclick="editAlbumPhotoCaption(event, ${rowIdx}, 'left')" class="bg-ivory/95 text-espresso px-2.5 py-1 rounded-full text-[10px] font-semibold shadow">✏️ Chú thích</button>
+                                    </div>
                                 </div>
-                            </button>
+                                <div onclick="handleAlbumPhotoTap(${rowIdx}, 'right', ${rightIdx})" class="slide-pair-right group relative aspect-[3/4] rounded-2xl overflow-hidden border border-sand shadow-sm bg-ivory text-left cursor-pointer">
+                                    <img src="${row.right.url}" alt="${escapeAttr(row.right.caption)}" class="w-full h-full object-cover transition duration-700 group-hover:scale-105" onerror="this.src='https://placehold.co/600x800/F2ECE4/9C6653?text=Wedding+Photo'">
+                                    <div class="mobile-edit-badge absolute inset-0 bg-espresso/55 flex-col items-center justify-center gap-2 text-ivory p-2 text-center">
+                                        <span class="bg-terracotta px-2.5 py-1 rounded-full text-[10px] font-semibold uppercase">📷 Đổi ảnh phải</span>
+                                        <button type="button" onclick="editAlbumPhotoCaption(event, ${rowIdx}, 'right')" class="bg-ivory/95 text-espresso px-2.5 py-1 rounded-full text-[10px] font-semibold shadow">✏️ Chú thích</button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     `;
                 } else {
@@ -1522,16 +2158,19 @@
 
                     return `
                         <div class="relative">
-                            <button type="button" onclick="handleAlbumPhotoTap(${rowIdx}, 'single', ${photoIdx})" class="${slideClass} group relative w-full aspect-[4/3] rounded-2xl overflow-hidden border border-sand shadow-sm bg-ivory text-left block focus:outline-none">
-                                <img src="${row.photo.url}" alt="${row.photo.caption}" class="w-full h-full object-cover transition duration-700 group-hover:scale-105" onerror="this.src='https://placehold.co/900x675/F2ECE4/9C6653?text=Wedding+Photo'">
-                                <div class="absolute inset-0 bg-gradient-to-t from-espresso/55 via-transparent to-transparent flex items-end p-3.5">
-                                    <span class="text-xs text-ivory/95 font-serif italic">${row.photo.caption}</span>
-                                </div>
-                                <div class="mobile-edit-badge absolute inset-0 bg-espresso/55 flex-col items-center justify-center text-ivory p-3 text-center">
-                                    <span class="text-2xl mb-1">📷</span>
-                                    <span class="bg-terracotta px-3.5 py-1.5 rounded-full text-xs font-semibold uppercase">Chạm Đổi Ảnh Này</span>
-                                </div>
+                            <button type="button" onclick="deleteAlbumRow(event, ${rowIdx})" class="mobile-edit-badge absolute -top-2 -right-2 z-20 w-7 h-7 rounded-full bg-rose-600 text-white text-xs font-bold items-center justify-center shadow-md" title="Xoá hàng ảnh này">
+                                ✕
                             </button>
+                            <div onclick="handleAlbumPhotoTap(${rowIdx}, 'single', ${photoIdx})" class="${slideClass} group relative w-full aspect-[4/3] rounded-2xl overflow-hidden border border-sand shadow-sm bg-ivory text-left block cursor-pointer">
+                                <img src="${row.photo.url}" alt="${escapeAttr(row.photo.caption)}" class="w-full h-full object-cover transition duration-700 group-hover:scale-105" onerror="this.src='https://placehold.co/900x675/F2ECE4/9C6653?text=Wedding+Photo'">
+                                <div class="absolute inset-0 bg-gradient-to-t from-espresso/55 via-transparent to-transparent flex items-end p-3.5 pointer-events-none">
+                                    <span class="text-xs text-ivory/95 font-serif italic">${escapeHtmlWithBreaks(row.photo.caption)}</span>
+                                </div>
+                                <div class="mobile-edit-badge absolute inset-0 bg-espresso/55 flex-col items-center justify-center gap-2 text-ivory p-3 text-center">
+                                    <span class="bg-terracotta px-3.5 py-1.5 rounded-full text-xs font-semibold uppercase">📷 Chạm Đổi Ảnh Này</span>
+                                    <button type="button" onclick="editAlbumPhotoCaption(event, ${rowIdx}, 'single')" class="bg-ivory/95 text-espresso px-3 py-1 rounded-full text-[11px] font-semibold shadow">✏️ Sửa Chú Thích</button>
+                                </div>
+                            </div>
                         </div>
                     `;
                 }
@@ -1562,7 +2201,6 @@
             }
             renderEditorialAlbum();
             initScrollReveal();
-            saveMobileDraftToStorage();
             showToast('Đã thêm hàng ảnh mới! Chạm vào ảnh vừa thêm để đổi.');
         }
 
@@ -1626,8 +2264,35 @@
         }
 
         // =========================================================================
-        // 7. HIỆU ỨNG CUỘN TRÁI - PHẢI & ĐỒNG HỒ ĐẾM NGƯỢC
+        // 7. HIỆU ỨNG CUỘN TRÁI - PHẢI, LỊCH TỰ ĐỘNG & ĐỒNG HỒ ĐẾM NGƯỢC
         // =========================================================================
+        function renderCalendarGrid() {
+            const grid = document.getElementById('calendarDaysGrid');
+            if (!grid) return;
+
+            const d = new Date(WEDDING_CONFIG.weddingDateISO);
+            const targetDate = isNaN(d.getTime()) ? new Date(2026, 11, 20) : d;
+            const year = targetDate.getFullYear();
+            const month = targetDate.getMonth();
+            const highlightDay = targetDate.getDate();
+
+            const firstWeekday = (new Date(year, month, 1).getDay() + 6) % 7; // T2 = 0 .. CN = 6
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+            let html = '';
+            for (let i = 0; i < firstWeekday; i++) {
+                html += '<span></span>';
+            }
+            for (let day = 1; day <= daysInMonth; day++) {
+                if (day === highlightDay) {
+                    html += `<span class="relative mx-auto w-7 h-7 rounded-full bg-terracotta text-ivory font-semibold flex items-center justify-center shadow-md ring-2 ring-rosegold">${day}</span>`;
+                } else {
+                    html += `<span>${day}</span>`;
+                }
+            }
+            grid.innerHTML = html;
+        }
+
         let activeScrollObserver = null;
 
         function initScrollReveal() {
@@ -1808,8 +2473,9 @@
             WEDDING_CONFIG[field] = value;
             if (field === 'mp3Url') {
                 initMp3Player();
+            } else if (field === 'pageTitle') {
+                document.title = value || 'Thiệp Mời Thành Hôn';
             }
-            saveMobileDraftToStorage();
         }
 
         function updateEditorButtonVisibility() {
@@ -1830,14 +2496,17 @@
         // INITIALIZE ON WINDOW LOAD
         // =========================================================================
         window.onload = function() {
-            loadMobileDraftFromStorage();
+            syncAllEditableTexts();
             syncHeroAndCoverImages();
+            syncEventLinks();
             updateEditorButtonVisibility();
+            initUniversalTextClickDelegation();
             initGuestName();
             initMp3Player();
             initYouTubeAudio();
             renderLoveStoryChapters();
             renderEditorialAlbum();
+            renderCalendarGrid();
             initLightboxGestures();
             initCountdownTimer();
             renderWishesList();
