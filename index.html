@@ -70,15 +70,15 @@
         .slide-pair-left {
             opacity: 0;
             transform: translate3d(-75px, 0, 0);
-            transition: opacity 0.95s cubic-bezier(0.22, 1, 0.36, 1),
-                        transform 0.95s cubic-bezier(0.22, 1, 0.36, 1);
+            transition: opacity 1.35s cubic-bezier(0.22, 1, 0.36, 1),
+                        transform 1.35s cubic-bezier(0.22, 1, 0.36, 1);
             will-change: opacity, transform;
         }
         .slide-pair-right {
             opacity: 0;
             transform: translate3d(75px, 0, 0);
-            transition: opacity 0.95s cubic-bezier(0.22, 1, 0.36, 1),
-                        transform 0.95s cubic-bezier(0.22, 1, 0.36, 1);
+            transition: opacity 1.35s cubic-bezier(0.22, 1, 0.36, 1),
+                        transform 1.35s cubic-bezier(0.22, 1, 0.36, 1);
             will-change: opacity, transform;
         }
 
@@ -86,15 +86,15 @@
         .slide-single-odd {
             opacity: 0;
             transform: translate3d(80px, 0, 0);
-            transition: opacity 0.95s cubic-bezier(0.22, 1, 0.36, 1),
-                        transform 0.95s cubic-bezier(0.22, 1, 0.36, 1);
+            transition: opacity 1.35s cubic-bezier(0.22, 1, 0.36, 1),
+                        transform 1.35s cubic-bezier(0.22, 1, 0.36, 1);
             will-change: opacity, transform;
         }
         .slide-single-even {
             opacity: 0;
             transform: translate3d(-80px, 0, 0);
-            transition: opacity 0.95s cubic-bezier(0.22, 1, 0.36, 1),
-                        transform 0.95s cubic-bezier(0.22, 1, 0.36, 1);
+            transition: opacity 1.35s cubic-bezier(0.22, 1, 0.36, 1),
+                        transform 1.35s cubic-bezier(0.22, 1, 0.36, 1);
             will-change: opacity, transform;
         }
 
@@ -126,6 +126,85 @@
         .gold-divider {
             height: 1px;
             background: linear-gradient(90deg, transparent, #C59B76, transparent);
+        }
+
+        /* ===== ARCH WINDOW 3D DOOR EFFECT ===== */
+        .arch-window-stage {
+            position: relative;
+            perspective: 900px;
+        }
+        .arch-window-stage .arch-door-left,
+        .arch-window-stage .arch-door-right {
+            position: absolute;
+            top: 0;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(135deg, #F5EEE4 0%, #EDE3D6 50%, #E2D5C5 100%);
+            border: 1.5px solid rgba(197,155,118,0.75);
+            transform-origin: center;
+            transition: transform 1.1s cubic-bezier(0.22, 1, 0.36, 1);
+            z-index: 2;
+            will-change: transform;
+            backface-visibility: hidden;
+            /* Gold decorative line down the middle edge */
+            box-shadow: inset 0 0 0 1px rgba(197,155,118,0.18), 2px 0 18px rgba(43,37,34,0.13);
+        }
+        .arch-window-stage .arch-door-left {
+            left: 0;
+            border-radius: 9999px 0 0 8px;
+            transform-origin: left center;
+            border-right: none;
+        }
+        .arch-window-stage .arch-door-right {
+            right: 0;
+            border-radius: 0 9999px 8px 0;
+            transform-origin: right center;
+            border-left: none;
+        }
+        /* Decorative knob on each door */
+        .arch-window-stage .arch-door-left::after,
+        .arch-window-stage .arch-door-right::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: #C59B76;
+            box-shadow: 0 0 0 1.5px #FAF7F2, 0 1px 4px rgba(43,37,34,0.25);
+            transform: translateY(-50%);
+        }
+        .arch-window-stage .arch-door-left::after { right: 7px; }
+        .arch-window-stage .arch-door-right::after { left: 7px; }
+        /* Opened state */
+        .arch-window-stage.doors-open .arch-door-left {
+            transform: perspective(900px) rotateY(-130deg);
+        }
+        .arch-window-stage.doors-open .arch-door-right {
+            transform: perspective(900px) rotateY(130deg);
+        }
+        /* ✂️ Crop re-trigger button on uploaded images */
+        .crop-retrigger-btn {
+            display: none !important;
+        }
+        body.mobile-edit-active .crop-retrigger-btn {
+            display: flex !important;
+        }
+        /* Crop zoom slider thumb */
+        #cropZoomSlider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px; height: 20px;
+            border-radius: 50%;
+            background: #C59B76;
+            border: 2px solid #FAF7F2;
+            box-shadow: 0 1px 4px rgba(43,37,34,0.4);
+            cursor: grab;
+        }
+        #cropZoomSlider::-moz-range-thumb {
+            width: 18px; height: 18px;
+            border-radius: 50%;
+            background: #C59B76;
+            border: 2px solid #FAF7F2;
         }
 
         /* Mobile Quick-Tap Edit Mode Overlay Badges */
@@ -684,46 +763,81 @@
          4. FULLSCREEN MANUAL PHOTO LIGHTBOX MODAL
     ========================================================================== -->
     <div id="lightboxModal" class="fixed inset-0 z-[60] bg-espresso/95 backdrop-blur-md hidden flex-col items-center justify-between p-4 select-none">
-                <div class="bg-white p-4 rounded-2xl border border-sand space-y-2.5">
-                    <p class="font-semibold text-terracotta uppercase tracking-wider text-[10px]">2. Nhạc Nền Bài Hát "Lễ Đường - Kai Đinh"</p>
-                    <p class="text-taupe leading-relaxed">
-                        Mặc định thiệp đã phát sẵn bản hát có lời <strong>Lễ Đường - Kai Đinh</strong>. Nếu muốn dùng file <code>.mp3</code> riêng trong điện thoại:
-                    </p>
-                    <div class="flex gap-2">
-                        <button type="button" onclick="document.getElementById('localMp3Input').click()" class="flex-1 py-2.5 px-3 rounded-xl bg-champagne hover:bg-sand/70 text-espresso font-semibold transition">
-                            📂 Chọn File MP3 Từ Điện Thoại
-                        </button>
-                        <button type="button" onclick="toggleBackgroundMusic()" class="py-2.5 px-3.5 rounded-xl bg-espresso text-ivory font-medium">
-                            ▶ / ❚❚
-                        </button>
-                    </div>
-                    <input type="text" id="mobileMp3UrlInput" placeholder="Hoặc dán link MP3 online (nếu có)..." oninput="updateGeneralField('mp3Url', this.value)" class="w-full px-3 py-2 bg-ivory border border-sand rounded-xl text-xs focus:outline-none focus:border-terracotta">
-                </div>
+        <!-- Close button -->
+        <div class="w-full flex justify-end pt-1 pb-2 shrink-0">
+            <button type="button" onclick="closeLightbox()" class="w-10 h-10 rounded-full bg-white/15 backdrop-blur-sm flex items-center justify-center text-ivory text-lg">✕</button>
+        </div>
 
-                <!-- Bước 3: Xuất 1 file HTML duy nhất (Không cần tạo folder assets) -->
-                <div class="bg-white p-4 rounded-2xl border border-rosegold/60 space-y-3 shadow-sm">
-                    <p class="font-semibold text-terracotta uppercase tracking-wider text-[10px]">3. Lấy Thiệp Đi Gửi Khách (Không Cần Tạo Folder)</p>
-                    <p class="text-taupe leading-relaxed">
-                        Mọi bức ảnh bạn vừa chọn từ điện thoại đã được <strong>gắn thẳng vào bên trong 1 file <code>index.html</code> duy nhất</strong>. Bạn không cần tạo thư mục <code>assets/</code> hay sửa code gì cả!
-                    </p>
-                    <button type="button" onclick="exportSingleSelfContainedHtml()" class="w-full py-3 px-4 rounded-xl bg-terracotta hover:bg-[#875544] text-ivory font-semibold text-xs uppercase tracking-wider shadow-md transition">
-                        📦 Tải 1 File Thiệp Hoàn Chỉnh (index.html)
-                    </button>
-                    <p class="text-[11px] text-taupe/85 leading-relaxed">
-                        💡 <strong>Mẹo đưa lên mạng bằng điện thoại trong 30 giây:</strong> Sau khi tải file <code>index.html</code> này về điện thoại, bạn mở trang <strong>tiiny.host</strong> hoặc <strong>app.netlify.com/drop</strong> trên điện thoại, tải đúng 1 file này lên là có ngay đường link web gửi qua Zalo!
-                    </p>
-                </div>
+        <!-- Touch / swipe area + photo -->
+        <div id="lightboxTouchArea" class="flex-1 w-full flex items-center justify-center min-h-0 relative">
+            <!-- Prev button -->
+            <button type="button" onclick="stepLightbox(-1)" class="absolute left-0 z-10 w-11 h-11 rounded-full bg-white/15 backdrop-blur-sm flex items-center justify-center text-ivory text-xl select-none">‹</button>
+            <!-- Photo -->
+            <img id="lightboxImage" src="" alt="Wedding photo" class="max-h-[80vh] w-auto max-w-full rounded-2xl object-contain shadow-2xl" style="touch-action:none;">
+            <!-- Next button -->
+            <button type="button" onclick="stepLightbox(1)" class="absolute right-0 z-10 w-11 h-11 rounded-full bg-white/15 backdrop-blur-sm flex items-center justify-center text-ivory text-xl select-none">›</button>
+        </div>
 
-                <!-- Khôi phục mặc định nếu muốn làm lại -->
-                <div class="flex items-center justify-between pt-1 px-1">
-                    <span class="text-[11px] text-taupe">Đã tự động lưu tạm trên trình duyệt điện thoại này</span>
-                    <button type="button" onclick="resetMobileSavedDraft()" class="text-[11px] text-rose-700 underline">
-                        Khôi phục ảnh gốc
-                    </button>
-                </div>
-            </div>
-        
+        <!-- Caption + counter -->
+        <div class="w-full text-center pt-3 pb-1 shrink-0">
+            <p id="lightboxCaption" class="text-ivory/80 text-sm font-light leading-relaxed mb-1 px-6"></p>
+            <span id="lightboxCounter" class="text-ivory/50 text-xs tracking-wider"></span>
+        </div>
+    </div>
+
     
+
+    <!-- =========================================================================
+         4C. PHOTO CROP MODAL — KÉO DI CHUYỂN & THU PHÓNG CĂN GÓC ẢNH
+    ========================================================================== -->
+    <div id="photoCropModal" class="fixed inset-0 z-[70] bg-espresso/95 backdrop-blur-md hidden flex-col items-center justify-between select-none" style="touch-action:none;">
+        <!-- Header -->
+        <div class="w-full px-4 py-3 flex items-center justify-between shrink-0 border-b border-white/10">
+            <button type="button" onclick="cancelPhotoCrop()" class="text-ivory/70 text-sm px-3 py-1.5 rounded-xl bg-white/10">Huỷ</button>
+            <div class="text-center">
+                <p class="text-ivory text-xs font-semibold tracking-wider uppercase">Căn Góc Ảnh</p>
+                <p class="text-ivory/50 text-[10px]">Kéo để di chuyển · Chụm/tách để phóng to</p>
+            </div>
+            <button type="button" onclick="confirmPhotoCrop()" class="text-ivory text-sm px-3 py-1.5 rounded-xl bg-terracotta font-semibold">Lưu ✓</button>
+        </div>
+
+        <!-- Crop viewport -->
+        <div class="flex-1 w-full flex items-center justify-center overflow-hidden min-h-0 p-4">
+            <div id="cropViewport" class="relative overflow-hidden bg-espresso/40 shadow-2xl" style="width:100%;max-width:360px;aspect-ratio:4/5;border-radius:9999px 9999px 16px 16px;border:2px solid rgba(197,155,118,0.7);">
+                <!-- Ảnh được kéo thả bên trong -->
+                <img id="cropImage" src="" alt="Crop preview" draggable="false"
+                    style="position:absolute;transform-origin:0 0;cursor:grab;user-select:none;-webkit-user-select:none;max-width:none;">
+                <!-- Lưới căn chỉnh (rule of thirds) -->
+                <div class="pointer-events-none absolute inset-0" style="
+                    background-image: linear-gradient(rgba(255,255,255,0.12) 1px, transparent 1px),
+                                      linear-gradient(90deg, rgba(255,255,255,0.12) 1px, transparent 1px);
+                    background-size: 33.33% 33.33%;
+                "></div>
+            </div>
+        </div>
+
+        <!-- Zoom slider + Căn chỉnh tỉ lệ -->
+        <div class="w-full px-5 pb-5 pt-2 shrink-0 space-y-3">
+            <!-- Thông tin tỉ lệ -->
+            <div class="flex items-center justify-center gap-3">
+                <button type="button" onclick="setCropRatio(4,5)" id="cropRatio45" class="text-[10px] px-2.5 py-1 rounded-full border border-rosegold/60 text-ivory/80 font-medium">4:5 Dọc</button>
+                <button type="button" onclick="setCropRatio(1,1)" id="cropRatio11" class="text-[10px] px-2.5 py-1 rounded-full border border-white/20 text-ivory/50 font-medium">1:1 Vuông</button>
+                <button type="button" onclick="setCropRatio(3,4)" id="cropRatio34" class="text-[10px] px-2.5 py-1 rounded-full border border-white/20 text-ivory/50 font-medium">3:4 Dọc</button>
+                <button type="button" onclick="setCropRatio(4,3)" id="cropRatio43" class="text-[10px] px-2.5 py-1 rounded-full border border-white/20 text-ivory/50 font-medium">4:3 Ngang</button>
+            </div>
+            <!-- Thanh phóng to -->
+            <div class="flex items-center gap-3">
+                <span class="text-ivory/50 text-lg select-none">−</span>
+                <input type="range" id="cropZoomSlider" min="50" max="300" value="100" step="1"
+                    oninput="onCropSliderZoom(this.value)"
+                    class="flex-1 h-1 rounded-full appearance-none cursor-pointer"
+                    style="background:linear-gradient(90deg,#C59B76 0%,rgba(255,255,255,0.2) 0%);">
+                <span class="text-ivory/50 text-lg select-none">+</span>
+            </div>
+            <!-- Nút ✂️ trên ảnh đã upload -->
+            <p class="text-center text-ivory/40 text-[10px]">Nhấn nút ✂️ trên bất kỳ ảnh đã tải lên để căn lại góc</p>
+        </div>
+    </div>
 
     <!-- =========================================================================
          4B. BẢNG LƯU, CÀI ĐẶT CHUNG & XUẤT THIỆP (BOTTOM SHEET)
@@ -1409,8 +1523,14 @@
 
             showToast('Đang tối ưu ảnh từ thiết bị...');
             try {
-                const compressedDataUrl = await compressImageFromPhone(file, 1080, 0.8);
+                const compressedDataUrl = await compressImageFromPhone(file, 1200, 0.9);
                 const t = pendingPhotoTarget;
+
+                // For story & album photos: open crop modal instead of applying directly
+                if (t.type === 'story' || t.type === 'album') {
+                    openPhotoCropModal(compressedDataUrl, t);
+                    return;
+                }
 
                 if (t.type === 'envelope') {
                     WEDDING_CONFIG.envelopePhoto = compressedDataUrl;
@@ -1422,24 +1542,6 @@
                     if (WEDDING_CONFIG.bankInfo[t.role]) {
                         WEDDING_CONFIG.bankInfo[t.role].qrUrl = compressedDataUrl;
                         initGiftBox();
-                    }
-                } else if (t.type === 'story') {
-                    const chap = WEDDING_CONFIG.storyChapters[t.index];
-                    if (chap) {
-                        chap[t.field] = compressedDataUrl;
-                        renderLoveStoryChapters();
-                        initScrollReveal();
-                    }
-                } else if (t.type === 'album') {
-                    const row = WEDDING_CONFIG.albumRows[t.rowIdx];
-                    if (row) {
-                        if (t.side === 'single') {
-                            row.photo.url = compressedDataUrl;
-                        } else if (row[t.side]) {
-                            row[t.side].url = compressedDataUrl;
-                        }
-                        renderEditorialAlbum();
-                        initScrollReveal();
                     }
                 }
 
@@ -1481,6 +1583,7 @@
                 chap.quote = document.getElementById('mEditQuote').value.trim();
                 renderLoveStoryChapters();
                 initScrollReveal();
+                initArchWindowObserver();
                 showToast('✓ Đã cập nhật nội dung!');
             }
             closeMobileTextModal();
@@ -1495,6 +1598,7 @@
             WEDDING_CONFIG.storyChapters.splice(activeTextEditIndex, 1);
             renderLoveStoryChapters();
             initScrollReveal();
+            initArchWindowObserver();
             closeMobileTextModal();
             showToast('Đã xoá mục chuyện tình yêu.');
         }
@@ -1523,6 +1627,7 @@
             }
             renderLoveStoryChapters();
             initScrollReveal();
+            initArchWindowObserver();
             showToast('Đã thêm kỷ niệm mới! Chạm vào ảnh và chữ để chỉnh sửa.');
         }
 
@@ -1925,11 +2030,22 @@
         // =========================================================================
         // 5. RENDER CHUYỆN TÌNH YÊU (TRÁI - PHẢI + CHẠM ĐỔI ẢNH/CHỮ TRÊN ĐT)
         // =========================================================================
+        // Track which story image indices have been arch-window'ified (only first arch)
+        let _archWindowDoneFirstIdx = -1;
+
         function renderLoveStoryChapters() {
             const container = document.getElementById('loveStoryChaptersContainer');
             if (!container) return;
 
             let singleImageCounter = 0;
+            _archWindowDoneFirstIdx = -1; // reset each render
+
+            // Identify index of FIRST arch single chapter
+            let firstArchIdx = -1;
+            for (let i = 0; i < WEDDING_CONFIG.storyChapters.length; i++) {
+                const c = WEDDING_CONFIG.storyChapters[i];
+                if (c.layout !== 'pair' && c.frameStyle === 'arch') { firstArchIdx = i; break; }
+            }
 
             container.innerHTML = WEDDING_CONFIG.storyChapters.map((chap, idx) => {
                 let imageSectionHtml = '';
@@ -1944,6 +2060,7 @@
                                         <span class="text-xl mb-1">📷</span>
                                         <span class="bg-terracotta px-2.5 py-1 rounded-full text-[10px] font-semibold uppercase">Chạm đổi ảnh trái</span>
                                     </button>
+                                    <button type="button" onclick="triggerPhotoCropRetrigger('story', ${idx}, 'photoLeft')" class="crop-retrigger-btn absolute top-2 right-2 z-10 w-8 h-8 rounded-full bg-champagne/90 text-espresso text-sm items-center justify-center shadow">✂️</button>
                                 </div>
                             </div>
                             <div class="slide-pair-right relative bg-white p-2 rounded-2xl shadow-md border border-sand mt-4">
@@ -1953,6 +2070,7 @@
                                         <span class="text-xl mb-1">📷</span>
                                         <span class="bg-terracotta px-2.5 py-1 rounded-full text-[10px] font-semibold uppercase">Chạm đổi ảnh phải</span>
                                     </button>
+                                    <button type="button" onclick="triggerPhotoCropRetrigger('story', ${idx}, 'photoRight')" class="crop-retrigger-btn absolute top-2 right-2 z-10 w-8 h-8 rounded-full bg-champagne/90 text-espresso text-sm items-center justify-center shadow">✂️</button>
                                 </div>
                             </div>
                         </div>
@@ -1961,19 +2079,49 @@
                     singleImageCounter++;
                     const isOdd = singleImageCounter % 2 === 1;
                     const slideDirectionClass = isOdd ? 'slide-single-odd' : 'slide-single-even';
-                    const frameRadiusClass = chap.frameStyle === 'arch' ? 'cine-arch' : 'rounded-2xl';
+                    const isArch = chap.frameStyle === 'arch';
+                    const frameRadiusClass = isArch ? 'cine-arch' : 'rounded-2xl';
+                    const isFirstArch = isArch && idx === firstArchIdx;
 
-                    imageSectionHtml = `
-                        <div class="${slideDirectionClass} relative bg-white p-3 ${frameRadiusClass} shadow-md border border-sand mb-5">
-                            <div class="relative aspect-[4/5] ${frameRadiusClass} overflow-hidden bg-champagne">
-                                <img src="${chap.photo}" alt="${chap.title}" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/800x1000/F2ECE4/9C6653?text=Sang+%26+Thu'">
-                                <button type="button" onclick="triggerMobilePhotoPicker({ type: 'story', index: ${idx}, field: 'photo' })" class="mobile-edit-badge absolute inset-0 bg-espresso/55 backdrop-blur-[1px] flex-col items-center justify-center text-ivory p-3">
-                                    <span class="text-2xl mb-1.5">📷</span>
-                                    <span class="bg-terracotta px-3.5 py-1.5 rounded-full text-xs font-semibold uppercase shadow">Chạm Đổi Ảnh Này</span>
-                                </button>
+                    // For first arch chapter: wrap in arch-window-stage with 2 doors
+                    const archWrapOpen = isFirstArch
+                        ? `<div class="arch-window-stage ${slideDirectionClass} relative mb-5" data-arch-idx="${idx}">
+                               <div class="relative bg-white p-3 cine-arch shadow-md border border-rosegold/40">`
+                        : '';
+                    const archWrapClose = isFirstArch
+                        ? `</div>
+                               <div class="arch-door-left pointer-events-none"></div>
+                               <div class="arch-door-right pointer-events-none"></div>
+                           </div>`
+                        : '';
+
+                    if (isFirstArch) {
+                        imageSectionHtml = `
+                            ${archWrapOpen}
+                                <div class="relative aspect-[4/5] cine-arch overflow-hidden bg-champagne">
+                                    <img src="${chap.photo}" alt="${chap.title}" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/800x1000/F2ECE4/9C6653?text=Sang+%26+Thu'">
+                                    <button type="button" onclick="triggerMobilePhotoPicker({ type: 'story', index: ${idx}, field: 'photo' })" class="mobile-edit-badge absolute inset-0 bg-espresso/55 backdrop-blur-[1px] flex-col items-center justify-center text-ivory p-3">
+                                        <span class="text-2xl mb-1.5">📷</span>
+                                        <span class="bg-terracotta px-3.5 py-1.5 rounded-full text-xs font-semibold uppercase shadow">Chạm Đổi Ảnh Này</span>
+                                    </button>
+                                    <button type="button" onclick="triggerPhotoCropRetrigger('story', ${idx}, 'photo')" class="crop-retrigger-btn absolute top-2 right-2 z-10 w-8 h-8 rounded-full bg-champagne/90 text-espresso text-sm items-center justify-center shadow">✂️</button>
+                                </div>
+                            ${archWrapClose}
+                        `;
+                    } else {
+                        imageSectionHtml = `
+                            <div class="${slideDirectionClass} relative bg-white p-3 ${frameRadiusClass} shadow-md border border-sand mb-5">
+                                <div class="relative aspect-[4/5] ${frameRadiusClass} overflow-hidden bg-champagne">
+                                    <img src="${chap.photo}" alt="${chap.title}" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/800x1000/F2ECE4/9C6653?text=Sang+%26+Thu'">
+                                    <button type="button" onclick="triggerMobilePhotoPicker({ type: 'story', index: ${idx}, field: 'photo' })" class="mobile-edit-badge absolute inset-0 bg-espresso/55 backdrop-blur-[1px] flex-col items-center justify-center text-ivory p-3">
+                                        <span class="text-2xl mb-1.5">📷</span>
+                                        <span class="bg-terracotta px-3.5 py-1.5 rounded-full text-xs font-semibold uppercase shadow">Chạm Đổi Ảnh Này</span>
+                                    </button>
+                                    <button type="button" onclick="triggerPhotoCropRetrigger('story', ${idx}, 'photo')" class="crop-retrigger-btn absolute top-2 right-2 z-10 w-8 h-8 rounded-full bg-champagne/90 text-espresso text-sm items-center justify-center shadow">✂️</button>
+                                </div>
                             </div>
-                        </div>
-                    `;
+                        `;
+                    }
                 }
 
                 return `
@@ -2068,6 +2216,7 @@
                                         <span class="bg-terracotta px-2.5 py-1 rounded-full text-[10px] font-semibold uppercase">📷 Đổi ảnh trái</span>
                                         <button type="button" onclick="editAlbumPhotoCaption(event, ${rowIdx}, 'left')" class="bg-ivory/95 text-espresso px-2.5 py-1 rounded-full text-[10px] font-semibold shadow">✏️ Chú thích</button>
                                     </div>
+                                    <button type="button" onclick="event.stopPropagation();triggerPhotoCropRetrigger('album', ${rowIdx}, 'left')" class="crop-retrigger-btn absolute top-1.5 right-1.5 z-10 w-7 h-7 rounded-full bg-champagne/90 text-espresso text-xs items-center justify-center shadow">✂️</button>
                                 </div>
                                 <div onclick="handleAlbumPhotoTap(${rowIdx}, 'right', ${rightIdx})" class="slide-pair-right group relative aspect-[3/4] rounded-2xl overflow-hidden border border-sand shadow-sm bg-ivory text-left cursor-pointer">
                                     <img src="${row.right.url}" alt="${escapeAttr(row.right.caption)}" class="w-full h-full object-cover transition duration-700 group-hover:scale-105" onerror="this.src='https://placehold.co/600x800/F2ECE4/9C6653?text=Wedding+Photo'">
@@ -2075,6 +2224,7 @@
                                         <span class="bg-terracotta px-2.5 py-1 rounded-full text-[10px] font-semibold uppercase">📷 Đổi ảnh phải</span>
                                         <button type="button" onclick="editAlbumPhotoCaption(event, ${rowIdx}, 'right')" class="bg-ivory/95 text-espresso px-2.5 py-1 rounded-full text-[10px] font-semibold shadow">✏️ Chú thích</button>
                                     </div>
+                                    <button type="button" onclick="event.stopPropagation();triggerPhotoCropRetrigger('album', ${rowIdx}, 'right')" class="crop-retrigger-btn absolute top-1.5 right-1.5 z-10 w-7 h-7 rounded-full bg-champagne/90 text-espresso text-xs items-center justify-center shadow">✂️</button>
                                 </div>
                             </div>
                         </div>
@@ -2100,6 +2250,7 @@
                                     <span class="bg-terracotta px-3.5 py-1.5 rounded-full text-xs font-semibold uppercase">📷 Chạm Đổi Ảnh Này</span>
                                     <button type="button" onclick="editAlbumPhotoCaption(event, ${rowIdx}, 'single')" class="bg-ivory/95 text-espresso px-3 py-1 rounded-full text-[11px] font-semibold shadow">✏️ Sửa Chú Thích</button>
                                 </div>
+                                <button type="button" onclick="event.stopPropagation();triggerPhotoCropRetrigger('album', ${rowIdx}, 'single')" class="crop-retrigger-btn absolute top-2 right-2 z-10 w-8 h-8 rounded-full bg-champagne/90 text-espresso text-sm items-center justify-center shadow">✂️</button>
                             </div>
                         </div>
                     `;
@@ -2423,6 +2574,354 @@
         }
 
         // =========================================================================
+        // ARCH WINDOW 3D OBSERVER — chỉ mở cánh cửa cho khung vòm đầu tiên
+        // =========================================================================
+        function initArchWindowObserver() {
+            const stage = document.querySelector('.arch-window-stage');
+            if (!stage) return;
+
+            if (!('IntersectionObserver' in window)) {
+                stage.classList.add('doors-open');
+                return;
+            }
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting && entry.intersectionRatio >= 0.45) {
+                        entry.target.classList.add('doors-open');
+                    }
+                });
+            }, { threshold: 0.45 });
+
+            observer.observe(stage);
+        }
+
+        // =========================================================================
+        // PHOTO CROP MODAL — kéo di chuyển & thu phóng căn góc ảnh
+        // =========================================================================
+        let _cropState = {
+            target: null,       // { type, index/rowIdx, field/side }
+            originalSrc: '',    // data URL của ảnh gốc
+            imgNaturalW: 0,
+            imgNaturalH: 0,
+            scale: 1,           // zoom scale (1 = fit width of viewport)
+            baseScale: 1,       // scale khi fit vào viewport
+            tx: 0,              // translateX px
+            ty: 0,              // translateY px
+            vpW: 0,             // viewport width px
+            vpH: 0,             // viewport height px
+            ratioW: 4,
+            ratioH: 5,
+            dragging: false,
+            lastX: 0,
+            lastY: 0,
+            pinchDist: 0,
+            pinchScaleStart: 1,
+        };
+
+        function openPhotoCropModal(src, target) {
+            _cropState.target = target;
+            _cropState.originalSrc = src;
+
+            const modal = document.getElementById('photoCropModal');
+            if (!modal) return;
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+
+            const img = document.getElementById('cropImage');
+            img.onload = function() {
+                _cropState.imgNaturalW = img.naturalWidth;
+                _cropState.imgNaturalH = img.naturalHeight;
+                _cropCenterFit();
+                _updateCropSlider();
+            };
+            img.src = src;
+
+            // Set ratio buttons active
+            _setCropRatioActiveBtn(4, 5);
+            _cropState.ratioW = 4;
+            _cropState.ratioH = 5;
+            _applyViewportRatio(4, 5);
+
+            // Bind drag/pinch events on viewport
+            const vp = document.getElementById('cropViewport');
+            vp.onmousedown = _cropDragStart;
+            vp.onmousemove = _cropDragMove;
+            vp.onmouseup = _cropDragEnd;
+            vp.onmouseleave = _cropDragEnd;
+            vp.ontouchstart = _cropTouchStart;
+            vp.ontouchmove = _cropTouchMove;
+            vp.ontouchend = _cropTouchEnd;
+        }
+
+        function cancelPhotoCrop() {
+            const modal = document.getElementById('photoCropModal');
+            if (modal) { modal.classList.add('hidden'); modal.classList.remove('flex'); }
+            _cropState.target = null;
+        }
+
+        function setCropRatio(w, h) {
+            _cropState.ratioW = w;
+            _cropState.ratioH = h;
+            _applyViewportRatio(w, h);
+            _setCropRatioActiveBtn(w, h);
+            _cropCenterFit();
+            _updateCropSlider();
+        }
+
+        function _applyViewportRatio(w, h) {
+            const vp = document.getElementById('cropViewport');
+            if (!vp) return;
+            const isArch = (w === 4 && h === 5) || (w === 3 && h === 4);
+            vp.style.aspectRatio = `${w}/${h}`;
+            if (isArch) {
+                vp.style.borderRadius = '9999px 9999px 16px 16px';
+            } else {
+                vp.style.borderRadius = '16px';
+            }
+            // Recalculate viewport dims
+            setTimeout(() => {
+                _cropState.vpW = vp.clientWidth;
+                _cropState.vpH = vp.clientHeight;
+            }, 50);
+        }
+
+        function _setCropRatioActiveBtn(w, h) {
+            ['cropRatio45','cropRatio11','cropRatio34','cropRatio43'].forEach(id => {
+                const el = document.getElementById(id);
+                if (!el) return;
+                el.style.borderColor = 'rgba(255,255,255,0.2)';
+                el.style.color = 'rgba(250,247,242,0.5)';
+            });
+            const map = { '4-5': 'cropRatio45', '1-1': 'cropRatio11', '3-4': 'cropRatio34', '4-3': 'cropRatio43' };
+            const btn = document.getElementById(map[`${w}-${h}`]);
+            if (btn) {
+                btn.style.borderColor = 'rgba(197,155,118,0.8)';
+                btn.style.color = 'rgba(250,247,242,0.95)';
+            }
+        }
+
+        function _cropCenterFit() {
+            const vp = document.getElementById('cropViewport');
+            const img = document.getElementById('cropImage');
+            if (!vp || !img) return;
+
+            const vpW = vp.clientWidth;
+            const vpH = vp.clientHeight;
+            _cropState.vpW = vpW;
+            _cropState.vpH = vpH;
+
+            const iW = _cropState.imgNaturalW || img.naturalWidth || 1;
+            const iH = _cropState.imgNaturalH || img.naturalHeight || 1;
+
+            // Scale so image covers viewport fully (cover fit)
+            const scaleToFitW = vpW / iW;
+            const scaleToFitH = vpH / iH;
+            const baseScale = Math.max(scaleToFitW, scaleToFitH);
+            _cropState.baseScale = baseScale;
+            _cropState.scale = baseScale;
+
+            // Center
+            _cropState.tx = (vpW - iW * baseScale) / 2;
+            _cropState.ty = (vpH - iH * baseScale) / 2;
+            _applyTransform();
+        }
+
+        function _applyTransform() {
+            const img = document.getElementById('cropImage');
+            if (!img) return;
+            img.style.left = _cropState.tx + 'px';
+            img.style.top = _cropState.ty + 'px';
+            img.style.width = (_cropState.imgNaturalW * _cropState.scale) + 'px';
+            img.style.height = (_cropState.imgNaturalH * _cropState.scale) + 'px';
+            img.style.transform = '';
+        }
+
+        function _clampTranslate() {
+            const vp = document.getElementById('cropViewport');
+            if (!vp) return;
+            const iW = _cropState.imgNaturalW * _cropState.scale;
+            const iH = _cropState.imgNaturalH * _cropState.scale;
+            const vpW = vp.clientWidth;
+            const vpH = vp.clientHeight;
+            // Don't let image leave viewport (cover always fills)
+            _cropState.tx = Math.min(0, Math.max(vpW - iW, _cropState.tx));
+            _cropState.ty = Math.min(0, Math.max(vpH - iH, _cropState.ty));
+        }
+
+        function _updateCropSlider() {
+            const slider = document.getElementById('cropZoomSlider');
+            if (!slider) return;
+            // Map scale: baseScale → 50, baseScale*3 → 300
+            const pct = Math.round((_cropState.scale / _cropState.baseScale) * 100);
+            slider.value = Math.min(300, Math.max(50, pct));
+            // Update slider fill color
+            const fill = (pct - 50) / (300 - 50) * 100;
+            slider.style.background = `linear-gradient(90deg,#C59B76 ${fill}%,rgba(255,255,255,0.2) ${fill}%)`;
+        }
+
+        function onCropSliderZoom(value) {
+            const pct = parseFloat(value);
+            const newScale = _cropState.baseScale * (pct / 100);
+            const vp = document.getElementById('cropViewport');
+            const vpCX = vp ? vp.clientWidth / 2 : 0;
+            const vpCY = vp ? vp.clientHeight / 2 : 0;
+            // Zoom around viewport center
+            const scaleDiff = newScale / _cropState.scale;
+            _cropState.tx = vpCX - (vpCX - _cropState.tx) * scaleDiff;
+            _cropState.ty = vpCY - (vpCY - _cropState.ty) * scaleDiff;
+            _cropState.scale = newScale;
+            _clampTranslate();
+            _applyTransform();
+            const fill = (pct - 50) / (300 - 50) * 100;
+            const slider = document.getElementById('cropZoomSlider');
+            if (slider) slider.style.background = `linear-gradient(90deg,#C59B76 ${fill}%,rgba(255,255,255,0.2) ${fill}%)`;
+        }
+
+        // --- Drag (mouse) ---
+        function _cropDragStart(e) {
+            if (e.button !== 0) return;
+            _cropState.dragging = true;
+            _cropState.lastX = e.clientX;
+            _cropState.lastY = e.clientY;
+        }
+        function _cropDragMove(e) {
+            if (!_cropState.dragging) return;
+            _cropState.tx += e.clientX - _cropState.lastX;
+            _cropState.ty += e.clientY - _cropState.lastY;
+            _cropState.lastX = e.clientX;
+            _cropState.lastY = e.clientY;
+            _clampTranslate();
+            _applyTransform();
+        }
+        function _cropDragEnd() { _cropState.dragging = false; }
+
+        // --- Touch (1 ngón = kéo, 2 ngón = pinch zoom) ---
+        function _cropTouchStart(e) {
+            e.preventDefault();
+            if (e.touches.length === 1) {
+                _cropState.dragging = true;
+                _cropState.lastX = e.touches[0].clientX;
+                _cropState.lastY = e.touches[0].clientY;
+            } else if (e.touches.length === 2) {
+                _cropState.dragging = false;
+                _cropState.pinchDist = _pinchDist(e.touches);
+                _cropState.pinchScaleStart = _cropState.scale;
+            }
+        }
+        function _cropTouchMove(e) {
+            e.preventDefault();
+            if (e.touches.length === 1 && _cropState.dragging) {
+                _cropState.tx += e.touches[0].clientX - _cropState.lastX;
+                _cropState.ty += e.touches[0].clientY - _cropState.lastY;
+                _cropState.lastX = e.touches[0].clientX;
+                _cropState.lastY = e.touches[0].clientY;
+                _clampTranslate();
+                _applyTransform();
+            } else if (e.touches.length === 2) {
+                const dist = _pinchDist(e.touches);
+                const ratio = dist / _cropState.pinchDist;
+                const newScale = Math.max(_cropState.baseScale, Math.min(_cropState.baseScale * 3, _cropState.pinchScaleStart * ratio));
+                // Zoom around midpoint of 2 fingers
+                const mx = (e.touches[0].clientX + e.touches[1].clientX) / 2;
+                const my = (e.touches[0].clientY + e.touches[1].clientY) / 2;
+                const vp = document.getElementById('cropViewport');
+                const rect = vp ? vp.getBoundingClientRect() : { left: 0, top: 0 };
+                const lx = mx - rect.left;
+                const ly = my - rect.top;
+                const scaleDiff = newScale / _cropState.scale;
+                _cropState.tx = lx - (lx - _cropState.tx) * scaleDiff;
+                _cropState.ty = ly - (ly - _cropState.ty) * scaleDiff;
+                _cropState.scale = newScale;
+                _clampTranslate();
+                _applyTransform();
+                _updateCropSlider();
+            }
+        }
+        function _cropTouchEnd(e) {
+            if (e.touches.length < 2) _cropState.pinchDist = 0;
+            if (e.touches.length === 0) _cropState.dragging = false;
+        }
+        function _pinchDist(touches) {
+            const dx = touches[0].clientX - touches[1].clientX;
+            const dy = touches[0].clientY - touches[1].clientY;
+            return Math.sqrt(dx * dx + dy * dy);
+        }
+
+        // --- Confirm crop: xuất ảnh đã cắt từ canvas ---
+        function confirmPhotoCrop() {
+            const vp = document.getElementById('cropViewport');
+            const srcImg = document.getElementById('cropImage');
+            if (!vp || !srcImg) return;
+
+            const vpW = vp.clientWidth;
+            const vpH = vp.clientHeight;
+            const scale = _cropState.scale;
+            const tx = _cropState.tx;
+            const ty = _cropState.ty;
+            const iW = _cropState.imgNaturalW;
+            const iH = _cropState.imgNaturalH;
+
+            // Source rect in original image coordinates
+            const srcX = Math.max(0, -tx / scale);
+            const srcY = Math.max(0, -ty / scale);
+            const srcW = Math.min(iW - srcX, vpW / scale);
+            const srcH = Math.min(iH - srcY, vpH / scale);
+
+            // Output canvas
+            const maxOut = 1080;
+            const outW = Math.min(maxOut, Math.round(srcW));
+            const outH = Math.min(maxOut, Math.round(srcH * (outW / srcW)));
+
+            const canvas = document.createElement('canvas');
+            canvas.width = outW;
+            canvas.height = outH;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(srcImg, srcX, srcY, srcW, srcH, 0, 0, outW, outH);
+            const dataUrl = canvas.toDataURL('image/jpeg', 0.88);
+
+            // Apply to target
+            const t = _cropState.target;
+            if (t) {
+                if (t.type === 'story') {
+                    const chap = WEDDING_CONFIG.storyChapters[t.index];
+                    if (chap) { chap[t.field] = dataUrl; renderLoveStoryChapters(); initScrollReveal(); initArchWindowObserver(); }
+                } else if (t.type === 'album') {
+                    const row = WEDDING_CONFIG.albumRows[t.rowIdx];
+                    if (row) {
+                        if (t.side === 'single') row.photo.url = dataUrl;
+                        else if (row[t.side]) row[t.side].url = dataUrl;
+                        renderEditorialAlbum(); initScrollReveal();
+                    }
+                } else if (t.type === 'hero') {
+                    WEDDING_CONFIG.heroMainPhoto = dataUrl; syncHeroAndCoverImages();
+                } else if (t.type === 'envelope') {
+                    WEDDING_CONFIG.envelopePhoto = dataUrl; syncHeroAndCoverImages();
+                }
+                showToast('✓ Đã căn góc & lưu ảnh!');
+            }
+
+            cancelPhotoCrop();
+        }
+
+        // --- Trigger crop từ nút ✂️ trên ảnh đã upload ---
+        function triggerPhotoCropRetrigger(type, indexOrRowIdx, fieldOrSide) {
+            let src = '';
+            if (type === 'story') {
+                const chap = WEDDING_CONFIG.storyChapters[indexOrRowIdx];
+                src = chap ? chap[fieldOrSide] : '';
+                openPhotoCropModal(src, { type: 'story', index: indexOrRowIdx, field: fieldOrSide });
+            } else if (type === 'album') {
+                const row = WEDDING_CONFIG.albumRows[indexOrRowIdx];
+                if (row) {
+                    if (fieldOrSide === 'single') src = row.photo ? row.photo.url : '';
+                    else src = row[fieldOrSide] ? row[fieldOrSide].url : '';
+                }
+                openPhotoCropModal(src, { type: 'album', rowIdx: indexOrRowIdx, side: fieldOrSide });
+            }
+        }
+
+        // =========================================================================
         // INITIALIZE ON WINDOW LOAD
         // =========================================================================
         window.onload = function() {
@@ -2443,6 +2942,7 @@
             initRsvpForm();
             initGiftBox();
             initScrollReveal();
+            initArchWindowObserver();
         };
     </script>
 
