@@ -131,10 +131,10 @@
 
         /* Mobile Quick-Tap Edit Mode Overlay Badges */
         .mobile-edit-badge {
-            display: none;
+            display: none !important;
         }
         body.mobile-edit-active .mobile-edit-badge {
-            display: flex;
+            display: flex !important;
         }
         body.mobile-edit-active .editable-text-box,
         body.mobile-edit-active [data-edit-key] {
@@ -875,19 +875,15 @@
     <div id="mobileTextEditModal" class="fixed inset-0 z-[60] hidden bg-espresso/65 backdrop-blur-sm items-center justify-center p-4">
         <div class="w-full max-w-sm bg-ivory rounded-3xl border border-sand shadow-2xl p-5 space-y-3 max-h-[88vh] overflow-y-auto">
             <div class="flex items-center justify-between">
-                <h4 class="font-serif text-lg font-semibold text-espresso">Sửa Nội Dung Chương</h4>
+                <h4 class="font-serif text-lg font-semibold text-espresso">Sửa Nội Dung Kỷ Niệm</h4>
                 <button type="button" onclick="closeMobileTextModal()" class="w-7 h-7 rounded-full bg-champagne text-xs">✕</button>
-            </div>
-            <div>
-                <label class="block text-[11px] text-taupe mb-1">Số chương (vd: Chương 01)</label>
-                <input type="text" id="mEditChapterNum" class="w-full px-3 py-2 bg-white border border-sand rounded-xl text-xs">
             </div>
             <div>
                 <label class="block text-[11px] text-taupe mb-1">Mốc thời gian</label>
                 <input type="text" id="mEditDate" class="w-full px-3 py-2 bg-white border border-sand rounded-xl text-xs">
             </div>
             <div>
-                <label class="block text-[11px] text-taupe mb-1">Tiêu đề chương</label>
+                <label class="block text-[11px] text-taupe mb-1">Tiêu đề</label>
                 <input type="text" id="mEditTitle" class="w-full px-3 py-2 bg-white border border-sand rounded-xl text-xs font-semibold">
             </div>
             <div>
@@ -1085,7 +1081,6 @@
             storyChapters: [
                 {
                     layout: "single",
-                    chapterNumber: "Chương 01",
                     dateLabel: "Mùa Thu Hà Nội • 2022",
                     title: "Ánh Mắt Chạm Nhau Giữa Phố Nhỏ",
                     narrative: "Giữa một chiều thu Hà Nội dịu nắng, cuộc gặp gỡ tưởng chừng tình cờ của Sáng và Thu lại khởi đầu cho những cuộc trò chuyện kéo dài bất tận.",
@@ -1095,7 +1090,6 @@
                 },
                 {
                     layout: "single",
-                    chapterNumber: "Chương 02",
                     dateLabel: "Những Ngày Hẹn Hò • 2023",
                     title: "Góp Nhặt Từng Bình Yên Nhỏ Bé",
                     narrative: "Không cần những điều quá đỗi xa hoa, hạnh phúc của hai đứa là những vòng xe dạo quanh Hồ Tây lộng gió và cái nắm tay thật chặt sau ngày dài.",
@@ -1105,7 +1099,6 @@
                 },
                 {
                     layout: "pair",
-                    chapterNumber: "Chương 03",
                     dateLabel: "Hành Trình Thanh Xuân • 2024",
                     title: "Đi Cùng Nhau Qua Bao Miền Nhớ",
                     narrative: "Từ biển xanh nắng vàng đến những con dốc mờ sương Đà Lạt, mỗi chuyến đi lại giúp Sáng và Thu thêm thấu hiểu, sẻ chia và thương nhau nhiều hơn.",
@@ -1115,7 +1108,6 @@
                 },
                 {
                     layout: "single",
-                    chapterNumber: "Chương 04",
                     dateLabel: "Khoảnh Khắc Ngỏ Lời • 2025",
                     title: "Lời Cầu Hôn Dưới Ánh Hoàng Hôn",
                     narrative: "Khi chiếc nhẫn nhỏ được trao đi cùng ánh mắt chân thành, cái gật đầu xúc động của Thu đã biến ước mơ về một mái ấm nhỏ trở thành hiện thực.",
@@ -1125,7 +1117,6 @@
                 },
                 {
                     layout: "single",
-                    chapterNumber: "Chương 05",
                     dateLabel: "Ngày Chụp Hình Cưới • 2026",
                     title: "Khoảnh Khắc Khoác Lên Mình Váy Cưới",
                     narrative: "Giây phút nhìn thấy Ngô Thị Thu rạng rỡ trong tà váy cưới trắng tinh khôi, Sáng biết rằng hành trình thanh xuân đẹp nhất đã tìm thấy bến đỗ.",
@@ -1135,7 +1126,6 @@
                 },
                 {
                     layout: "pair",
-                    chapterNumber: "Chương 06",
                     dateLabel: "20 . 12 . 2026",
                     title: "Về Chung Một Nhà",
                     narrative: "Và giờ đây, trong tiếng nhạc Lễ Đường dịu êm, chúng tôi mong chờ được đón bạn tới chứng kiến khoảnh khắc thiêng liêng nhất của cuộc đời mình.",
@@ -1520,7 +1510,6 @@
             const chap = WEDDING_CONFIG.storyChapters[chapterIdx];
             if (!chap) return;
             activeTextEditIndex = chapterIdx;
-            document.getElementById('mEditChapterNum').value = chap.chapterNumber || '';
             document.getElementById('mEditDate').value = chap.dateLabel || '';
             document.getElementById('mEditTitle').value = chap.title || '';
             document.getElementById('mEditNarrative').value = chap.narrative || '';
@@ -1541,14 +1530,13 @@
             if (activeTextEditIndex === null) return;
             const chap = WEDDING_CONFIG.storyChapters[activeTextEditIndex];
             if (chap) {
-                chap.chapterNumber = document.getElementById('mEditChapterNum').value.trim();
                 chap.dateLabel = document.getElementById('mEditDate').value.trim();
                 chap.title = document.getElementById('mEditTitle').value.trim();
                 chap.narrative = document.getElementById('mEditNarrative').value.trim();
                 chap.quote = document.getElementById('mEditQuote').value.trim();
                 renderLoveStoryChapters();
                 initScrollReveal();
-                showToast('✓ Đã cập nhật nội dung chương!');
+                showToast('✓ Đã cập nhật nội dung!');
             }
             closeMobileTextModal();
         }
@@ -1556,44 +1544,41 @@
         function deleteActiveStoryChapter() {
             if (activeTextEditIndex === null) return;
             if (WEDDING_CONFIG.storyChapters.length <= 1) {
-                showToast('Cần giữ lại ít nhất 1 chương chuyện tình yêu.');
+                showToast('Cần giữ lại ít nhất 1 mục chuyện tình yêu.');
                 return;
             }
             WEDDING_CONFIG.storyChapters.splice(activeTextEditIndex, 1);
             renderLoveStoryChapters();
             initScrollReveal();
             closeMobileTextModal();
-            showToast('Đã xoá chương chuyện tình yêu.');
+            showToast('Đã xoá mục chuyện tình yêu.');
         }
 
         function addStoryChapter(layoutType) {
-            const nextNum = String(WEDDING_CONFIG.storyChapters.length + 1).padStart(2, '0');
             if (layoutType === 'pair') {
                 WEDDING_CONFIG.storyChapters.push({
                     layout: 'pair',
-                    chapterNumber: `Chương ${nextNum}`,
                     dateLabel: 'Kỷ Niệm Đáng Nhớ',
-                    title: 'Tiêu Đề Chương Mới',
+                    title: 'Tiêu Đề Kỷ Niệm Mới',
                     narrative: 'Chạm vào đoạn chữ này để viết lời dẫn cho kỷ niệm đáng nhớ của hai bạn.',
-                    quote: '“Câu trích dẫn ngọt ngào dành cho chương này.”',
+                    quote: '“Câu trích dẫn ngọt ngào dành cho khoảnh khắc này.”',
                     photoLeft: 'https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=700&q=80',
                     photoRight: 'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=700&q=80'
                 });
             } else {
                 WEDDING_CONFIG.storyChapters.push({
                     layout: 'single',
-                    chapterNumber: `Chương ${nextNum}`,
                     dateLabel: 'Kỷ Niệm Đáng Nhớ',
-                    title: 'Tiêu Đề Chương Mới',
+                    title: 'Tiêu Đề Kỷ Niệm Mới',
                     narrative: 'Chạm vào đoạn chữ này để viết lời dẫn cho kỷ niệm đáng nhớ của hai bạn.',
-                    quote: '“Câu trích dẫn ngọt ngào dành cho chương này.”',
+                    quote: '“Câu trích dẫn ngọt ngào dành cho khoảnh khắc này.”',
                     photo: 'https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?auto=format&fit=crop&w=900&q=80',
                     frameStyle: 'arch'
                 });
             }
             renderLoveStoryChapters();
             initScrollReveal();
-            showToast(`Đã thêm Chương ${nextNum}! Chạm vào ảnh và chữ để chỉnh sửa.`);
+            showToast('Đã thêm kỷ niệm mới! Chạm vào ảnh và chữ để chỉnh sửa.');
         }
 
         function openEventLinkModal(eventNum) {
@@ -2039,7 +2024,7 @@
                                 <img src="${chap.photo}" alt="${chap.title}" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/800x1000/F2ECE4/9C6653?text=Sang+%26+Thu'">
                                 <button type="button" onclick="triggerMobilePhotoPicker({ type: 'story', index: ${idx}, field: 'photo' })" class="mobile-edit-badge absolute inset-0 bg-espresso/55 backdrop-blur-[1px] flex-col items-center justify-center text-ivory p-3">
                                     <span class="text-2xl mb-1.5">📷</span>
-                                    <span class="bg-terracotta px-3.5 py-1.5 rounded-full text-xs font-semibold uppercase shadow">Chạm Đổi Ảnh ${chap.chapterNumber}</span>
+                                    <span class="bg-terracotta px-3.5 py-1.5 rounded-full text-xs font-semibold uppercase shadow">Chạm Đổi Ảnh Này</span>
                                 </button>
                             </div>
                         </div>
@@ -2050,11 +2035,11 @@
                     <article class="relative">
                         ${imageSectionHtml}
                         <div onclick="openMobileTextModal(${idx})" class="story-text-reveal editable-text-box text-center px-2 py-1">
-                            <div class="inline-flex items-center gap-2 text-[10px] tracking-[0.25em] uppercase text-terracotta font-semibold mb-1">
-                                <span>${escapeHtmlWithBreaks(chap.chapterNumber)}</span>
-                                <span>•</span>
-                                <span>${escapeHtmlWithBreaks(chap.dateLabel)}</span>
-                            </div>
+                            ${chap.dateLabel ? `
+                                <div class="inline-flex items-center text-[10px] tracking-[0.25em] uppercase text-terracotta font-semibold mb-1">
+                                    <span>${escapeHtmlWithBreaks(chap.dateLabel)}</span>
+                                </div>
+                            ` : ''}
                             <h3 class="font-serif text-2xl font-semibold text-espresso mb-2">${escapeHtmlWithBreaks(chap.title)}</h3>
                             <p class="text-xs sm:text-sm text-taupe leading-relaxed mb-3 font-light">
                                 ${escapeHtmlWithBreaks(chap.narrative)}
