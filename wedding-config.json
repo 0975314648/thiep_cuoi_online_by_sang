@@ -1,0 +1,168 @@
+{
+  "showEditorButton": false,
+  "weddingDateISO": "2026-12-20T10:30:00+07:00",
+  "rsvpWebhookUrl": "",
+  "songTitle": "Lễ Đường - Kai Đinh",
+  "mp3Url": "./assets/le-duong.mp3",
+  "youtubeVideoId": "XqgyD0yadH0",
+  "envelopePhoto": "https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=900&q=80",
+  "heroMainPhoto": "https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1000&q=80",
+  "storyChapters": [
+    {
+      "layout": "single",
+      "chapterNumber": "Chương 01",
+      "dateLabel": "Mùa Thu Hà Nội • 2022",
+      "title": "Ánh Mắt Chạm Nhau Giữa Phố Nhỏ",
+      "narrative": "Giữa một chiều thu Hà Nội dịu nắng, cuộc gặp gỡ tưởng chừng tình cờ của Sáng và Thu lại khởi đầu cho những cuộc trò chuyện kéo dài bất tận.",
+      "quote": "“Có những người chỉ cần gặp một lần, trái tim đã biết là cả cuộc đời.”",
+      "photo": "https://images.unsplash.com/photo-1522673607200-164d1b6ce486?auto=format&fit=crop&w=900&q=80",
+      "frameStyle": "arch"
+    },
+    {
+      "layout": "single",
+      "chapterNumber": "Chương 02",
+      "dateLabel": "Những Ngày Hẹn Hò • 2023",
+      "title": "Góp Nhặt Từng Bình Yên Nhỏ Bé",
+      "narrative": "Không cần những điều quá đỗi xa hoa, hạnh phúc của hai đứa là những vòng xe dạo quanh Hồ Tây lộng gió và cái nắm tay thật chặt sau ngày dài.",
+      "quote": "“Bình yên nhất là khi có một người luôn mỉm cười đợi mình ở cuối ngày.”",
+      "photo": "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=900&q=80",
+      "frameStyle": "polaroid"
+    },
+    {
+      "layout": "pair",
+      "chapterNumber": "Chương 03",
+      "dateLabel": "Hành Trình Thanh Xuân • 2024",
+      "title": "Đi Cùng Nhau Qua Bao Miền Nhớ",
+      "narrative": "Từ biển xanh nắng vàng đến những con dốc mờ sương Đà Lạt, mỗi chuyến đi lại giúp Sáng và Thu thêm thấu hiểu, sẻ chia và thương nhau nhiều hơn.",
+      "quote": "“Hạnh phúc không phải là đích đến, mà là người nắm tay ta trên suốt chặng đường.”",
+      "photoLeft": "https://images.unsplash.com/photo-1529634806980-85c3dd6d34ac?auto=format&fit=crop&w=700&q=80",
+      "photoRight": "https://images.unsplash.com/photo-1532712938310-34cb3982ef74?auto=format&fit=crop&w=700&q=80"
+    },
+    {
+      "layout": "single",
+      "chapterNumber": "Chương 04",
+      "dateLabel": "Khoảnh Khắc Ngỏ Lời • 2025",
+      "title": "Lời Cầu Hôn Dưới Ánh Hoàng Hôn",
+      "narrative": "Khi chiếc nhẫn nhỏ được trao đi cùng ánh mắt chân thành, cái gật đầu xúc động của Thu đã biến ước mơ về một mái ấm nhỏ trở thành hiện thực.",
+      "quote": "“Từ hôm nay, mọi mùa thu sau này của anh đều có tên em.”",
+      "photo": "https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?auto=format&fit=crop&w=900&q=80",
+      "frameStyle": "arch"
+    },
+    {
+      "layout": "single",
+      "chapterNumber": "Chương 05",
+      "dateLabel": "Ngày Chụp Hình Cưới • 2026",
+      "title": "Khoảnh Khắc Khoác Lên Mình Váy Cưới",
+      "narrative": "Giây phút nhìn thấy Ngô Thị Thu rạng rỡ trong tà váy cưới trắng tinh khôi, Sáng biết rằng hành trình thanh xuân đẹp nhất đã tìm thấy bến đỗ.",
+      "quote": "“Khoảnh khắc thấy em trên lễ đường, cùng ánh mắt bóng dáng thân thương...”",
+      "photo": "https://images.unsplash.com/photo-1606800052052-a08af7148866?auto=format&fit=crop&w=900&q=80",
+      "frameStyle": "polaroid"
+    },
+    {
+      "layout": "pair",
+      "chapterNumber": "Chương 06",
+      "dateLabel": "20 . 12 . 2026",
+      "title": "Về Chung Một Nhà",
+      "narrative": "Và giờ đây, trong tiếng nhạc Lễ Đường dịu êm, chúng tôi mong chờ được đón bạn tới chứng kiến khoảnh khắc thiêng liêng nhất của cuộc đời mình.",
+      "quote": "“Nhiều năm ấy chớp mắt trôi qua, để ta giờ đây về chung một nhà.”",
+      "photoLeft": "https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=700&q=80",
+      "photoRight": "https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=700&q=80"
+    }
+  ],
+  "albumRows": [
+    {
+      "type": "single",
+      "photo": {
+        "url": "https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1000&q=80",
+        "caption": "Sáng & Ngô Thị Thu — Khung hình mở đầu ngày chung đôi"
+      }
+    },
+    {
+      "type": "pair",
+      "left": {
+        "url": "https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=800&q=80",
+        "caption": "Nụ cười rạng rỡ của cô dâu Ngô Thị Thu"
+      },
+      "right": {
+        "url": "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=800&q=80",
+        "caption": "Cái nắm tay dịu dàng giữa nắng chiều"
+      }
+    },
+    {
+      "type": "single",
+      "photo": {
+        "url": "https://images.unsplash.com/photo-1532712938310-34cb3982ef74?auto=format&fit=crop&w=1000&q=80",
+        "caption": "Bình yên bên nhau trên từng chặng đường"
+      }
+    },
+    {
+      "type": "pair",
+      "left": {
+        "url": "https://images.unsplash.com/photo-1522673607200-164d1b6ce486?auto=format&fit=crop&w=800&q=80",
+        "caption": "Khoảnh khắc lãng mạn như thước phim điện ảnh"
+      },
+      "right": {
+        "url": "https://images.unsplash.com/photo-1529634806980-85c3dd6d34ac?auto=format&fit=crop&w=800&q=80",
+        "caption": "Hạnh phúc đong đầy trong ánh mắt"
+      }
+    },
+    {
+      "type": "single",
+      "photo": {
+        "url": "https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?auto=format&fit=crop&w=1000&q=80",
+        "caption": "Lời hẹn ước trăm năm dưới ánh hoàng hôn"
+      }
+    },
+    {
+      "type": "pair",
+      "left": {
+        "url": "https://images.unsplash.com/photo-1606800052052-a08af7148866?auto=format&fit=crop&w=800&q=80",
+        "caption": "Dịu dàng trong tà váy cưới tinh khôi"
+      },
+      "right": {
+        "url": "https://images.unsplash.com/photo-1520854221256-17451cc331bf?auto=format&fit=crop&w=800&q=80",
+        "caption": "Sẵn sàng cho ngày bước lên lễ đường 20.12.2026"
+      }
+    }
+  ],
+  "bankInfo": {
+    "groom": {
+      "bankName": "Techcombank",
+      "accountNumber": "19034567890123",
+      "accountHolder": "NGUYEN VAN SANG",
+      "qrUrl": "https://api.vietqr.io/image/970407-19034567890123-compact.jpg?amount=0&addInfo=Mung%20cuoi%20Sang%20Thu"
+    },
+    "bride": {
+      "bankName": "Vietcombank",
+      "accountNumber": "0123456789",
+      "accountHolder": "NGO THI THU",
+      "qrUrl": "https://api.vietqr.io/image/970436-0123456789-compact.jpg?amount=0&addInfo=Mung%20cuoi%20Sang%20Thu"
+    }
+  },
+  "initialWishes": [
+    {
+      "name": "Anh Hoàng & Chị Mai",
+      "attendance": "Sẽ tham dự",
+      "time": "Vừa xong",
+      "wish": "Chúc mừng Sáng và Thu! Chúc hai em trăm năm tình viên mãn, bạc đầu nghĩa phu thê nhé!"
+    },
+    {
+      "name": "Hội Bạn Đại Học Bách Khoa",
+      "attendance": "Sẽ tham dự",
+      "time": "1 giờ trước",
+      "wish": "Cuối cùng ông bạn dev cũng rước được nàng Thu về dinh! Hôm đấy anh em nhất định có mặt đông đủ."
+    },
+    {
+      "name": "Bạn Ngọc Lan",
+      "attendance": "Sẽ tham dự",
+      "time": "3 giờ trước",
+      "wish": "Cô dâu Ngô Thị Thu xinh quá! Chúc hai vợ chồng luôn ngập tràn tiếng cười và sớm có thiên thần nhỏ nha."
+    },
+    {
+      "name": "Minh Tuấn (TP.HCM)",
+      "attendance": "Không thể tham dự",
+      "time": "Hôm qua",
+      "wish": "Tiếc quá mình công tác trong Sài Gòn không ra kịp, gửi lời chúc phúc tốt đẹp nhất tới Sáng và Thu!"
+    }
+  ]
+}

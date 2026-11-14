@@ -1,0 +1,1850 @@
+<!DOCTYPE html>
+<html lang="vi" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Thiệp Mời Thành Hôn - Sáng &amp; Thu | 20.12.2026</title>
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Google Fonts: Cormorant Garamond, Great Vibes, Plus Jakarta Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Great+Vibes&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                        serif: ['"Cormorant Garamond"', 'serif'],
+                        script: ['"Great Vibes"', 'cursive'],
+                    },
+                    colors: {
+                        ivory: '#FAF7F2',
+                        champagne: '#F2ECE4',
+                        sand: '#E6DDD2',
+                        terracotta: '#9C6653',
+                        rosegold: '#C59B76',
+                        espresso: '#2B2522',
+                        taupe: '#6E625B',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Subtle Paper Grain Texture for Luxury Editorial Feel */
+        .paper-texture {
+            background-color: #FAF7F2;
+            background-image: radial-gradient(rgba(156, 102, 83, 0.045) 1px, transparent 0);
+            background-size: 24px 24px;
+        }
+
+        /* CineLove Signature Arch Photo Frame */
+        .cine-arch {
+            border-radius: 9999px 9999px 16px 16px;
+        }
+
+        /* General Vertical Scroll Reveal for Headers & Info Cards */
+        .cine-reveal {
+            opacity: 0;
+            transform: translate3d(0, 24px, 0);
+            transition: opacity 0.95s cubic-bezier(0.22, 1, 0.36, 1),
+                        transform 0.95s cubic-bezier(0.22, 1, 0.36, 1);
+            will-change: opacity, transform;
+        }
+
+        /* Accompanying Story Text Reveal (Soft Rise after Image Slides In) */
+        .story-text-reveal {
+            opacity: 0;
+            transform: translate3d(0, 24px, 0);
+            transition: opacity 0.95s cubic-bezier(0.22, 1, 0.36, 1) 120ms,
+                        transform 0.95s cubic-bezier(0.22, 1, 0.36, 1) 120ms;
+            will-change: opacity, transform;
+        }
+
+        /* RULE A: 2 Images in 1 Row -> Slide in from both outer sides toward the center */
+        .slide-pair-left {
+            opacity: 0;
+            transform: translate3d(-75px, 0, 0);
+            transition: opacity 0.95s cubic-bezier(0.22, 1, 0.36, 1),
+                        transform 0.95s cubic-bezier(0.22, 1, 0.36, 1);
+            will-change: opacity, transform;
+        }
+        .slide-pair-right {
+            opacity: 0;
+            transform: translate3d(75px, 0, 0);
+            transition: opacity 0.95s cubic-bezier(0.22, 1, 0.36, 1),
+                        transform 0.95s cubic-bezier(0.22, 1, 0.36, 1);
+            will-change: opacity, transform;
+        }
+
+        /* RULE B: Single Image in 1 Row -> Odd STT from Right (+80px), Even STT from Left (-80px) */
+        .slide-single-odd {
+            opacity: 0;
+            transform: translate3d(80px, 0, 0);
+            transition: opacity 0.95s cubic-bezier(0.22, 1, 0.36, 1),
+                        transform 0.95s cubic-bezier(0.22, 1, 0.36, 1);
+            will-change: opacity, transform;
+        }
+        .slide-single-even {
+            opacity: 0;
+            transform: translate3d(-80px, 0, 0);
+            transition: opacity 0.95s cubic-bezier(0.22, 1, 0.36, 1),
+                        transform 0.95s cubic-bezier(0.22, 1, 0.36, 1);
+            will-change: opacity, transform;
+        }
+
+        /* Active Reveal State for All Directional & Text Animations */
+        .cine-reveal.is-visible,
+        .story-text-reveal.is-visible,
+        .slide-pair-left.is-visible,
+        .slide-pair-right.is-visible,
+        .slide-single-odd.is-visible,
+        .slide-single-even.is-visible {
+            opacity: 1;
+            transform: translate3d(0, 0, 0);
+        }
+
+        /* Stagger Delays for Sequential Reveal */
+        .delay-100 { transition-delay: 100ms; }
+        .delay-200 { transition-delay: 200ms; }
+
+        /* Vinyl Disc Slow Rotation when Music is Playing */
+        @keyframes spinVinyl {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        .animate-vinyl {
+            animation: spinVinyl 10s linear infinite;
+        }
+
+        /* Custom Thin Hairline Divider */
+        .gold-divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #C59B76, transparent);
+        }
+
+        /* Mobile Quick-Tap Edit Mode Overlay Badges */
+        .mobile-edit-badge {
+            display: none;
+        }
+        body.mobile-edit-active .mobile-edit-badge {
+            display: flex;
+        }
+        body.mobile-edit-active .editable-text-box {
+            outline: 1.5px dashed #9C6653;
+            outline-offset: 4px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body class="bg-[#ECE5DC] text-espresso antialiased selection:bg-terracotta/20 selection:text-espresso overflow-x-hidden">
+
+    <!-- =========================================================================
+         0. MOBILE TOP STICKY BAR WHEN IN "CHẾ ĐỘ SỬA TRỰC TIẾP TRÊN ĐIỆN THOẠI"
+    ========================================================================== -->
+    <div id="mobileEditBanner" class="hidden fixed top-0 inset-x-0 z-50 bg-espresso text-ivory px-3 py-2.5 shadow-xl border-b border-rosegold/40">
+        <div class="max-w-[500px] mx-auto flex items-center justify-between gap-2">
+            <div class="flex items-center gap-2 min-w-0">
+                <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse shrink-0"></span>
+                <p class="text-[11px] font-medium truncate">
+                    <strong>Chế độ sửa ĐT:</strong> Chạm vào ảnh bất kỳ để đổi
+                </p>
+            </div>
+            <div class="flex items-center gap-1.5 shrink-0">
+                <button type="button" onclick="openMobilePublishSheet()" class="bg-terracotta hover:bg-[#875544] text-ivory px-3 py-1.5 rounded-full text-[11px] font-semibold shadow transition">
+                    📲 Lưu &amp; Lấy File
+                </button>
+                <button type="button" onclick="toggleMobileDirectEdit()" class="bg-white/15 hover:bg-white/25 text-ivory px-2.5 py-1.5 rounded-full text-[11px] transition">
+                    Xong
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- =========================================================================
+         1. INTERACTIVE LUXURY ENVELOPE / OPENING COVER (MÀN MỞ THIỆP CINELOVE)
+    ========================================================================== -->
+    <div id="envelopeCover" class="fixed inset-0 z-40 flex items-center justify-center bg-[#E8E0D5]/95 backdrop-blur-md p-0 sm:p-4 transition-all duration-1000 ease-out">
+        <div class="relative w-full max-w-[500px] h-full sm:h-[92vh] sm:max-h-[820px] paper-texture sm:rounded-3xl border-0 sm:border border-sand shadow-[0_25px_70px_rgba(43,37,34,0.18)] flex flex-col items-center justify-between px-6 py-10 text-center overflow-hidden">
+            
+            <!-- Delicate Inner Gold Frame -->
+            <div class="absolute inset-3 sm:inset-4 border border-rosegold/35 sm:rounded-2xl pointer-events-none"></div>
+
+            <!-- Top Monogram & Save The Date -->
+            <div class="relative z-10 mt-2">
+                <p class="text-[10px] tracking-[0.35em] uppercase text-terracotta font-medium mb-2">Save The Date</p>
+                <div class="w-10 h-10 rounded-full border border-rosegold/60 flex items-center justify-center mx-auto font-serif text-sm italic text-terracotta">
+                    S&amp;T
+                </div>
+            </div>
+
+            <!-- Center Portrait Arch & Couple Names -->
+            <div class="relative z-10 my-auto flex flex-col items-center">
+                <div class="relative w-44 h-56 sm:w-48 sm:h-64 cine-arch overflow-hidden border-4 border-white shadow-lg mb-6 bg-champagne">
+                    <img id="envelopeCoverPhoto" src="" alt="Sáng & Thu" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/480x640/F2ECE4/9C6653?text=Sang+%26+Thu'">
+                    <button type="button" onclick="triggerMobilePhotoPicker({ type: 'envelope' })" class="mobile-edit-badge absolute inset-0 bg-espresso/55 backdrop-blur-[2px] flex-col items-center justify-center text-ivory p-2 text-center">
+                        <span class="text-2xl mb-1">📷</span>
+                        <span class="text-[11px] font-semibold uppercase tracking-wider bg-terracotta px-3 py-1 rounded-full">Chạm đổi ảnh bìa</span>
+                    </button>
+                </div>
+
+                <p class="font-serif italic text-base text-taupe mb-1">Trân trọng kính mời</p>
+                <p id="envelopeGuestName" class="text-sm font-medium text-terracotta tracking-wide mb-3 px-4 py-1 rounded-full bg-champagne/90 border border-sand">
+                    Quý Khách &amp; Gia Đình
+                </p>
+
+                <h1 class="font-script text-5xl sm:text-6xl text-espresso leading-tight">
+                    Sáng <span class="text-rosegold text-4xl sm:text-5xl">&amp;</span> Thu
+                </h1>
+                <p class="font-serif text-base tracking-[0.25em] text-taupe mt-1">20 . 12 . 2026</p>
+            </div>
+
+            <!-- Wax Seal Button ("Mở Thiệp Mời") -->
+            <div class="relative z-10 mb-2 flex flex-col items-center">
+                <button onclick="openWeddingInvitation()" class="group relative inline-flex items-center gap-3 bg-terracotta hover:bg-[#875544] text-ivory px-8 py-3.5 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 text-xs font-medium tracking-[0.2em] uppercase">
+                    <span class="w-5 h-5 rounded-full bg-rosegold/30 border border-ivory/40 flex items-center justify-center text-[10px] font-serif italic">♥</span>
+                    <span>Mở Thiệp Mời</span>
+                </button>
+                <span class="text-[11px] text-taupe/75 mt-2.5 font-light">Chạm để mở thiệp &amp; phát bài hát Lễ Đường</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- =========================================================================
+         2. FLOATING MOBILE-FRIENDLY CONTROLS & SHARED FILE PICKERS
+    ========================================================================== -->
+    <!-- HTML5 MP3 Audio Element -->
+    <audio id="weddingMp3Player" loop preload="auto"></audio>
+
+    <!-- Shared Hidden Input for Direct Mobile Camera Roll Photo Picking -->
+    <input type="file" id="mobileDirectImageInput" accept="image/*" class="hidden" onchange="handleMobileDirectPhotoPicked(event)">
+
+    <!-- Shared Hidden Input for Mobile MP3 Picking -->
+    <input type="file" id="localMp3Input" accept="audio/mp3,audio/*" class="hidden" onchange="handleLocalMp3File(event)">
+
+    <div class="fixed bottom-4 right-3 sm:right-6 z-40 flex items-center gap-2">
+        <!-- Nút Bật Chế Độ Chạm Đổi Ảnh Trực Tiếp Trên Điện Thoại -->
+        <button id="openEditorBtn" onclick="toggleMobileDirectEdit()" class="inline-flex items-center gap-1.5 bg-ivory/95 backdrop-blur-md text-espresso hover:text-terracotta border border-rosegold/70 shadow-lg px-3.5 py-2.5 rounded-full text-xs font-semibold tracking-wide transition">
+            <span id="mobileEditBtnIcon">✏️</span>
+            <span id="mobileEditBtnText">Đổi Ảnh / Nhạc</span>
+        </button>
+
+        <a href="#rsvp" class="bg-ivory/95 backdrop-blur-md text-terracotta border border-sand shadow-md hover:shadow-lg px-3.5 py-2.5 rounded-full text-[11px] font-medium tracking-wider uppercase transition">
+            Lời Chúc
+        </a>
+
+        <button id="musicToggleBtn" onclick="toggleBackgroundMusic()" aria-label="Bật hoặc tắt nhạc Lễ Đường" title="Bật/Tắt nhạc: Lễ Đường - Kai Đinh" class="w-11 h-11 rounded-full bg-espresso text-ivory shadow-lg hover:scale-105 transition flex items-center justify-center border border-rosegold/40">
+            <div id="musicVinylDisc" class="w-6 h-6 rounded-full border border-rosegold flex items-center justify-center text-[11px] text-rosegold">
+                ♪
+            </div>
+        </button>
+    </div>
+
+    <!-- Hidden YouTube Vocal Audio Stream ("Lễ Đường - Kai Đinh" Official Vocal) -->
+    <div id="ytAudioContainer" class="fixed -bottom-96 -left-96 w-1 h-1 opacity-0 pointer-events-none overflow-hidden" aria-hidden="true">
+        <div id="ytMusicPlayer"></div>
+    </div>
+
+    <!-- Subtle Custom Toast Notification -->
+    <div id="toastMessageBox" class="fixed top-14 left-1/2 -translate-x-1/2 z-50 pointer-events-none opacity-0 -translate-y-3 transition-all duration-300 bg-espresso text-ivory px-5 py-2.5 rounded-full shadow-xl text-xs font-medium tracking-wide border border-rosegold/30 text-center max-w-[90vw]">
+        <span id="toastText">Đã lưu thay đổi!</span>
+    </div>
+
+    <!-- =========================================================================
+         3. MAIN CENTERED CINELOVE EDITORIAL INVITATION FRAME (MAX-WIDTH: 500PX)
+    ========================================================================== -->
+    <main class="relative w-full max-w-[500px] mx-auto paper-texture shadow-[0_12px_60px_rgba(43,37,34,0.12)] border-x border-sand/80 min-h-screen overflow-x-hidden">
+
+        <!-- =====================================================================
+             SECTION A: EDITORIAL HERO COVER (TAP PHOTO TO CHANGE ON MOBILE)
+        ====================================================================== -->
+        <section class="relative px-6 pt-10 pb-14 text-center overflow-hidden">
+            <!-- Top Editorial Header -->
+            <div class="cine-reveal">
+                <p class="text-[10px] tracking-[0.35em] uppercase text-terracotta font-medium">The Wedding Celebration</p>
+                <div class="gold-divider w-24 mx-auto my-3"></div>
+                <p class="font-serif italic text-base text-taupe">
+                    Trân trọng kính mời <span id="heroGuestName" class="text-espresso font-semibold">Bạn và Gia đình</span>
+                </p>
+            </div>
+
+            <!-- Main Editorial Portrait Frame -->
+            <div class="cine-reveal delay-100 relative mt-6 mb-7">
+                <div class="relative aspect-[3/4] w-full rounded-2xl overflow-hidden shadow-[0_16px_40px_rgba(43,37,34,0.14)] border border-sand bg-champagne">
+                    <img id="heroMainPhoto" src="" alt="Sáng và Thu - Ảnh bìa thiệp cưới" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/800x1066/F2ECE4/9C6653?text=Sang+%26+Thu'">
+                    <!-- Delicate Soft Bottom Vignette -->
+                    <div class="absolute inset-0 bg-gradient-to-t from-espresso/65 via-transparent to-transparent pointer-events-none"></div>
+                    <!-- Inner Hairline Frame -->
+                    <div class="absolute inset-3 border border-white/35 rounded-xl pointer-events-none"></div>
+
+                    <!-- Overlay Calligraphy Names inside Portrait Bottom -->
+                    <div class="absolute bottom-6 inset-x-4 text-white pointer-events-none">
+                        <p class="text-[10px] tracking-[0.3em] uppercase text-white/85 mb-1">We Are Getting Married</p>
+                        <h2 class="font-script text-5xl sm:text-6xl text-white drop-shadow">
+                            Sáng <span class="text-rosegold text-4xl">&amp;</span> Thu
+                        </h2>
+                    </div>
+
+                    <!-- Mobile Direct Tap-to-Change Overlay -->
+                    <button type="button" onclick="triggerMobilePhotoPicker({ type: 'hero' })" class="mobile-edit-badge absolute inset-0 bg-espresso/50 backdrop-blur-[2px] flex-col items-center justify-center text-ivory p-4">
+                        <span class="text-3xl mb-2">📷</span>
+                        <span class="bg-terracotta text-ivory px-4 py-2 rounded-full text-xs font-semibold uppercase tracking-wider shadow-lg">
+                            Chạm Để Đổi Ảnh Chính Này
+                        </span>
+                        <span class="text-[11px] text-ivory/85 mt-1.5">Chọn trực tiếp từ Album điện thoại</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Wedding Date & Poetic Quote -->
+            <div class="cine-reveal delay-200">
+                <div class="inline-flex items-center gap-4 py-2 px-5 border-y border-rosegold/40 text-espresso font-serif text-lg tracking-[0.2em]">
+                    <span>CHỦ NHẬT</span>
+                    <span class="text-terracotta">•</span>
+                    <span class="font-semibold">20 . 12 . 2026</span>
+                </div>
+                <p class="font-serif italic text-lg text-taupe mt-5 leading-relaxed px-2">
+                    "Khoảnh khắc thấy em trên lễ đường, cùng ánh mắt bóng dáng thân thương...<br>
+                    Nhiều năm ấy chớp mắt trôi qua, để ta giờ đây về chung một nhà."
+                </p>
+                <p class="text-[10px] tracking-[0.22em] uppercase text-rosegold mt-1.5">— Lễ Đường (Kai Đinh) —</p>
+            </div>
+        </section>
+
+        <!-- =====================================================================
+             SECTION B: FAMILY INTRODUCTION & FORMAL INVITATION
+        ====================================================================== -->
+        <section class="px-6 py-12 bg-champagne/65 border-y border-sand/70 text-center">
+            <div class="cine-reveal">
+                <span class="text-[10px] tracking-[0.32em] uppercase text-terracotta font-medium">Gia Đình Hai Bên</span>
+                <h2 class="font-serif text-2xl sm:text-3xl font-semibold text-espresso mt-1 mb-6">Trân Trọng Báo Tin Lễ Thành Hôn</h2>
+
+                <!-- Two-Column Family Grid -->
+                <div class="grid grid-cols-2 gap-4 text-center py-5 px-3 bg-ivory/90 rounded-2xl border border-sand shadow-sm">
+                    <!-- Nhà Trai -->
+                    <div class="border-r border-sand/80 pr-2">
+                        <p class="text-[10px] tracking-[0.2em] uppercase text-terracotta font-semibold mb-1.5">Nhà Trai</p>
+                        <p class="font-serif text-sm sm:text-base font-semibold text-espresso">Ông Nguyễn Văn Minh</p>
+                        <p class="font-serif text-sm sm:text-base font-semibold text-espresso">Bà Trần Thị Lan</p>
+                        <p class="text-[11px] text-taupe mt-1.5 font-light">Đống Đa, Hà Nội</p>
+                    </div>
+
+                    <!-- Nhà Gái -->
+                    <div class="pl-2">
+                        <p class="text-[10px] tracking-[0.2em] uppercase text-terracotta font-semibold mb-1.5">Nhà Gái</p>
+                        <p class="font-serif text-sm sm:text-base font-semibold text-espresso">Ông Ngô Hoàng Nam</p>
+                        <p class="font-serif text-sm sm:text-base font-semibold text-espresso">Bà Phạm Thu Hương</p>
+                        <p class="text-[11px] text-taupe mt-1.5 font-light">Cầu Giấy, Hà Nội</p>
+                    </div>
+                </div>
+
+                <!-- Groom & Bride Names -->
+                <div class="mt-7">
+                    <p class="text-xs uppercase tracking-[0.25em] text-taupe mb-2">Trân trọng báo tin lễ thành hôn của con chúng tôi</p>
+                    <div class="flex flex-col items-center justify-center my-3">
+                        <span class="font-script text-4xl sm:text-5xl text-espresso">Nguyễn Văn Sáng</span>
+                        <span class="font-serif italic text-rosegold text-xl my-0.5">&amp;</span>
+                        <span class="font-script text-4xl sm:text-5xl text-espresso">Ngô Thị Thu</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- =====================================================================
+             SECTION C: SCROLL-DRIVEN LOVE STORY ("CHUYỆN TÌNH YÊU")
+             (Directional Slide-In + Tap Directly on Any Photo or Text to Edit on Phone)
+        ====================================================================== -->
+        <section id="love-story" class="px-6 py-16 overflow-x-hidden">
+            <div class="cine-reveal text-center mb-12">
+                <span class="text-[10px] tracking-[0.32em] uppercase text-terracotta font-medium">Our Love Story</span>
+                <h2 class="font-script text-5xl text-espresso mt-1 mb-2">Chuyện Tình Yêu</h2>
+                <div class="gold-divider w-20 mx-auto mb-3"></div>
+                <p class="font-serif italic text-base sm:text-lg text-taupe leading-relaxed">
+                    Vuốt nhẹ lên để theo dõi từng trang ký ức của Sáng và Thu trượt vào theo nhịp chuyện tình yêu.
+                </p>
+            </div>
+
+            <!-- Emotional Chapters Container -->
+            <div id="loveStoryChaptersContainer" class="space-y-16">
+                <!-- Rendered via WEDDING_CONFIG.storyChapters -->
+            </div>
+
+            <!-- Gentle Transition Bridge into the Wedding Ceremony -->
+            <div class="cine-reveal mt-16 pt-10 border-t border-sand text-center">
+                <p class="font-serif italic text-xl sm:text-2xl text-espresso leading-relaxed">
+                    "Từ những ngày tháng bình dị ấy, chúng tôi đã sẵn sàng viết tiếp chương hạnh phúc nhất mang tên <span class="text-terracotta font-semibold">Gia Đình</span>."
+                </p>
+                <div class="w-px h-10 bg-rosegold/60 mx-auto mt-5"></div>
+            </div>
+        </section>
+
+        <!-- =====================================================================
+             SECTION D: INTERACTIVE WEDDING PHOTO ALBUM (DIRECTIONAL SLIDE-IN + TAP TO CHANGE)
+        ====================================================================== -->
+        <section id="album" class="px-6 py-14 bg-champagne/75 border-y border-sand/80 overflow-x-hidden">
+            <div class="cine-reveal text-center mb-8">
+                <span class="text-[10px] tracking-[0.32em] uppercase text-terracotta font-medium">Pre-Wedding Gallery</span>
+                <h2 class="font-script text-5xl text-espresso mt-1 mb-2">Album Hình Cưới</h2>
+                <p class="text-xs text-taupe font-light">Chạm vào ảnh để xem toàn màn hình (hoặc bật nút ✏️ Đổi Ảnh để thay ảnh từ điện thoại)</p>
+            </div>
+
+            <!-- Editorial Multi-Row Photo Showcase -->
+            <div id="editorialAlbumGrid" class="space-y-3.5">
+                <!-- Populated dynamically from WEDDING_CONFIG.albumRows -->
+            </div>
+
+            <!-- Mobile Add Row Buttons (Only visible in Mobile Edit Mode) -->
+            <div class="mobile-edit-badge mt-5 pt-4 border-t border-sand flex items-center justify-center gap-2.5">
+                <button type="button" onclick="addAlbumRow('single')" class="flex-1 py-2.5 px-3 rounded-xl bg-terracotta text-ivory text-xs font-semibold shadow">
+                    + Thêm Hàng 1 Ảnh
+                </button>
+                <button type="button" onclick="addAlbumRow('pair')" class="flex-1 py-2.5 px-3 rounded-xl bg-espresso text-ivory text-xs font-semibold shadow">
+                    + Thêm Hàng 2 Ảnh
+                </button>
+            </div>
+        </section>
+
+        <!-- =====================================================================
+             SECTION E: WEDDING EVENTS & SCHEDULE ("THÔNG TIN HÔN LỄ")
+        ====================================================================== -->
+        <section id="events" class="px-6 py-16">
+            <div class="cine-reveal text-center mb-10">
+                <span class="text-[10px] tracking-[0.32em] uppercase text-terracotta font-medium">Wedding Schedule</span>
+                <h2 class="font-script text-5xl text-espresso mt-1 mb-2">Thông Tin Hôn Lễ</h2>
+                <p class="font-serif italic text-base text-taupe">Sự hiện diện của bạn là niềm vinh hạnh lớn của gia đình chúng tôi</p>
+            </div>
+
+            <div class="space-y-6">
+                <!-- Event 1: Lễ Thành Hôn -->
+                <div class="cine-reveal bg-white/95 rounded-2xl p-6 border border-sand shadow-sm text-center">
+                    <span class="inline-block text-[10px] tracking-[0.25em] uppercase text-terracotta bg-champagne px-3 py-1 rounded-full font-medium mb-3">
+                        Nghi Lễ Truyền Thống
+                    </span>
+                    <h3 class="font-serif text-2xl font-semibold text-espresso mb-2">Lễ Thành Hôn</h3>
+                    
+                    <div class="py-3 px-4 my-3 bg-ivory rounded-xl border border-sand/70">
+                        <p class="text-terracotta font-semibold text-base">10:30 • Chủ Nhật</p>
+                        <p class="text-espresso text-sm font-medium mt-0.5">Ngày 20 tháng 12 năm 2026</p>
+                        <p class="text-[11px] text-taupe mt-0.5">(Tức ngày 12 tháng 11 năm Bính Ngọ)</p>
+                    </div>
+
+                    <p class="text-xs font-medium text-espresso mb-1">Tư Gia Nhà Trai</p>
+                    <p class="text-xs text-taupe font-light mb-5">Số 123 Đường Láng, Quận Đống Đa, Hà Nội</p>
+
+                    <div class="flex items-center justify-center gap-2.5">
+                        <a href="https://maps.google.com/?q=123+Duong+Lang+Dong+Da+Ha+Noi" target="_blank" rel="noopener noreferrer" class="flex-1 bg-terracotta hover:bg-[#875544] text-ivory py-2.5 px-4 rounded-xl text-xs font-medium tracking-wide transition">
+                            Xem Bản Đồ
+                        </a>
+                        <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Le+Thanh+Hon+Sang+%26+Thu&dates=20261220T033000Z/20261220T060000Z&details=Chung+vui+cung+Sang+va+Thu&location=123+Duong+Lang,+Dong+Da,+Ha+Noi" target="_blank" rel="noopener noreferrer" class="border border-sand hover:border-terracotta text-espresso py-2.5 px-4 rounded-xl text-xs font-medium transition">
+                            Lưu Lịch
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Event 2: Tiệc Cưới Chung Vui -->
+                <div class="cine-reveal bg-white/95 rounded-2xl p-6 border border-sand shadow-sm text-center">
+                    <span class="inline-block text-[10px] tracking-[0.25em] uppercase text-terracotta bg-champagne px-3 py-1 rounded-full font-medium mb-3">
+                        Tiệc Mừng Thân Mật
+                    </span>
+                    <h3 class="font-serif text-2xl font-semibold text-espresso mb-2">Tiệc Cưới Chung Vui</h3>
+                    
+                    <div class="py-3 px-4 my-3 bg-ivory rounded-xl border border-sand/70">
+                        <p class="text-terracotta font-semibold text-base">18:00 • Chủ Nhật</p>
+                        <p class="text-espresso text-sm font-medium mt-0.5">Ngày 20 tháng 12 năm 2026</p>
+                        <p class="text-[11px] text-taupe mt-0.5">(Đón khách: 17:30 • Khai tiệc: 18:15)</p>
+                    </div>
+
+                    <p class="text-xs font-medium text-espresso mb-1">Trung Tâm Hội Nghị Long Biên Palace</p>
+                    <p class="text-xs text-taupe font-light mb-5">Sảnh Hoa Hồng, Khu Trung Đoàn 918, Phúc Đồng, Long Biên, Hà Nội</p>
+
+                    <div class="flex items-center justify-center gap-2.5">
+                        <a href="https://maps.google.com/?q=Long+Bien+Palace+Ha+Noi" target="_blank" rel="noopener noreferrer" class="flex-1 bg-terracotta hover:bg-[#875544] text-ivory py-2.5 px-4 rounded-xl text-xs font-medium tracking-wide transition">
+                            Xem Bản Đồ
+                        </a>
+                        <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Tiec+Cuoi+Sang+%26+Thu&dates=20261220T110000Z/20261220T140000Z&details=Tiec+cuoi+Sang+va+Thu&location=Long+Bien+Palace,+Ha+Noi" target="_blank" rel="noopener noreferrer" class="border border-sand hover:border-terracotta text-espresso py-2.5 px-4 rounded-xl text-xs font-medium transition">
+                            Lưu Lịch
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dress Code Palette Card -->
+            <div class="cine-reveal mt-6 bg-champagne/70 rounded-2xl p-5 border border-sand text-center">
+                <p class="text-[10px] tracking-[0.25em] uppercase text-terracotta font-semibold mb-1.5">Dress Code Gợi Ý</p>
+                <p class="text-xs text-taupe mb-3">Trang phục tông màu nhẹ nhàng để cùng lưu giữ những khung hình thật hài hòa</p>
+                <div class="flex items-center justify-center gap-4">
+                    <div class="flex flex-col items-center">
+                        <span class="w-7 h-7 rounded-full bg-[#FAF7F2] border border-sand shadow-sm"></span>
+                        <span class="text-[10px] text-taupe mt-1">Trắng Kem</span>
+                    </div>
+                    <div class="flex flex-col items-center">
+                        <span class="w-7 h-7 rounded-full bg-[#E5D5C5] border border-sand shadow-sm"></span>
+                        <span class="text-[10px] text-taupe mt-1">Be Sữa</span>
+                    </div>
+                    <div class="flex flex-col items-center">
+                        <span class="w-7 h-7 rounded-full bg-[#C59B76] border border-sand shadow-sm"></span>
+                        <span class="text-[10px] text-taupe mt-1">Vàng Đồng</span>
+                    </div>
+                    <div class="flex flex-col items-center">
+                        <span class="w-7 h-7 rounded-full bg-[#2B2522] border border-sand shadow-sm"></span>
+                        <span class="text-[10px] text-taupe mt-1">Đen</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- =====================================================================
+             SECTION F: CALENDAR & LIVE COUNTDOWN TIMER ("THÁNG 12.2026 & ĐẾM NGƯỢC")
+        ====================================================================== -->
+        <section class="px-6 py-14 bg-espresso text-ivory text-center">
+            <div class="cine-reveal">
+                <p class="text-[10px] tracking-[0.3em] uppercase text-rosegold mb-1">Save The Date</p>
+                <h2 class="font-script text-4xl sm:text-5xl text-ivory mb-6">Tháng 12 . 2026</h2>
+
+                <!-- CineLove Mini Calendar Card for December 2026 -->
+                <div class="max-w-xs mx-auto bg-white/5 border border-rosegold/30 rounded-2xl p-4 mb-8">
+                    <div class="grid grid-cols-7 gap-1 text-[10px] uppercase tracking-wider text-rosegold font-semibold pb-2 mb-2 border-b border-white/10">
+                        <span>T2</span><span>T3</span><span>T4</span><span>T5</span><span>T6</span><span>T7</span><span>CN</span>
+                    </div>
+                    <div class="grid grid-cols-7 gap-y-2 text-xs text-ivory/80 font-light items-center">
+                        <span></span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span>
+                        <span>7</span><span>8</span><span>9</span><span>10</span><span>11</span><span>12</span><span>13</span>
+                        <span>14</span><span>15</span><span>16</span><span>17</span><span>18</span><span>19</span>
+                        <span class="relative mx-auto w-7 h-7 rounded-full bg-terracotta text-ivory font-semibold flex items-center justify-center shadow-md ring-2 ring-rosegold">
+                            20
+                        </span>
+                        <span>21</span><span>22</span><span>23</span><span>24</span><span>25</span><span>26</span><span>27</span>
+                        <span>28</span><span>29</span><span>30</span><span>31</span><span></span><span></span><span></span>
+                    </div>
+                </div>
+
+                <p class="text-[10px] tracking-[0.28em] uppercase text-rosegold/90 mb-3">Đếm Ngược Tới Ngày Chung Đôi</p>
+                <div class="grid grid-cols-4 gap-2.5 max-w-sm mx-auto">
+                    <div class="bg-white/5 border border-rosegold/30 rounded-xl py-3.5 px-2">
+                        <span id="cdDays" class="block font-serif text-2xl sm:text-3xl font-semibold text-rosegold">00</span>
+                        <span class="text-[10px] uppercase tracking-widest text-ivory/70">Ngày</span>
+                    </div>
+                    <div class="bg-white/5 border border-rosegold/30 rounded-xl py-3.5 px-2">
+                        <span id="cdHours" class="block font-serif text-2xl sm:text-3xl font-semibold text-rosegold">00</span>
+                        <span class="text-[10px] uppercase tracking-widest text-ivory/70">Giờ</span>
+                    </div>
+                    <div class="bg-white/5 border border-rosegold/30 rounded-xl py-3.5 px-2">
+                        <span id="cdMinutes" class="block font-serif text-2xl sm:text-3xl font-semibold text-rosegold">00</span>
+                        <span class="text-[10px] uppercase tracking-widest text-ivory/70">Phút</span>
+                    </div>
+                    <div class="bg-white/5 border border-rosegold/30 rounded-xl py-3.5 px-2">
+                        <span id="cdSeconds" class="block font-serif text-2xl sm:text-3xl font-semibold text-rosegold">00</span>
+                        <span class="text-[10px] uppercase tracking-widest text-ivory/70">Giây</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- =====================================================================
+             SECTION G: RSVP FORM & LIVE GUESTBOOK ("XÁC NHẬN & SỔ LƯU BÚT")
+        ====================================================================== -->
+        <section id="rsvp" class="px-6 py-16">
+            <div class="cine-reveal text-center mb-8">
+                <span class="text-[10px] tracking-[0.32em] uppercase text-terracotta font-medium">R.S.V.P &amp; Wishes</span>
+                <h2 class="font-script text-5xl text-espresso mt-1 mb-2">Xác Nhận Tham Dự</h2>
+                <p class="text-xs text-taupe leading-relaxed">
+                    Vui lòng phản hồi trước ngày <strong>15/12/2026</strong> để gia đình đón tiếp bạn chu đáo nhất
+                </p>
+            </div>
+
+            <!-- RSVP Submission Card -->
+            <form id="rsvpForm" class="cine-reveal bg-white/95 p-6 rounded-2xl border border-sand shadow-sm space-y-4">
+                <div>
+                    <label class="block text-xs font-medium text-espresso mb-1">Tên của bạn *</label>
+                    <input type="text" id="rsvpName" required placeholder="Ví dụ: Anh Minh, Bạn Lan..." class="w-full px-3.5 py-2.5 bg-ivory border border-sand rounded-xl text-sm focus:outline-none focus:border-terracotta">
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs font-medium text-espresso mb-1">Tham dự tiệc</label>
+                        <select id="rsvpAttendance" class="w-full px-3 py-2.5 bg-ivory border border-sand rounded-xl text-xs sm:text-sm focus:outline-none focus:border-terracotta">
+                            <option value="Sẽ tham dự">Sẽ tham dự</option>
+                            <option value="Không thể tham dự">Bận mất rồi</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-espresso mb-1">Số người đi cùng</label>
+                        <select id="rsvpCount" class="w-full px-3 py-2.5 bg-ivory border border-sand rounded-xl text-xs sm:text-sm focus:outline-none focus:border-terracotta">
+                            <option value="1 người">1 người</option>
+                            <option value="2 người">2 người</option>
+                            <option value="3 người">3 người</option>
+                            <option value="4 người">Gia đình (4+)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-medium text-espresso mb-1">Lời chúc gửi tới Sáng &amp; Thu *</label>
+                    <textarea id="rsvpWish" rows="3" required placeholder="Gửi lời chúc phúc tới đôi uyên ương..." class="w-full px-3.5 py-2.5 bg-ivory border border-sand rounded-xl text-sm focus:outline-none focus:border-terracotta"></textarea>
+                </div>
+
+                <button type="submit" class="w-full bg-terracotta hover:bg-[#875544] text-ivory font-medium py-3 rounded-xl text-xs uppercase tracking-[0.18em] transition shadow">
+                    Gửi Xác Nhận &amp; Lời Chúc
+                </button>
+            </form>
+
+            <!-- Live Guestbook List ("Sổ Lưu Bút") -->
+            <div class="cine-reveal mt-10">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="font-serif text-xl font-semibold text-espresso">Sổ Lưu Bút Yêu Thương</h3>
+                    <span id="wishesCounter" class="text-[11px] text-terracotta bg-champagne px-3 py-1 rounded-full font-medium">
+                        4 lời chúc
+                    </span>
+                </div>
+
+                <div id="wishesListContainer" class="space-y-3 max-h-[380px] overflow-y-auto pr-1">
+                    <!-- Rendered dynamically -->
+                </div>
+            </div>
+        </section>
+
+        <!-- =====================================================================
+             SECTION H: DIGITAL WEDDING GIFT BOX ("HỘP MỪNG CƯỚI")
+        ====================================================================== -->
+        <section class="px-6 py-14 bg-champagne/80 border-t border-sand text-center">
+            <div class="cine-reveal">
+                <span class="text-[10px] tracking-[0.32em] uppercase text-terracotta font-medium">Wedding Gift</span>
+                <h2 class="font-script text-5xl text-espresso mt-1 mb-2">Hộp Mừng Cưới</h2>
+                <p class="text-xs text-taupe leading-relaxed mb-6">
+                    Nếu bạn ở xa chưa thể sắp xếp về chung vui trực tiếp, bạn có thể gửi quà mừng hạnh phúc tới Sáng &amp; Thu tại đây.
+                </p>
+
+                <!-- Toggle Button to Reveal/Collapse QR Box -->
+                <button id="toggleGiftBtn" onclick="toggleGiftBox()" class="inline-flex items-center gap-2 bg-ivory hover:bg-white text-terracotta border border-rosegold/60 px-6 py-3 rounded-full text-xs font-medium tracking-wider uppercase shadow-sm transition">
+                    <span>🎁 Mở Hộp Mừng Cưới (QR)</span>
+                </button>
+
+                <!-- Expandable QR Cards -->
+                <div id="giftQrPanel" class="hidden mt-6 grid grid-cols-1 sm:grid-cols-2 gap-4 text-center">
+                    <!-- Groom QR -->
+                    <div class="bg-ivory p-4 rounded-2xl border border-sand shadow-sm">
+                        <p class="text-[10px] uppercase tracking-widest text-terracotta font-semibold mb-2">Mừng Cưới Chú Rể</p>
+                        <img id="groomQrImg" src="" alt="QR Chú Rể" class="w-36 h-36 mx-auto rounded-xl border border-sand p-1 bg-white mb-2.5" onerror="this.src='https://placehold.co/300x300/FAF7F2/9C6653?text=QR+Chu+Re'">
+                        <p id="groomBankName" class="text-xs font-semibold text-espresso">Techcombank</p>
+                        <p id="groomAccHolder" class="text-[11px] text-taupe">NGUYEN VAN SANG</p>
+                        <button onclick="copyBankAccount('groom')" class="mt-2.5 w-full py-1.5 px-3 rounded-lg bg-champagne hover:bg-sand/70 text-espresso text-[11px] font-medium transition">
+                            Sao chép STK
+                        </button>
+                    </div>
+
+                    <!-- Bride QR -->
+                    <div class="bg-ivory p-4 rounded-2xl border border-sand shadow-sm">
+                        <p class="text-[10px] uppercase tracking-widest text-terracotta font-semibold mb-2">Mừng Cưới Cô Dâu</p>
+                        <img id="brideQrImg" src="" alt="QR Cô Dâu Ngô Thị Thu" class="w-36 h-36 mx-auto rounded-xl border border-sand p-1 bg-white mb-2.5" onerror="this.src='https://placehold.co/300x300/FAF7F2/9C6653?text=QR+Co+Dau'">
+                        <p id="brideBankName" class="text-xs font-semibold text-espresso">Vietcombank</p>
+                        <p id="brideAccHolder" class="text-[11px] text-taupe">NGO THI THU</p>
+                        <button onclick="copyBankAccount('bride')" class="mt-2.5 w-full py-1.5 px-3 rounded-lg bg-champagne hover:bg-sand/70 text-espresso text-[11px] font-medium transition">
+                            Sao chép STK
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- =====================================================================
+             SECTION I: EDITORIAL FOOTER
+        ====================================================================== -->
+        <footer class="px-6 py-12 bg-espresso text-ivory/80 text-center">
+            <h3 class="font-script text-4xl text-rosegold mb-1">Sáng &amp; Thu</h3>
+            <p class="text-[11px] tracking-[0.25em] uppercase text-ivory/60 mb-4">Thank You For Being Part Of Our Story</p>
+            <div class="gold-divider w-16 mx-auto mb-4"></div>
+            <p class="text-[11px] text-ivory/50 font-light">
+                Mẹo gửi thiệp riêng: Thêm <code class="text-rosegold">?to=TênKhách</code> vào cuối đường dẫn
+            </p>
+        </footer>
+    </main>
+
+    <!-- =========================================================================
+         4. FULLSCREEN MANUAL PHOTO LIGHTBOX MODAL
+    ========================================================================== -->
+    <div id="lightboxModal" class="fixed inset-0 z-50 bg-espresso/95 backdrop-blur-md hidden flex-col items-center justify-between p-4 select-none">
+        <div class="w-full max-w-lg flex items-center justify-between text-ivory pt-1">
+            <span id="lightboxCounter" class="text-xs tracking-[0.2em] uppercase text-rosegold font-medium">1 / 10</span>
+            <button onclick="closeLightbox()" aria-label="Đóng ảnh" class="w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 text-ivory flex items-center justify-center text-sm transition">
+                ✕
+            </button>
+        </div>
+
+        <div id="lightboxTouchArea" class="relative w-full max-w-lg my-auto flex items-center justify-center">
+            <img id="lightboxImage" src="" alt="Ảnh cưới Sáng & Thu" class="max-h-[72vh] max-w-full object-contain rounded-xl shadow-2xl">
+        </div>
+
+        <div class="w-full max-w-lg flex flex-col items-center pb-2">
+            <p id="lightboxCaption" class="font-serif italic text-base sm:text-lg text-ivory/95 text-center mb-4 px-2"></p>
+            <div class="flex items-center gap-6">
+                <button onclick="stepLightbox(-1)" class="px-5 py-2 rounded-full bg-white/10 hover:bg-white/20 text-ivory text-xs tracking-wider uppercase transition">
+                    &larr; Ảnh Trước
+                </button>
+                <button onclick="stepLightbox(1)" class="px-5 py-2 rounded-full bg-terracotta hover:bg-[#875544] text-ivory text-xs tracking-wider uppercase transition">
+                    Ảnh Sau &rarr;
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- =========================================================================
+         4B. BẢNG LƯU & ĐỔI NHẠC SIÊU GỌN CHO ĐIỆN THOẠI (BOTTOM SHEET)
+         (Không cần tạo thư mục assets/ hay tải JSON phức tạp)
+    ========================================================================== -->
+    <div id="mobilePublishModal" class="fixed inset-0 z-50 hidden bg-espresso/65 backdrop-blur-sm items-end sm:items-center justify-center p-0 sm:p-4">
+        <div class="w-full max-w-[500px] bg-ivory text-espresso rounded-t-3xl sm:rounded-3xl border border-sand shadow-2xl overflow-hidden max-h-[88vh] flex flex-col">
+            <!-- Header -->
+            <div class="px-5 py-4 bg-champagne border-b border-sand flex items-center justify-between">
+                <div>
+                    <p class="text-[10px] tracking-[0.25em] uppercase text-terracotta font-semibold">Mobile Quick Studio</p>
+                    <h3 class="font-serif text-xl font-semibold text-espresso">Đổi Nhạc &amp; Xuất Thiệp Trên ĐT</h3>
+                </div>
+                <button type="button" onclick="closeMobilePublishSheet()" class="w-8 h-8 rounded-full bg-ivory border border-sand flex items-center justify-center text-sm">
+                    ✕
+                </button>
+            </div>
+
+            <!-- Body -->
+            <div class="p-5 overflow-y-auto space-y-4 text-xs">
+                <!-- Bước 1: Đổi ảnh siêu dễ -->
+                <div class="bg-white p-4 rounded-2xl border border-sand">
+                    <p class="font-semibold text-terracotta uppercase tracking-wider text-[10px] mb-1">1. Cách Đổi Ảnh Nhanh Nhất Trên Điện Thoại</p>
+                    <p class="text-taupe leading-relaxed">
+                        Chỉ cần đóng bảng này lại và <strong>chạm ngón tay trực tiếp vào bất kỳ bức ảnh nào trên thiệp</strong> (có nhãn <span class="text-terracotta font-medium">📷 Chạm để đổi ảnh</span>). Điện thoại sẽ mở ngay Thư viện Ảnh của bạn, tự động nén nhẹ và lưu ngay trên máy!
+                    </p>
+                </div>
+
+                <!-- Bước 2: Đổi nhạc MP3 -->
+                <div class="bg-white p-4 rounded-2xl border border-sand space-y-2.5">
+                    <p class="font-semibold text-terracotta uppercase tracking-wider text-[10px]">2. Nhạc Nền Bài Hát "Lễ Đường - Kai Đinh"</p>
+                    <p class="text-taupe leading-relaxed">
+                        Mặc định thiệp đã phát sẵn bản hát có lời <strong>Lễ Đường - Kai Đinh</strong>. Nếu muốn dùng file <code>.mp3</code> riêng trong điện thoại:
+                    </p>
+                    <div class="flex gap-2">
+                        <button type="button" onclick="document.getElementById('localMp3Input').click()" class="flex-1 py-2.5 px-3 rounded-xl bg-champagne hover:bg-sand/70 text-espresso font-semibold transition">
+                            📂 Chọn File MP3 Từ Điện Thoại
+                        </button>
+                        <button type="button" onclick="toggleBackgroundMusic()" class="py-2.5 px-3.5 rounded-xl bg-espresso text-ivory font-medium">
+                            ▶ / ❚❚
+                        </button>
+                    </div>
+                    <input type="text" id="mobileMp3UrlInput" placeholder="Hoặc dán link MP3 online (nếu có)..." oninput="updateGeneralField('mp3Url', this.value)" class="w-full px-3 py-2 bg-ivory border border-sand rounded-xl text-xs focus:outline-none focus:border-terracotta">
+                </div>
+
+                <!-- Bước 3: Xuất 1 file HTML duy nhất (Không cần tạo folder assets) -->
+                <div class="bg-white p-4 rounded-2xl border border-rosegold/60 space-y-3 shadow-sm">
+                    <p class="font-semibold text-terracotta uppercase tracking-wider text-[10px]">3. Lấy Thiệp Đi Gửi Khách (Không Cần Tạo Folder)</p>
+                    <p class="text-taupe leading-relaxed">
+                        Mọi bức ảnh bạn vừa chọn từ điện thoại đã được <strong>gắn thẳng vào bên trong 1 file <code>index.html</code> duy nhất</strong>. Bạn không cần tạo thư mục <code>assets/</code> hay sửa code gì cả!
+                    </p>
+                    <button type="button" onclick="exportSingleSelfContainedHtml()" class="w-full py-3 px-4 rounded-xl bg-terracotta hover:bg-[#875544] text-ivory font-semibold text-xs uppercase tracking-wider shadow-md transition">
+                        📦 Tải 1 File Thiệp Hoàn Chỉnh (index.html)
+                    </button>
+                    <p class="text-[11px] text-taupe/85 leading-relaxed">
+                        💡 <strong>Mẹo đưa lên mạng bằng điện thoại trong 30 giây:</strong> Sau khi tải file <code>index.html</code> này về điện thoại, bạn mở trang <strong>tiiny.host</strong> hoặc <strong>app.netlify.com/drop</strong> trên điện thoại, tải đúng 1 file này lên là có ngay đường link web gửi qua Zalo!
+                    </p>
+                </div>
+
+                <!-- Khôi phục mặc định nếu muốn làm lại -->
+                <div class="flex items-center justify-between pt-1 px-1">
+                    <span class="text-[11px] text-taupe">Đã tự động lưu tạm trên trình duyệt điện thoại này</span>
+                    <button type="button" onclick="resetMobileSavedDraft()" class="text-[11px] text-rose-700 underline">
+                        Khôi phục ảnh gốc
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- =========================================================================
+         4C. MODAL SỬA CHỮ NHANH TRÊN ĐIỆN THOẠI (CHẠM VÀO ĐOẠN CHỮ ĐỂ SỬA)
+    ========================================================================== -->
+    <div id="mobileTextEditModal" class="fixed inset-0 z-50 hidden bg-espresso/65 backdrop-blur-sm items-center justify-center p-4">
+        <div class="w-full max-w-sm bg-ivory rounded-3xl border border-sand shadow-2xl p-5 space-y-3">
+            <div class="flex items-center justify-between">
+                <h4 class="font-serif text-lg font-semibold text-espresso">Sửa Nội Dung Chương</h4>
+                <button type="button" onclick="closeMobileTextModal()" class="w-7 h-7 rounded-full bg-champagne text-xs">✕</button>
+            </div>
+            <div>
+                <label class="block text-[11px] text-taupe mb-1">Mốc thời gian</label>
+                <input type="text" id="mEditDate" class="w-full px-3 py-2 bg-white border border-sand rounded-xl text-xs">
+            </div>
+            <div>
+                <label class="block text-[11px] text-taupe mb-1">Tiêu đề chương</label>
+                <input type="text" id="mEditTitle" class="w-full px-3 py-2 bg-white border border-sand rounded-xl text-xs font-semibold">
+            </div>
+            <div>
+                <label class="block text-[11px] text-taupe mb-1">Lời dẫn chuyện tình yêu</label>
+                <textarea id="mEditNarrative" rows="3" class="w-full px-3 py-2 bg-white border border-sand rounded-xl text-xs"></textarea>
+            </div>
+            <div>
+                <label class="block text-[11px] text-taupe mb-1">Câu trích dẫn</label>
+                <input type="text" id="mEditQuote" class="w-full px-3 py-2 bg-white border border-sand rounded-xl text-xs italic">
+            </div>
+            <button type="button" onclick="saveMobileTextModal()" class="w-full py-2.5 rounded-xl bg-terracotta text-ivory text-xs font-semibold uppercase tracking-wider">
+                Lưu Nội Dung
+            </button>
+        </div>
+    </div>
+
+    <!-- =========================================================================
+         5. JAVASCRIPT CONFIGURATION & MOBILE-FIRST TAP-TO-EDIT ENGINE
+    ========================================================================== -->
+    <script>
+        /**
+         * =========================================================================
+         * CẤU HÌNH THIỆP CƯỚI SÁNG & NGÔ THỊ THU
+         * =========================================================================
+         */
+        /*__WEDDING_CONFIG_START__*/
+        const WEDDING_CONFIG = {
+            showEditorButton: true,
+            weddingDateISO: "2026-12-20T10:30:00+07:00",
+            rsvpWebhookUrl: "",
+            songTitle: "Lễ Đường - Kai Đinh",
+            mp3Url: "./assets/le-duong.mp3",
+            youtubeVideoId: "XqgyD0yadH0",
+
+            envelopePhoto: "https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=900&q=80",
+            heroMainPhoto: "https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1000&q=80",
+
+            storyChapters: [
+                {
+                    layout: "single",
+                    chapterNumber: "Chương 01",
+                    dateLabel: "Mùa Thu Hà Nội • 2022",
+                    title: "Ánh Mắt Chạm Nhau Giữa Phố Nhỏ",
+                    narrative: "Giữa một chiều thu Hà Nội dịu nắng, cuộc gặp gỡ tưởng chừng tình cờ của Sáng và Thu lại khởi đầu cho những cuộc trò chuyện kéo dài bất tận.",
+                    quote: "“Có những người chỉ cần gặp một lần, trái tim đã biết là cả cuộc đời.”",
+                    photo: "https://images.unsplash.com/photo-1522673607200-164d1b6ce486?auto=format&fit=crop&w=900&q=80",
+                    frameStyle: "arch"
+                },
+                {
+                    layout: "single",
+                    chapterNumber: "Chương 02",
+                    dateLabel: "Những Ngày Hẹn Hò • 2023",
+                    title: "Góp Nhặt Từng Bình Yên Nhỏ Bé",
+                    narrative: "Không cần những điều quá đỗi xa hoa, hạnh phúc của hai đứa là những vòng xe dạo quanh Hồ Tây lộng gió và cái nắm tay thật chặt sau ngày dài.",
+                    quote: "“Bình yên nhất là khi có một người luôn mỉm cười đợi mình ở cuối ngày.”",
+                    photo: "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=900&q=80",
+                    frameStyle: "polaroid"
+                },
+                {
+                    layout: "pair",
+                    chapterNumber: "Chương 03",
+                    dateLabel: "Hành Trình Thanh Xuân • 2024",
+                    title: "Đi Cùng Nhau Qua Bao Miền Nhớ",
+                    narrative: "Từ biển xanh nắng vàng đến những con dốc mờ sương Đà Lạt, mỗi chuyến đi lại giúp Sáng và Thu thêm thấu hiểu, sẻ chia và thương nhau nhiều hơn.",
+                    quote: "“Hạnh phúc không phải là đích đến, mà là người nắm tay ta trên suốt chặng đường.”",
+                    photoLeft: "https://images.unsplash.com/photo-1529634806980-85c3dd6d34ac?auto=format&fit=crop&w=700&q=80",
+                    photoRight: "https://images.unsplash.com/photo-1532712938310-34cb3982ef74?auto=format&fit=crop&w=700&q=80"
+                },
+                {
+                    layout: "single",
+                    chapterNumber: "Chương 04",
+                    dateLabel: "Khoảnh Khắc Ngỏ Lời • 2025",
+                    title: "Lời Cầu Hôn Dưới Ánh Hoàng Hôn",
+                    narrative: "Khi chiếc nhẫn nhỏ được trao đi cùng ánh mắt chân thành, cái gật đầu xúc động của Thu đã biến ước mơ về một mái ấm nhỏ trở thành hiện thực.",
+                    quote: "“Từ hôm nay, mọi mùa thu sau này của anh đều có tên em.”",
+                    photo: "https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?auto=format&fit=crop&w=900&q=80",
+                    frameStyle: "arch"
+                },
+                {
+                    layout: "single",
+                    chapterNumber: "Chương 05",
+                    dateLabel: "Ngày Chụp Hình Cưới • 2026",
+                    title: "Khoảnh Khắc Khoác Lên Mình Váy Cưới",
+                    narrative: "Giây phút nhìn thấy Ngô Thị Thu rạng rỡ trong tà váy cưới trắng tinh khôi, Sáng biết rằng hành trình thanh xuân đẹp nhất đã tìm thấy bến đỗ.",
+                    quote: "“Khoảnh khắc thấy em trên lễ đường, cùng ánh mắt bóng dáng thân thương...”",
+                    photo: "https://images.unsplash.com/photo-1606800052052-a08af7148866?auto=format&fit=crop&w=900&q=80",
+                    frameStyle: "polaroid"
+                },
+                {
+                    layout: "pair",
+                    chapterNumber: "Chương 06",
+                    dateLabel: "20 . 12 . 2026",
+                    title: "Về Chung Một Nhà",
+                    narrative: "Và giờ đây, trong tiếng nhạc Lễ Đường dịu êm, chúng tôi mong chờ được đón bạn tới chứng kiến khoảnh khắc thiêng liêng nhất của cuộc đời mình.",
+                    quote: "“Nhiều năm ấy chớp mắt trôi qua, để ta giờ đây về chung một nhà.”",
+                    photoLeft: "https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=700&q=80",
+                    photoRight: "https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=700&q=80"
+                }
+            ],
+
+            albumRows: [
+                {
+                    type: "single",
+                    photo: {
+                        url: "https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1000&q=80",
+                        caption: "Sáng & Ngô Thị Thu — Khung hình mở đầu ngày chung đôi"
+                    }
+                },
+                {
+                    type: "pair",
+                    left: {
+                        url: "https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=800&q=80",
+                        caption: "Nụ cười rạng rỡ của cô dâu Ngô Thị Thu"
+                    },
+                    right: {
+                        url: "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=800&q=80",
+                        caption: "Cái nắm tay dịu dàng giữa nắng chiều"
+                    }
+                },
+                {
+                    type: "single",
+                    photo: {
+                        url: "https://images.unsplash.com/photo-1532712938310-34cb3982ef74?auto=format&fit=crop&w=1000&q=80",
+                        caption: "Bình yên bên nhau trên từng chặng đường"
+                    }
+                },
+                {
+                    type: "pair",
+                    left: {
+                        url: "https://images.unsplash.com/photo-1522673607200-164d1b6ce486?auto=format&fit=crop&w=800&q=80",
+                        caption: "Khoảnh khắc lãng mạn như thước phim điện ảnh"
+                    },
+                    right: {
+                        url: "https://images.unsplash.com/photo-1529634806980-85c3dd6d34ac?auto=format&fit=crop&w=800&q=80",
+                        caption: "Hạnh phúc đong đầy trong ánh mắt"
+                    }
+                },
+                {
+                    type: "single",
+                    photo: {
+                        url: "https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?auto=format&fit=crop&w=1000&q=80",
+                        caption: "Lời hẹn ước trăm năm dưới ánh hoàng hôn"
+                    }
+                },
+                {
+                    type: "pair",
+                    left: {
+                        url: "https://images.unsplash.com/photo-1606800052052-a08af7148866?auto=format&fit=crop&w=800&q=80",
+                        caption: "Dịu dàng trong tà váy cưới tinh khôi"
+                    },
+                    right: {
+                        url: "https://images.unsplash.com/photo-1520854221256-17451cc331bf?auto=format&fit=crop&w=800&q=80",
+                        caption: "Sẵn sàng cho ngày bước lên lễ đường 20.12.2026"
+                    }
+                }
+            ],
+
+            bankInfo: {
+                groom: {
+                    bankName: "Techcombank",
+                    accountNumber: "19034567890123",
+                    accountHolder: "NGUYEN VAN SANG",
+                    qrUrl: "https://api.vietqr.io/image/970407-19034567890123-compact.jpg?amount=0&addInfo=Mung%20cuoi%20Sang%20Thu"
+                },
+                bride: {
+                    bankName: "Vietcombank",
+                    accountNumber: "0123456789",
+                    accountHolder: "NGO THI THU",
+                    qrUrl: "https://api.vietqr.io/image/970436-0123456789-compact.jpg?amount=0&addInfo=Mung%20cuoi%20Sang%20Thu"
+                }
+            },
+
+            initialWishes: [
+                {
+                    name: "Anh Hoàng & Chị Mai",
+                    attendance: "Sẽ tham dự",
+                    time: "Vừa xong",
+                    wish: "Chúc mừng Sáng và Thu! Chúc hai em trăm năm tình viên mãn, bạc đầu nghĩa phu thê nhé!"
+                },
+                {
+                    name: "Hội Bạn Đại Học Bách Khoa",
+                    attendance: "Sẽ tham dự",
+                    time: "1 giờ trước",
+                    wish: "Cuối cùng ông bạn dev cũng rước được nàng Thu về dinh! Hôm đấy anh em nhất định có mặt đông đủ."
+                },
+                {
+                    name: "Bạn Ngọc Lan",
+                    attendance: "Sẽ tham dự",
+                    time: "3 giờ trước",
+                    wish: "Cô dâu Ngô Thị Thu xinh quá! Chúc hai vợ chồng luôn ngập tràn tiếng cười và sớm có thiên thần nhỏ nha."
+                },
+                {
+                    name: "Minh Tuấn (TP.HCM)",
+                    attendance: "Không thể tham dự",
+                    time: "Hôm qua",
+                    wish: "Tiếc quá mình công tác trong Sài Gòn không ra kịp, gửi lời chúc phúc tốt đẹp nhất tới Sáng và Thu!"
+                }
+            ]
+        };
+        /*__WEDDING_CONFIG_END__*/
+
+        const DRAFT_STORAGE_KEY = "sang_thu_wedding_mobile_draft_v1";
+        let isMobileEditMode = false;
+        let pendingPhotoTarget = null;
+        let activeTextEditIndex = null;
+
+        // =========================================================================
+        // 1. TIỆN ÍCH NÉN ẢNH TRÊN ĐIỆN THOẠI & LƯU TỰ ĐỘNG (LOCALSTORAGE)
+        // =========================================================================
+        function showToast(message) {
+            const box = document.getElementById('toastMessageBox');
+            const text = document.getElementById('toastText');
+            if (!box || !text) return;
+            text.textContent = message;
+            box.classList.remove('opacity-0', '-translate-y-3');
+            box.classList.add('opacity-100', 'translate-y-0');
+            clearTimeout(window._toastTimer);
+            window._toastTimer = setTimeout(() => {
+                box.classList.remove('opacity-100', 'translate-y-0');
+                box.classList.add('opacity-0', '-translate-y-3');
+            }, 3000);
+        }
+
+        function saveMobileDraftToStorage() {
+            try {
+                localStorage.setItem(DRAFT_STORAGE_KEY, JSON.stringify({
+                    envelopePhoto: WEDDING_CONFIG.envelopePhoto,
+                    heroMainPhoto: WEDDING_CONFIG.heroMainPhoto,
+                    storyChapters: WEDDING_CONFIG.storyChapters,
+                    albumRows: WEDDING_CONFIG.albumRows,
+                    mp3Url: WEDDING_CONFIG.mp3Url
+                }));
+            } catch (e) {
+                console.warn('Storage quota warning:', e);
+            }
+        }
+
+        function loadMobileDraftFromStorage() {
+            try {
+                const raw = localStorage.getItem(DRAFT_STORAGE_KEY);
+                if (!raw) return;
+                const saved = JSON.parse(raw);
+                if (saved && typeof saved === 'object') {
+                    if (saved.envelopePhoto) WEDDING_CONFIG.envelopePhoto = saved.envelopePhoto;
+                    if (saved.heroMainPhoto) WEDDING_CONFIG.heroMainPhoto = saved.heroMainPhoto;
+                    if (Array.isArray(saved.storyChapters)) WEDDING_CONFIG.storyChapters = saved.storyChapters;
+                    if (Array.isArray(saved.albumRows)) WEDDING_CONFIG.albumRows = saved.albumRows;
+                    if (saved.mp3Url) WEDDING_CONFIG.mp3Url = saved.mp3Url;
+                }
+            } catch (e) {}
+        }
+
+        function resetMobileSavedDraft() {
+            localStorage.removeItem(DRAFT_STORAGE_KEY);
+            window.location.reload();
+        }
+
+        // Nén ảnh chọn từ điện thoại xuống kích thước chuẩn web (nhẹ, nét, nhúng thẳng vào HTML được)
+        function compressImageFromPhone(file, maxDimension = 1080, quality = 0.8) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    const img = new Image();
+                    img.onload = () => {
+                        let width = img.width;
+                        let height = img.height;
+                        if (width > height && width > maxDimension) {
+                            height = Math.round((height * maxDimension) / width);
+                            width = maxDimension;
+                        } else if (height >= width && height > maxDimension) {
+                            width = Math.round((width * maxDimension) / height);
+                            height = maxDimension;
+                        }
+                        const canvas = document.createElement('canvas');
+                        canvas.width = width;
+                        canvas.height = height;
+                        const ctx = canvas.getContext('2d');
+                        ctx.drawImage(img, 0, 0, width, height);
+                        resolve(canvas.toDataURL('image/jpeg', quality));
+                    };
+                    img.onerror = reject;
+                    img.src = e.target.result;
+                };
+                reader.onerror = reject;
+                reader.readAsDataURL(file);
+            });
+        }
+
+        // =========================================================================
+        // 2. CHẾ ĐỘ CHẠM ĐỔI ẢNH & CHỮ TRỰC TIẾP TRÊN ĐIỆN THOẠI
+        // =========================================================================
+        function toggleMobileDirectEdit() {
+            isMobileEditMode = !isMobileEditMode;
+            const banner = document.getElementById('mobileEditBanner');
+            const btnText = document.getElementById('mobileEditBtnText');
+            const btnIcon = document.getElementById('mobileEditBtnIcon');
+
+            if (isMobileEditMode) {
+                document.body.classList.add('mobile-edit-active');
+                if (banner) banner.classList.remove('hidden');
+                if (btnText) btnText.textContent = 'Lưu / Đổi Nhạc';
+                if (btnIcon) btnIcon.textContent = '📲';
+                showToast('Chạm trực tiếp vào bất kỳ bức ảnh nào để đổi ảnh từ điện thoại!');
+            } else {
+                openMobilePublishSheet();
+            }
+        }
+
+        function triggerMobilePhotoPicker(targetDescriptor) {
+            pendingPhotoTarget = targetDescriptor;
+            const input = document.getElementById('mobileDirectImageInput');
+            if (input) {
+                input.value = '';
+                input.click();
+            }
+        }
+
+        async function handleMobileDirectPhotoPicked(event) {
+            const file = event.target.files && event.target.files[0];
+            if (!file || !pendingPhotoTarget) return;
+
+            showToast('Đang tối ưu ảnh từ điện thoại...');
+            try {
+                const compressedDataUrl = await compressImageFromPhone(file, 1080, 0.8);
+                const t = pendingPhotoTarget;
+
+                if (t.type === 'envelope') {
+                    WEDDING_CONFIG.envelopePhoto = compressedDataUrl;
+                    syncHeroAndCoverImages();
+                } else if (t.type === 'hero') {
+                    WEDDING_CONFIG.heroMainPhoto = compressedDataUrl;
+                    syncHeroAndCoverImages();
+                } else if (t.type === 'story') {
+                    const chap = WEDDING_CONFIG.storyChapters[t.index];
+                    if (chap) {
+                        chap[t.field] = compressedDataUrl;
+                        renderLoveStoryChapters();
+                        initScrollReveal();
+                    }
+                } else if (t.type === 'album') {
+                    const row = WEDDING_CONFIG.albumRows[t.rowIdx];
+                    if (row) {
+                        if (t.side === 'single') {
+                            row.photo.url = compressedDataUrl;
+                        } else if (row[t.side]) {
+                            row[t.side].url = compressedDataUrl;
+                        }
+                        renderEditorialAlbum();
+                        initScrollReveal();
+                    }
+                }
+
+                saveMobileDraftToStorage();
+                showToast('✓ Đã đổi ảnh thành công! (Đã lưu trên điện thoại)');
+            } catch (err) {
+                console.error(err);
+                showToast('Không thể đọc ảnh này, vui lòng thử ảnh khác.');
+            }
+        }
+
+        function openMobileTextModal(chapterIdx) {
+            if (!isMobileEditMode) return;
+            const chap = WEDDING_CONFIG.storyChapters[chapterIdx];
+            if (!chap) return;
+            activeTextEditIndex = chapterIdx;
+            document.getElementById('mEditDate').value = chap.dateLabel || '';
+            document.getElementById('mEditTitle').value = chap.title || '';
+            document.getElementById('mEditNarrative').value = chap.narrative || '';
+            document.getElementById('mEditQuote').value = chap.quote || '';
+
+            const modal = document.getElementById('mobileTextEditModal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeMobileTextModal() {
+            const modal = document.getElementById('mobileTextEditModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        function saveMobileTextModal() {
+            if (activeTextEditIndex === null) return;
+            const chap = WEDDING_CONFIG.storyChapters[activeTextEditIndex];
+            if (chap) {
+                chap.dateLabel = document.getElementById('mEditDate').value.trim();
+                chap.title = document.getElementById('mEditTitle').value.trim();
+                chap.narrative = document.getElementById('mEditNarrative').value.trim();
+                chap.quote = document.getElementById('mEditQuote').value.trim();
+                renderLoveStoryChapters();
+                initScrollReveal();
+                saveMobileDraftToStorage();
+                showToast('✓ Đã cập nhật lời dẫn chuyện!');
+            }
+            closeMobileTextModal();
+        }
+
+        function openMobilePublishSheet() {
+            const modal = document.getElementById('mobilePublishModal');
+            if (!modal) return;
+            const mp3Input = document.getElementById('mobileMp3UrlInput');
+            if (mp3Input) {
+                mp3Input.value = WEDDING_CONFIG.mp3Url.startsWith('data:') ? '(Đã gắn file MP3 từ điện thoại)' : WEDDING_CONFIG.mp3Url;
+            }
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeMobilePublishSheet() {
+            const modal = document.getElementById('mobilePublishModal');
+            if (!modal) return;
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+
+            // Tắt chế độ sửa nếu người dùng bấm đóng từ nút Xong
+            document.body.classList.remove('mobile-edit-active');
+            isMobileEditMode = false;
+            const banner = document.getElementById('mobileEditBanner');
+            const btnText = document.getElementById('mobileEditBtnText');
+            const btnIcon = document.getElementById('mobileEditBtnIcon');
+            if (banner) banner.classList.add('hidden');
+            if (btnText) btnText.textContent = 'Đổi Ảnh / Nhạc';
+            if (btnIcon) btnIcon.textContent = '✏️';
+        }
+
+        // Xuất ra ĐÚNG 1 FILE index.html duy nhất chứa sẵn toàn bộ ảnh mới vừa chọn trên điện thoại
+        function exportSingleSelfContainedHtml() {
+            try {
+                const exportConfig = JSON.parse(JSON.stringify(WEDDING_CONFIG));
+                exportConfig.showEditorButton = false; // Tự ẩn nút sửa khi gửi cho khách
+
+                const currentDocHtml = document.documentElement.outerHTML;
+                const replacementBlock = `/*__WEDDING_CONFIG_START__*/\n        const WEDDING_CONFIG = ${JSON.stringify(exportConfig, null, 4)};\n        /*__WEDDING_CONFIG_END__*/`;
+
+                const updatedHtml = '<!DOCTYPE html>\n' + currentDocHtml.replace(
+                    /\/\*__WEDDING_CONFIG_START__\*\/[\s\S]*?\/\*__WEDDING_CONFIG_END__\*\//,
+                    replacementBlock
+                );
+
+                const blob = new Blob([updatedHtml], { type: 'text/html;charset=utf-8' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'index.html';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+                showToast('✓ Đã tải 1 file index.html hoàn chỉnh (gồm cả ảnh mới)!');
+            } catch (e) {
+                console.error(e);
+                showToast('Có lỗi khi đóng gói file HTML.');
+            }
+        }
+
+        // =========================================================================
+        // 3. CÁ NHÂN HÓA TÊN KHÁCH MỜI (?to=TênKhách) & MÀN MỞ THIỆP
+        // =========================================================================
+        function initGuestName() {
+            try {
+                const params = new URLSearchParams(window.location.search);
+                const guestParam = params.get('to') || params.get('guest') || params.get('khach');
+                if (guestParam && guestParam.trim() !== '') {
+                    const cleanName = guestParam.trim();
+                    const envGuest = document.getElementById('envelopeGuestName');
+                    const heroGuest = document.getElementById('heroGuestName');
+                    const rsvpInput = document.getElementById('rsvpName');
+                    if (envGuest) envGuest.textContent = cleanName;
+                    if (heroGuest) heroGuest.textContent = cleanName;
+                    if (rsvpInput) rsvpInput.value = cleanName;
+                }
+            } catch (e) {}
+        }
+
+        function openWeddingInvitation() {
+            const cover = document.getElementById('envelopeCover');
+            if (cover) {
+                cover.classList.add('opacity-0', 'pointer-events-none', 'scale-105');
+                setTimeout(() => {
+                    cover.style.display = 'none';
+                }, 900);
+            }
+            startAmbientMusic();
+        }
+
+        // =========================================================================
+        // 4. TRÌNH PHÁT NHẠC BÀI HÁT "LỄ ĐƯỜNG - KAI ĐINH" (CÓ LỜI)
+        // =========================================================================
+        let isMusicPlaying = false;
+        let ytPlayer = null;
+        let ytReady = false;
+
+        function initMp3Player() {
+            const audioEl = document.getElementById('weddingMp3Player');
+            if (!audioEl) return;
+            if (WEDDING_CONFIG.mp3Url && WEDDING_CONFIG.mp3Url.trim() !== '') {
+                audioEl.src = WEDDING_CONFIG.mp3Url.trim();
+            }
+        }
+
+        function handleLocalMp3File(event) {
+            const file = event.target.files && event.target.files[0];
+            if (!file) return;
+
+            const audioEl = document.getElementById('weddingMp3Player');
+            if (!audioEl) return;
+
+            if (ytReady && ytPlayer && typeof ytPlayer.pauseVideo === 'function') {
+                try { ytPlayer.pauseVideo(); } catch (e) {}
+            }
+
+            const objectUrl = URL.createObjectURL(file);
+            WEDDING_CONFIG.mp3Url = objectUrl;
+            audioEl.src = objectUrl;
+
+            audioEl.play().then(() => {
+                isMusicPlaying = true;
+                updateMusicUI();
+                showToast(`♪ Đang phát: ${file.name}`);
+            }).catch(() => {
+                showToast('Đã nạp file MP3! Hãy chạm nút ♪ để phát.');
+            });
+        }
+
+        function initYouTubeAudio() {
+            if (!WEDDING_CONFIG.youtubeVideoId || window.YT) return;
+            const tag = document.createElement('script');
+            tag.src = "https://www.youtube.com/iframe_api";
+            const firstScriptTag = document.getElementsByTagName('script')[0];
+            firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+            window.onYouTubeIframeAPIReady = function() {
+                ytPlayer = new YT.Player('ytMusicPlayer', {
+                    height: '1',
+                    width: '1',
+                    videoId: WEDDING_CONFIG.youtubeVideoId,
+                    playerVars: {
+                        autoplay: 0,
+                        controls: 0,
+                        loop: 1,
+                        playlist: WEDDING_CONFIG.youtubeVideoId,
+                        playsinline: 1
+                    },
+                    events: {
+                        onReady: function() {
+                            ytReady = true;
+                        }
+                    }
+                });
+            };
+        }
+
+        function startAmbientMusic() {
+            const audioEl = document.getElementById('weddingMp3Player');
+            if (!audioEl) return;
+
+            audioEl.play().then(() => {
+                isMusicPlaying = true;
+                if (ytReady && ytPlayer && typeof ytPlayer.pauseVideo === 'function') {
+                    try { ytPlayer.pauseVideo(); } catch (e) {}
+                }
+                updateMusicUI();
+                showToast(`♪ Đang phát: ${WEDDING_CONFIG.songTitle}`);
+            }).catch(() => {
+                // Tự động phát bản hát có lời "Lễ Đường - Kai Đinh" qua luồng Audio dự phòng nếu không có file MP3 rời
+                if (ytReady && ytPlayer && typeof ytPlayer.playVideo === 'function') {
+                    try {
+                        ytPlayer.setVolume(100);
+                        ytPlayer.playVideo();
+                        isMusicPlaying = true;
+                        updateMusicUI();
+                        showToast(`♪ Đang phát: ${WEDDING_CONFIG.songTitle}`);
+                        return;
+                    } catch (e) {}
+                }
+                isMusicPlaying = false;
+                updateMusicUI();
+            });
+        }
+
+        function stopAmbientMusic() {
+            isMusicPlaying = false;
+            const audioEl = document.getElementById('weddingMp3Player');
+            if (audioEl) audioEl.pause();
+            if (ytReady && ytPlayer && typeof ytPlayer.pauseVideo === 'function') {
+                try { ytPlayer.pauseVideo(); } catch (e) {}
+            }
+            updateMusicUI();
+        }
+
+        function toggleBackgroundMusic() {
+            if (isMusicPlaying) {
+                stopAmbientMusic();
+                showToast('Đã tạm dừng nhạc');
+            } else {
+                startAmbientMusic();
+            }
+        }
+
+        function updateMusicUI() {
+            const disc = document.getElementById('musicVinylDisc');
+            if (disc) {
+                if (isMusicPlaying) {
+                    disc.classList.add('animate-vinyl');
+                } else {
+                    disc.classList.remove('animate-vinyl');
+                }
+            }
+        }
+
+        // =========================================================================
+        // 5. RENDER CHUYỆN TÌNH YÊU (TRÁI - PHẢI + CHẠM ĐỔI ẢNH/CHỮ TRÊN ĐT)
+        // =========================================================================
+        function renderLoveStoryChapters() {
+            const container = document.getElementById('loveStoryChaptersContainer');
+            if (!container) return;
+
+            let singleImageCounter = 0;
+
+            container.innerHTML = WEDDING_CONFIG.storyChapters.map((chap, idx) => {
+                let imageSectionHtml = '';
+
+                if (chap.layout === 'pair') {
+                    imageSectionHtml = `
+                        <div class="grid grid-cols-2 gap-3 mb-5">
+                            <div class="slide-pair-left relative bg-white p-2 rounded-2xl shadow-md border border-sand">
+                                <div class="relative aspect-[3/4] rounded-xl overflow-hidden bg-champagne">
+                                    <img src="${chap.photoLeft}" alt="${chap.title} - 1" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/600x800/F2ECE4/9C6653?text=Sang+%26+Thu'">
+                                    <button type="button" onclick="triggerMobilePhotoPicker({ type: 'story', index: ${idx}, field: 'photoLeft' })" class="mobile-edit-badge absolute inset-0 bg-espresso/55 backdrop-blur-[1px] flex-col items-center justify-center text-ivory p-2">
+                                        <span class="text-xl mb-1">📷</span>
+                                        <span class="bg-terracotta px-2.5 py-1 rounded-full text-[10px] font-semibold uppercase">Chạm đổi ảnh trái</span>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="slide-pair-right relative bg-white p-2 rounded-2xl shadow-md border border-sand mt-4">
+                                <div class="relative aspect-[3/4] rounded-xl overflow-hidden bg-champagne">
+                                    <img src="${chap.photoRight}" alt="${chap.title} - 2" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/600x800/F2ECE4/9C6653?text=Sang+%26+Thu'">
+                                    <button type="button" onclick="triggerMobilePhotoPicker({ type: 'story', index: ${idx}, field: 'photoRight' })" class="mobile-edit-badge absolute inset-0 bg-espresso/55 backdrop-blur-[1px] flex-col items-center justify-center text-ivory p-2">
+                                        <span class="text-xl mb-1">📷</span>
+                                        <span class="bg-terracotta px-2.5 py-1 rounded-full text-[10px] font-semibold uppercase">Chạm đổi ảnh phải</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    singleImageCounter++;
+                    const isOdd = singleImageCounter % 2 === 1;
+                    const slideDirectionClass = isOdd ? 'slide-single-odd' : 'slide-single-even';
+                    const frameRadiusClass = chap.frameStyle === 'arch' ? 'cine-arch' : 'rounded-2xl';
+
+                    imageSectionHtml = `
+                        <div class="${slideDirectionClass} relative bg-white p-3 ${frameRadiusClass} shadow-md border border-sand mb-5">
+                            <div class="relative aspect-[4/5] ${frameRadiusClass} overflow-hidden bg-champagne">
+                                <img src="${chap.photo}" alt="${chap.title}" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/800x1000/F2ECE4/9C6653?text=Sang+%26+Thu'">
+                                <button type="button" onclick="triggerMobilePhotoPicker({ type: 'story', index: ${idx}, field: 'photo' })" class="mobile-edit-badge absolute inset-0 bg-espresso/55 backdrop-blur-[1px] flex-col items-center justify-center text-ivory p-3">
+                                    <span class="text-2xl mb-1.5">📷</span>
+                                    <span class="bg-terracotta px-3.5 py-1.5 rounded-full text-xs font-semibold uppercase shadow">Chạm Đổi Ảnh ${chap.chapterNumber}</span>
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                }
+
+                return `
+                    <article class="relative">
+                        ${imageSectionHtml}
+                        <div onclick="openMobileTextModal(${idx})" class="story-text-reveal editable-text-box text-center px-2 py-1">
+                            <div class="inline-flex items-center gap-2 text-[10px] tracking-[0.25em] uppercase text-terracotta font-semibold mb-1">
+                                <span>${chap.chapterNumber}</span>
+                                <span>•</span>
+                                <span>${chap.dateLabel}</span>
+                            </div>
+                            <h3 class="font-serif text-2xl font-semibold text-espresso mb-2">${chap.title}</h3>
+                            <p class="text-xs sm:text-sm text-taupe leading-relaxed mb-3 font-light">
+                                ${chap.narrative}
+                            </p>
+                            <p class="font-serif italic text-sm sm:text-base text-terracotta">
+                                ${chap.quote}
+                            </p>
+                            <span class="mobile-edit-badge mt-2 inline-flex items-center justify-center text-[10px] text-terracotta bg-champagne px-2.5 py-0.5 rounded-full font-medium mx-auto">
+                                ✏️ Chạm vào chữ để sửa lời dẫn
+                            </span>
+                        </div>
+                    </article>
+                `;
+            }).join('');
+        }
+
+        // =========================================================================
+        // 6. RENDER ALBUM HÌNH CƯỚI (CHẠM ĐỂ XEM LIGHTBOX HOẶC CHẠM ĐỂ ĐỔI ẢNH)
+        // =========================================================================
+        const flatLightboxPhotos = [];
+        let currentLightboxIndex = 0;
+
+        function handleAlbumPhotoTap(rowIdx, side, lightboxIdx) {
+            if (isMobileEditMode) {
+                triggerMobilePhotoPicker({ type: 'album', rowIdx, side });
+            } else {
+                openLightbox(lightboxIdx);
+            }
+        }
+
+        function renderEditorialAlbum() {
+            const grid = document.getElementById('editorialAlbumGrid');
+            if (!grid) return;
+
+            flatLightboxPhotos.length = 0;
+            let singleAlbumCounter = 0;
+
+            grid.innerHTML = WEDDING_CONFIG.albumRows.map((row, rowIdx) => {
+                if (row.type === 'pair') {
+                    const leftIdx = flatLightboxPhotos.length;
+                    flatLightboxPhotos.push(row.left);
+                    const rightIdx = flatLightboxPhotos.length;
+                    flatLightboxPhotos.push(row.right);
+
+                    return `
+                        <div class="grid grid-cols-2 gap-3 relative">
+                            <button type="button" onclick="handleAlbumPhotoTap(${rowIdx}, 'left', ${leftIdx})" class="slide-pair-left group relative aspect-[3/4] rounded-2xl overflow-hidden border border-sand shadow-sm bg-ivory text-left focus:outline-none">
+                                <img src="${row.left.url}" alt="${row.left.caption}" class="w-full h-full object-cover transition duration-700 group-hover:scale-105" onerror="this.src='https://placehold.co/600x800/F2ECE4/9C6653?text=Wedding+Photo'">
+                                <div class="mobile-edit-badge absolute inset-0 bg-espresso/55 flex-col items-center justify-center text-ivory p-2 text-center">
+                                    <span class="text-xl mb-1">📷</span>
+                                    <span class="bg-terracotta px-2.5 py-1 rounded-full text-[10px] font-semibold uppercase">Đổi ảnh trái</span>
+                                </div>
+                            </button>
+                            <button type="button" onclick="handleAlbumPhotoTap(${rowIdx}, 'right', ${rightIdx})" class="slide-pair-right group relative aspect-[3/4] rounded-2xl overflow-hidden border border-sand shadow-sm bg-ivory text-left focus:outline-none">
+                                <img src="${row.right.url}" alt="${row.right.caption}" class="w-full h-full object-cover transition duration-700 group-hover:scale-105" onerror="this.src='https://placehold.co/600x800/F2ECE4/9C6653?text=Wedding+Photo'">
+                                <div class="mobile-edit-badge absolute inset-0 bg-espresso/55 flex-col items-center justify-center text-ivory p-2 text-center">
+                                    <span class="text-xl mb-1">📷</span>
+                                    <span class="bg-terracotta px-2.5 py-1 rounded-full text-[10px] font-semibold uppercase">Đổi ảnh phải</span>
+                                </div>
+                            </button>
+                        </div>
+                    `;
+                } else {
+                    singleAlbumCounter++;
+                    const isOdd = singleAlbumCounter % 2 === 1;
+                    const slideClass = isOdd ? 'slide-single-odd' : 'slide-single-even';
+                    const photoIdx = flatLightboxPhotos.length;
+                    flatLightboxPhotos.push(row.photo);
+
+                    return `
+                        <div class="relative">
+                            <button type="button" onclick="handleAlbumPhotoTap(${rowIdx}, 'single', ${photoIdx})" class="${slideClass} group relative w-full aspect-[4/3] rounded-2xl overflow-hidden border border-sand shadow-sm bg-ivory text-left block focus:outline-none">
+                                <img src="${row.photo.url}" alt="${row.photo.caption}" class="w-full h-full object-cover transition duration-700 group-hover:scale-105" onerror="this.src='https://placehold.co/900x675/F2ECE4/9C6653?text=Wedding+Photo'">
+                                <div class="absolute inset-0 bg-gradient-to-t from-espresso/55 via-transparent to-transparent flex items-end p-3.5">
+                                    <span class="text-xs text-ivory/95 font-serif italic">${row.photo.caption}</span>
+                                </div>
+                                <div class="mobile-edit-badge absolute inset-0 bg-espresso/55 flex-col items-center justify-center text-ivory p-3 text-center">
+                                    <span class="text-2xl mb-1">📷</span>
+                                    <span class="bg-terracotta px-3.5 py-1.5 rounded-full text-xs font-semibold uppercase">Chạm Đổi Ảnh Này</span>
+                                </div>
+                            </button>
+                        </div>
+                    `;
+                }
+            }).join('');
+        }
+
+        function addAlbumRow(type) {
+            if (type === 'pair') {
+                WEDDING_CONFIG.albumRows.push({
+                    type: 'pair',
+                    left: {
+                        url: 'https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=800&q=80',
+                        caption: 'Khoảnh khắc đẹp bên nhau'
+                    },
+                    right: {
+                        url: 'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=800&q=80',
+                        caption: 'Sáng & Ngô Thị Thu'
+                    }
+                });
+            } else {
+                WEDDING_CONFIG.albumRows.push({
+                    type: 'single',
+                    photo: {
+                        url: 'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1000&q=80',
+                        caption: 'Khung hình kỷ niệm mới'
+                    }
+                });
+            }
+            renderEditorialAlbum();
+            initScrollReveal();
+            saveMobileDraftToStorage();
+            showToast('Đã thêm hàng ảnh mới! Chạm vào ảnh vừa thêm để đổi.');
+        }
+
+        function openLightbox(index) {
+            if (!flatLightboxPhotos.length) return;
+            currentLightboxIndex = (index + flatLightboxPhotos.length) % flatLightboxPhotos.length;
+            updateLightboxContent();
+            const modal = document.getElementById('lightboxModal');
+            if (modal) {
+                modal.classList.remove('hidden');
+                modal.classList.add('flex');
+            }
+        }
+
+        function closeLightbox() {
+            const modal = document.getElementById('lightboxModal');
+            if (modal) {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+            }
+        }
+
+        function stepLightbox(direction) {
+            if (!flatLightboxPhotos.length) return;
+            currentLightboxIndex = (currentLightboxIndex + direction + flatLightboxPhotos.length) % flatLightboxPhotos.length;
+            updateLightboxContent();
+        }
+
+        function updateLightboxContent() {
+            const item = flatLightboxPhotos[currentLightboxIndex];
+            if (!item) return;
+            const img = document.getElementById('lightboxImage');
+            const cap = document.getElementById('lightboxCaption');
+            const counter = document.getElementById('lightboxCounter');
+            if (img) img.src = item.url;
+            if (cap) cap.textContent = item.caption || '';
+            if (counter) counter.textContent = `${currentLightboxIndex + 1} / ${flatLightboxPhotos.length}`;
+        }
+
+        function initLightboxGestures() {
+            window.addEventListener('keydown', (e) => {
+                const modal = document.getElementById('lightboxModal');
+                if (!modal || modal.classList.contains('hidden')) return;
+                if (e.key === 'Escape') closeLightbox();
+                if (e.key === 'ArrowLeft') stepLightbox(-1);
+                if (e.key === 'ArrowRight') stepLightbox(1);
+            });
+
+            const touchArea = document.getElementById('lightboxTouchArea');
+            if (!touchArea) return;
+            let startX = 0;
+            touchArea.addEventListener('touchstart', (e) => {
+                startX = e.changedTouches[0].screenX;
+            }, { passive: true });
+            touchArea.addEventListener('touchend', (e) => {
+                const diff = e.changedTouches[0].screenX - startX;
+                if (Math.abs(diff) > 40) {
+                    stepLightbox(diff < 0 ? 1 : -1);
+                }
+            }, { passive: true });
+        }
+
+        // =========================================================================
+        // 7. HIỆU ỨNG CUỘN TRÁI - PHẢI & ĐỒNG HỒ ĐẾM NGƯỢC
+        // =========================================================================
+        let activeScrollObserver = null;
+
+        function initScrollReveal() {
+            const selector = '.cine-reveal, .story-text-reveal, .slide-pair-left, .slide-pair-right, .slide-single-odd, .slide-single-even';
+            const elements = document.querySelectorAll(selector);
+
+            if (activeScrollObserver) activeScrollObserver.disconnect();
+
+            if (!('IntersectionObserver' in window)) {
+                elements.forEach(el => el.classList.add('is-visible'));
+                return;
+            }
+
+            activeScrollObserver = new IntersectionObserver((entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                    } else {
+                        entry.target.classList.remove('is-visible');
+                    }
+                });
+            }, {
+                threshold: 0.14,
+                rootMargin: '0px 0px -30px 0px'
+            });
+
+            elements.forEach(el => activeScrollObserver.observe(el));
+        }
+
+        let countdownIntervalId = null;
+
+        function initCountdownTimer() {
+            if (countdownIntervalId) clearInterval(countdownIntervalId);
+            const targetTime = new Date(WEDDING_CONFIG.weddingDateISO).getTime();
+
+            const updateClock = () => {
+                const now = new Date().getTime();
+                const diff = Math.max(0, targetTime - now);
+
+                const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+                const dEl = document.getElementById('cdDays');
+                const hEl = document.getElementById('cdHours');
+                const mEl = document.getElementById('cdMinutes');
+                const sEl = document.getElementById('cdSeconds');
+
+                if (dEl) dEl.textContent = String(days).padStart(2, '0');
+                if (hEl) hEl.textContent = String(hours).padStart(2, '0');
+                if (mEl) mEl.textContent = String(minutes).padStart(2, '0');
+                if (sEl) sEl.textContent = String(seconds).padStart(2, '0');
+            };
+
+            updateClock();
+            countdownIntervalId = setInterval(updateClock, 1000);
+        }
+
+        // =========================================================================
+        // 8. SỔ LƯU BÚT RSVP & HỘP MỪNG CƯỚI QR
+        // =========================================================================
+        const wishesData = [...WEDDING_CONFIG.initialWishes];
+
+        function renderWishesList() {
+            const container = document.getElementById('wishesListContainer');
+            const counter = document.getElementById('wishesCounter');
+            if (!container) return;
+
+            if (counter) counter.textContent = `${wishesData.length} lời chúc`;
+
+            container.innerHTML = wishesData.map((item) => `
+                <div class="bg-ivory p-4 rounded-xl border border-sand/90 shadow-sm">
+                    <div class="flex items-center justify-between gap-2 mb-1.5">
+                        <span class="font-serif font-semibold text-base text-espresso">${item.name}</span>
+                        <span class="text-[10px] px-2.5 py-0.5 rounded-full bg-champagne text-terracotta font-medium">
+                            ${item.attendance}
+                        </span>
+                    </div>
+                    <p class="text-xs text-taupe leading-relaxed mb-1.5">${item.wish}</p>
+                    <span class="text-[10px] text-taupe/60">${item.time}</span>
+                </div>
+            `).join('');
+        }
+
+        function initRsvpForm() {
+            const form = document.getElementById('rsvpForm');
+            if (!form) return;
+
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const nameInput = document.getElementById('rsvpName');
+                const attendanceInput = document.getElementById('rsvpAttendance');
+                const countInput = document.getElementById('rsvpCount');
+                const wishInput = document.getElementById('rsvpWish');
+
+                const newEntry = {
+                    name: (nameInput?.value || 'Khách Quý').trim(),
+                    attendance: `${attendanceInput?.value || 'Sẽ tham dự'} (${countInput?.value || '1 người'})`,
+                    time: 'Vừa xong',
+                    wish: (wishInput?.value || 'Chúc Sáng và Thu trăm năm hạnh phúc!').trim()
+                };
+
+                wishesData.unshift(newEntry);
+                renderWishesList();
+
+                if (WEDDING_CONFIG.rsvpWebhookUrl && WEDDING_CONFIG.rsvpWebhookUrl.trim() !== '') {
+                    fetch(WEDDING_CONFIG.rsvpWebhookUrl, {
+                        method: 'POST',
+                        mode: 'no-cors',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(newEntry)
+                    }).catch(() => {});
+                }
+
+                if (wishInput) wishInput.value = '';
+                showToast('Cảm ơn bạn đã gửi lời chúc tới Sáng & Thu! ♥');
+            });
+        }
+
+        function initGiftBox() {
+            const { groom, bride } = WEDDING_CONFIG.bankInfo;
+            const gImg = document.getElementById('groomQrImg');
+            const gBank = document.getElementById('groomBankName');
+            const gHolder = document.getElementById('groomAccHolder');
+
+            const bImg = document.getElementById('brideQrImg');
+            const bBank = document.getElementById('brideBankName');
+            const bHolder = document.getElementById('brideAccHolder');
+
+            if (gImg) gImg.src = groom.qrUrl;
+            if (gBank) gBank.textContent = `${groom.bankName} • ${groom.accountNumber}`;
+            if (gHolder) gHolder.textContent = groom.accountHolder;
+
+            if (bImg) bImg.src = bride.qrUrl;
+            if (bBank) bBank.textContent = `${bride.bankName} • ${bride.accountNumber}`;
+            if (bHolder) bHolder.textContent = bride.accountHolder;
+        }
+
+        function toggleGiftBox() {
+            const panel = document.getElementById('giftQrPanel');
+            const btn = document.getElementById('toggleGiftBtn');
+            if (!panel) return;
+            const isHidden = panel.classList.contains('hidden');
+            if (isHidden) {
+                panel.classList.remove('hidden');
+                if (btn) btn.innerHTML = '<span>Đóng Hộp Mừng Cưới (QR)</span>';
+            } else {
+                panel.classList.add('hidden');
+                if (btn) btn.innerHTML = '<span>🎁 Mở Hộp Mừng Cưới (QR)</span>';
+            }
+        }
+
+        function copyBankAccount(role) {
+            const info = WEDDING_CONFIG.bankInfo[role];
+            if (!info) return;
+            const tempInput = document.createElement('textarea');
+            tempInput.value = info.accountNumber;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            try {
+                document.execCommand('copy');
+                showToast(`Đã sao chép STK ${info.bankName}: ${info.accountNumber}`);
+            } catch (e) {
+                showToast(`STK: ${info.accountNumber}`);
+            }
+            document.body.removeChild(tempInput);
+        }
+
+        function syncHeroAndCoverImages() {
+            const envImg = document.getElementById('envelopeCoverPhoto');
+            const heroImg = document.getElementById('heroMainPhoto');
+            if (envImg) envImg.src = WEDDING_CONFIG.envelopePhoto;
+            if (heroImg) heroImg.src = WEDDING_CONFIG.heroMainPhoto;
+        }
+
+        function updateGeneralField(field, value) {
+            WEDDING_CONFIG[field] = value;
+            if (field === 'mp3Url') {
+                initMp3Player();
+            }
+            saveMobileDraftToStorage();
+        }
+
+        function updateEditorButtonVisibility() {
+            const btn = document.getElementById('openEditorBtn');
+            if (!btn) return;
+            const params = new URLSearchParams(window.location.search);
+            const forceEdit = params.get('edit') === '1';
+            const isGuestLink = Boolean(params.get('to') || params.get('guest') || params.get('khach'));
+
+            if (forceEdit) {
+                btn.classList.remove('hidden');
+            } else if (!WEDDING_CONFIG.showEditorButton || isGuestLink) {
+                btn.classList.add('hidden');
+            }
+        }
+
+        // =========================================================================
+        // INITIALIZE ON WINDOW LOAD
+        // =========================================================================
+        window.onload = function() {
+            loadMobileDraftFromStorage();
+            syncHeroAndCoverImages();
+            updateEditorButtonVisibility();
+            initGuestName();
+            initMp3Player();
+            initYouTubeAudio();
+            renderLoveStoryChapters();
+            renderEditorialAlbum();
+            initLightboxGestures();
+            initCountdownTimer();
+            renderWishesList();
+            initRsvpForm();
+            initGiftBox();
+            initScrollReveal();
+        };
+    </script>
+</body>
+</html>
