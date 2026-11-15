@@ -132,6 +132,7 @@
         .arch-window-stage {
             position: relative;
             perspective: 1200px;
+            overflow: visible;
         }
         .arch-window-stage .arch-door-left,
         .arch-window-stage .arch-door-right {
@@ -140,13 +141,13 @@
             width: 50%;
             height: 100%;
             background: linear-gradient(135deg, #F5EEE4 0%, #EDE3D6 50%, #E2D5C5 100%);
-            border: 3px solid rgba(197,155,118,0.9);
+            border: 6px solid #C59B76;
             transform-origin: center;
             transition: transform 2.4s cubic-bezier(0.16, 1, 0.3, 1);
             z-index: 2;
             will-change: transform;
             backface-visibility: hidden;
-            box-shadow: inset 0 0 0 1.5px rgba(197,155,118,0.35), 3px 0 24px rgba(43,37,34,0.18);
+            box-shadow: inset 0 0 0 3px rgba(197,155,118,0.35), 3px 0 24px rgba(43,37,34,0.18);
         }
         .arch-window-stage .arch-door-left {
             left: 0;
@@ -160,21 +161,38 @@
             transform-origin: right center;
             border-left: none;
         }
-        /* Decorative knob on each door */
-        .arch-window-stage .arch-door-left::after,
-        .arch-window-stage .arch-door-right::after {
-            content: '';
+        /* ===== Ổ khoá trái tim hoa văn vàng gold — wrapper chứa SVG ===== */
+        .arch-window-stage .arch-keyhole-wrap {
             position: absolute;
             top: 50%;
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background: #C59B76;
-            box-shadow: 0 0 0 2px #FAF7F2, 0 1px 6px rgba(43,37,34,0.35);
-            transform: translateY(-50%);
+            z-index: 10;
+            pointer-events: none;
+            overflow: hidden;
         }
-        .arch-window-stage .arch-door-left::after { right: 9px; }
-        .arch-window-stage .arch-door-right::after { left: 9px; }
+        /* Cánh trái: wrapper nằm sát mép PHẢI của cánh, chỉ hiện nửa TRÁI trái tim */
+        .arch-window-stage .arch-keyhole-wrap-left {
+            right: 0;
+            transform: translate(50%, -50%);
+            overflow: visible;
+        }
+        .arch-window-stage .arch-keyhole-wrap-left svg {
+            clip-path: inset(0 50% 0 0);
+        }
+        /* Cánh phải: wrapper nằm sát mép TRÁI của cánh, chỉ hiện nửa PHẢI trái tim */
+        .arch-window-stage .arch-keyhole-wrap-right {
+            left: 0;
+            transform: translate(-50%, -50%);
+            overflow: visible;
+        }
+        .arch-window-stage .arch-keyhole-wrap-right svg {
+            clip-path: inset(0 0 0 50%);
+        }
+        .arch-window-stage .arch-keyhole-wrap svg {
+            display: block;
+            filter:
+                drop-shadow(0 1px 1px rgba(255,220,120,0.5))
+                drop-shadow(0 3px 8px rgba(43,37,34,0.55));
+        }
         /* Opened state */
         .arch-window-stage.doors-open .arch-door-left {
             transform: perspective(1200px) rotateY(-125deg);
@@ -2161,8 +2179,74 @@
                         : '';
                     const archWrapClose = isFirstArch
                         ? `</div>
-                               <div class="arch-door-left pointer-events-none"></div>
-                               <div class="arch-door-right pointer-events-none"></div>
+                               <div class="arch-door-left pointer-events-none">
+                                   <div class="arch-keyhole-wrap arch-keyhole-wrap-left">
+                                       <svg width="68" height="72" viewBox="0 0 68 72" xmlns="http://www.w3.org/2000/svg">
+                                         <defs>
+                                           <radialGradient id="hbody" cx="42%" cy="35%" r="62%">
+                                             <stop offset="0%"   stop-color="#F7E4A8"/>
+                                             <stop offset="30%"  stop-color="#E0B55A"/>
+                                             <stop offset="65%"  stop-color="#C59B76"/>
+                                             <stop offset="100%" stop-color="#8B6020"/>
+                                           </radialGradient>
+                                           <radialGradient id="hsheen" cx="38%" cy="22%" r="45%">
+                                             <stop offset="0%"  stop-color="rgba(255,248,200,0.6)"/>
+                                             <stop offset="100%" stop-color="rgba(255,248,200,0)"/>
+                                           </radialGradient>
+                                         </defs>
+                                         <path d="M34 65 C34 65,4 46,4 24 C4 13,11 6,20 6 C26 6,31 10,34 15 C37 10,42 6,48 6 C57 6,64 13,64 24 C64 46,34 65,34 65Z" fill="url(#hbody)" stroke="#8B6020" stroke-width="1.8"/>
+                                         <path d="M34 65 C34 65,4 46,4 24 C4 13,11 6,20 6 C26 6,31 10,34 15 C37 10,42 6,48 6 C57 6,64 13,64 24 C64 46,34 65,34 65Z" fill="url(#hsheen)"/>
+                                         <path d="M34 57 C34 57,10 42,10 25 C10 17,15 11,21 11 C26 11,31 15,34 19 C37 15,42 11,47 11 C53 11,58 17,58 25 C58 42,34 57,34 57Z" fill="none" stroke="#F4DAA4" stroke-width="1.2" opacity="0.7"/>
+                                         <path d="M34 44 C30 38,20 34,20 27 C20 22,24 19,28 21 C30 22,32 25,34 27 C36 25,38 22,40 21 C44 19,48 22,48 27 C48 34,38 38,34 44Z" fill="none" stroke="#F4DAA4" stroke-width="1.5" opacity="0.8"/>
+                                         <path d="M18 32 C16 28,17 24,20 23 C22 22,24 24,23 26 C22 28,20 27,20 25" fill="none" stroke="#F4DAA4" stroke-width="1.2" stroke-linecap="round" opacity="0.75"/>
+                                         <path d="M50 32 C52 28,51 24,48 23 C46 22,44 24,45 26 C46 28,48 27,48 25" fill="none" stroke="#F4DAA4" stroke-width="1.2" stroke-linecap="round" opacity="0.75"/>
+                                         <circle cx="22" cy="38" r="1.5" fill="#F4DAA4" opacity="0.7"/>
+                                         <circle cx="17" cy="29" r="1" fill="#F4DAA4" opacity="0.6"/>
+                                         <circle cx="46" cy="38" r="1.5" fill="#F4DAA4" opacity="0.7"/>
+                                         <circle cx="51" cy="29" r="1" fill="#F4DAA4" opacity="0.6"/>
+                                         <circle cx="34" cy="33" r="5.5" fill="#1a1614" stroke="#8B6020" stroke-width="1.5"/>
+                                         <circle cx="34" cy="33" r="2.8" fill="#2a2018"/>
+                                         <rect x="31.5" y="37" width="5" height="8" rx="2" fill="#1a1614" stroke="#8B6020" stroke-width="1"/>
+                                         <circle cx="14" cy="52" r="2.5" fill="#D4AF6A" stroke="#8B6020" stroke-width="1"/>
+                                         <circle cx="54" cy="52" r="2.5" fill="#D4AF6A" stroke="#8B6020" stroke-width="1"/>
+                                         <ellipse cx="23" cy="14" rx="6" ry="4" fill="rgba(255,248,210,0.35)" transform="rotate(-30 23 14)"/>
+                                       </svg>
+                                   </div>
+                               </div>
+                               <div class="arch-door-right pointer-events-none">
+                                   <div class="arch-keyhole-wrap arch-keyhole-wrap-right">
+                                       <svg width="68" height="72" viewBox="0 0 68 72" xmlns="http://www.w3.org/2000/svg">
+                                         <defs>
+                                           <radialGradient id="hbody2" cx="42%" cy="35%" r="62%">
+                                             <stop offset="0%"   stop-color="#F7E4A8"/>
+                                             <stop offset="30%"  stop-color="#E0B55A"/>
+                                             <stop offset="65%"  stop-color="#C59B76"/>
+                                             <stop offset="100%" stop-color="#8B6020"/>
+                                           </radialGradient>
+                                           <radialGradient id="hsheen2" cx="38%" cy="22%" r="45%">
+                                             <stop offset="0%"  stop-color="rgba(255,248,200,0.6)"/>
+                                             <stop offset="100%" stop-color="rgba(255,248,200,0)"/>
+                                           </radialGradient>
+                                         </defs>
+                                         <path d="M34 65 C34 65,4 46,4 24 C4 13,11 6,20 6 C26 6,31 10,34 15 C37 10,42 6,48 6 C57 6,64 13,64 24 C64 46,34 65,34 65Z" fill="url(#hbody2)" stroke="#8B6020" stroke-width="1.8"/>
+                                         <path d="M34 65 C34 65,4 46,4 24 C4 13,11 6,20 6 C26 6,31 10,34 15 C37 10,42 6,48 6 C57 6,64 13,64 24 C64 46,34 65,34 65Z" fill="url(#hsheen2)"/>
+                                         <path d="M34 57 C34 57,10 42,10 25 C10 17,15 11,21 11 C26 11,31 15,34 19 C37 15,42 11,47 11 C53 11,58 17,58 25 C58 42,34 57,34 57Z" fill="none" stroke="#F4DAA4" stroke-width="1.2" opacity="0.7"/>
+                                         <path d="M34 44 C30 38,20 34,20 27 C20 22,24 19,28 21 C30 22,32 25,34 27 C36 25,38 22,40 21 C44 19,48 22,48 27 C48 34,38 38,34 44Z" fill="none" stroke="#F4DAA4" stroke-width="1.5" opacity="0.8"/>
+                                         <path d="M18 32 C16 28,17 24,20 23 C22 22,24 24,23 26 C22 28,20 27,20 25" fill="none" stroke="#F4DAA4" stroke-width="1.2" stroke-linecap="round" opacity="0.75"/>
+                                         <path d="M50 32 C52 28,51 24,48 23 C46 22,44 24,45 26 C46 28,48 27,48 25" fill="none" stroke="#F4DAA4" stroke-width="1.2" stroke-linecap="round" opacity="0.75"/>
+                                         <circle cx="22" cy="38" r="1.5" fill="#F4DAA4" opacity="0.7"/>
+                                         <circle cx="17" cy="29" r="1" fill="#F4DAA4" opacity="0.6"/>
+                                         <circle cx="46" cy="38" r="1.5" fill="#F4DAA4" opacity="0.7"/>
+                                         <circle cx="51" cy="29" r="1" fill="#F4DAA4" opacity="0.6"/>
+                                         <circle cx="34" cy="33" r="5.5" fill="#1a1614" stroke="#8B6020" stroke-width="1.5"/>
+                                         <circle cx="34" cy="33" r="2.8" fill="#2a2018"/>
+                                         <rect x="31.5" y="37" width="5" height="8" rx="2" fill="#1a1614" stroke="#8B6020" stroke-width="1"/>
+                                         <circle cx="14" cy="52" r="2.5" fill="#D4AF6A" stroke="#8B6020" stroke-width="1"/>
+                                         <circle cx="54" cy="52" r="2.5" fill="#D4AF6A" stroke="#8B6020" stroke-width="1"/>
+                                         <ellipse cx="23" cy="14" rx="6" ry="4" fill="rgba(255,248,210,0.35)" transform="rotate(-30 23 14)"/>
+                                       </svg>
+                                   </div>
+                               </div>
                            </div>`
                         : '';
 
@@ -2656,13 +2740,19 @@
                 return;
             }
 
+            let doorOpened = false;
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
-                    if (entry.isIntersecting && entry.intersectionRatio >= 0.45) {
-                        entry.target.classList.add('doors-open');
+                    if (entry.isIntersecting && !doorOpened) {
+                        doorOpened = true;
+                        // Mở cửa sau 1s khi cuộn qua ổ khóa
+                        setTimeout(() => {
+                            entry.target.classList.add('doors-open');
+                        }, 1000);
+                        observer.disconnect();
                     }
                 });
-            }, { threshold: 0.45 });
+            }, { threshold: 0.5 });
 
             observer.observe(stage);
         }
