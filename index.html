@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="vi" class="scroll-smooth"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -1840,6 +1840,10 @@
                 // Đặt lại hộp QR về trạng thái thu gọn
                 const giftClone = docClone.querySelector('#giftQrPanel');
                 if (giftClone) giftClone.classList.add('hidden');
+
+                // Đồng bộ lại text nút toggleGiftBtn về trạng thái "Mở"
+                const giftBtnClone = docClone.querySelector('#toggleGiftBtn');
+                if (giftBtnClone) giftBtnClone.innerHTML = '<span>🎁 Mở Hộp Mừng Cưới (QR)</span>';
 
                 // Đặt lại container YouTube audio
                 const ytClone = docClone.querySelector('#ytAudioContainer');
