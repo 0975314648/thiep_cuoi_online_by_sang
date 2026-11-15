@@ -1,5 +1,6 @@
 {
   "showEditorButton": false,
+  "pageTitle": "Thiệp Mời Thành Hôn - Sáng & Thu | 20.12.2026",
   "weddingDateISO": "2026-12-20T10:30:00+07:00",
   "rsvpWebhookUrl": "",
   "songTitle": "Lễ Đường - Kai Đinh",
@@ -7,6 +8,94 @@
   "youtubeVideoId": "XqgyD0yadH0",
   "envelopePhoto": "https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=900&q=80",
   "heroMainPhoto": "https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1000&q=80",
+
+  "texts": {
+    "envSaveTheDate": "Save The Date",
+    "envMonogram": "S&T",
+    "envInvitePrefix": "Trân trọng kính mời",
+    "envDefaultGuest": "Quý Khách & Gia Đình",
+    "coupleShortGroom": "Sáng",
+    "coupleShortBride": "Thu",
+    "weddingDateDisplay": "20 . 12 . 2026",
+    "envOpenBtnText": "Mở Thiệp Mời",
+    "envOpenHint": "Chạm để mở thiệp & phát bài hát Lễ Đường",
+    "heroTopLabel": "The Wedding Celebration",
+    "heroInvitePrefix": "Trân trọng kính mời",
+    "heroDefaultGuest": "Bạn và Gia đình",
+    "heroPhotoSubtitle": "We Are Getting Married",
+    "heroDayOfWeek": "CHỦ NHẬT",
+    "heroQuote": "\"Khoảnh khắc thấy em trên lễ đường, cùng ánh mắt bóng dáng thân thương...\nNhiều năm ấy chớp mắt trôi qua, để ta giờ đây về chung một nhà.\"",
+    "heroQuoteAuthor": "— Lễ Đường (Kai Đinh) —",
+    "familySubtitle": "Gia Đình Hai Bên",
+    "familyHeading": "Trân Trọng Báo Tin Lễ Thành Hôn",
+    "groomSideLabel": "Nhà Trai",
+    "groomFather": "Ông Nguyễn Văn Lừng",
+    "groomMother": "Bà Nguyễn Thị Viên",
+    "groomFamilyAddress": "TDP Phúc Lãm, phường Kép, thành phố Bắc Ninh",
+    "brideSideLabel": "Nhà Gái",
+    "brideFather": "Ông Ngô Văn Thanh",
+    "brideMother": "Bà Nguyễn Thị Nhung",
+    "brideFamilyAddress": "Thôn Ngoài, xã Nhã Nam, thành phố Bắc Ninh",
+    "familyAnnounceLine": "Trân trọng báo tin lễ thành hôn của con chúng tôi",
+    "groomFullName": "Nguyễn Văn Sáng",
+    "brideFullName": "Ngô Thị Thu",
+    "storySubtitle": "Our Love Story",
+    "storyHeading": "Chuyện Tình Yêu",
+    "storyIntro": "Vuốt nhẹ lên để theo dõi từng trang ký ức của Sáng và Thu trượt vào theo nhịp chuyện tình yêu.",
+    "storyBridgeQuote": "\"Từ những ngày tháng bình dị ấy, chúng tôi đã sẵn sàng viết tiếp chương hạnh phúc nhất mang tên Gia Đình.\"",
+    "albumSubtitle": "Pre-Wedding Gallery",
+    "albumHeading": "Album Hình Cưới",
+    "albumHint": "Chạm vào ảnh để xem toàn màn hình",
+    "eventsSubtitle": "Wedding Schedule",
+    "eventsHeading": "Thông Tin Hôn Lễ",
+    "eventsIntro": "Sự hiện diện của bạn là niềm vinh hạnh lớn của gia đình chúng tôi",
+    "event1Badge": "Nghi Lễ Truyền Thống",
+    "event1Title": "Lễ Thành Hôn",
+    "event1Time": "10:30 • Chủ Nhật",
+    "event1Date": "Ngày 20 tháng 12 năm 2026",
+    "event1Subdate": "(Tức ngày 12 tháng 11 năm Bính Ngọ)",
+    "event1Venue": "Tư Gia Nhà Trai",
+    "event1Address": "Số 123 Đường Láng, Quận Đống Đa, Hà Nội",
+    "event2Badge": "Tiệc Mừng Thân Mật",
+    "event2Title": "Tiệc Cưới Chung Vui",
+    "event2Time": "18:00 • Chủ Nhật",
+    "event2Date": "Ngày 20 tháng 12 năm 2026",
+    "event2Subdate": "(Đón khách: 17:30 • Khai tiệc: 18:15)",
+    "event2Venue": "Trung Tâm Hội Nghị Long Biên Palace",
+    "event2Address": "Sảnh Hoa Hồng, Khu Trung Đoàn 918, Phúc Đồng, Long Biên, Hà Nội",
+    "eventMapBtnText": "Xem Bản Đồ",
+    "eventCalBtnText": "Lưu Lịch",
+    "dressCodeTitle": "Dress Code Gợi Ý",
+    "dressCodeSubtitle": "Trang phục tông màu nhẹ nhàng để cùng lưu giữ những khung hình thật hài hòa",
+    "dressColor1": "Trắng Kem",
+    "dressColor2": "Be Sữa",
+    "dressColor3": "Vàng Đồng",
+    "dressColor4": "Đen",
+    "calendarSubtitle": "Save The Date",
+    "calendarHeading": "Tháng 12 . 2026",
+    "countdownLabel": "Đếm Ngược Tới Ngày Chung Đôi",
+    "rsvpSubtitle": "R.S.V.P & Wishes",
+    "rsvpHeading": "Xác Nhận Tham Dự",
+    "rsvpDeadlineNote": "Vui lòng phản hồi trước ngày 15/12/2026 để gia đình đón tiếp bạn chu đáo nhất",
+    "rsvpBtnText": "Gửi Xác Nhận & Lời Chúc",
+    "guestbookHeading": "Sổ Lưu Bút Yêu Thương",
+    "giftSubtitle": "Wedding Gift",
+    "giftHeading": "Hộp Mừng Cưới",
+    "giftIntro": "Nếu bạn ở xa chưa thể sắp xếp về chung vui trực tiếp, bạn có thể gửi quà mừng hạnh phúc tới Sáng & Thu tại đây.",
+    "groomGiftTitle": "Mừng Cưới Chú Rể",
+    "brideGiftTitle": "Mừng Cưới Cô Dâu",
+    "footerCoupleName": "Sáng & Thu",
+    "footerTagline": "Thank You For Being Part Of Our Story",
+    "footerNote": "Mẹo gửi thiệp riêng: Thêm ?to=TênKhách vào cuối đường dẫn"
+  },
+
+  "eventsLinks": {
+    "event1Map": "https://maps.google.com/?q=123+Duong+Lang+Dong+Da+Ha+Noi",
+    "event1Cal": "https://calendar.google.com/calendar/render?action=TEMPLATE&text=Le+Thanh+Hon+Sang+%26+Thu&dates=20261220T033000Z/20261220T060000Z&details=Chung+vui+cung+Sang+va+Thu&location=123+Duong+Lang,+Dong+Da,+Ha+Noi",
+    "event2Map": "https://maps.google.com/?q=Long+Bien+Palace+Ha+Noi",
+    "event2Cal": "https://calendar.google.com/calendar/render?action=TEMPLATE&text=Tiec+Cuoi+Sang+%26+Thu&dates=20261220T110000Z/20261220T140000Z&details=Tiec+cuoi+Sang+va+Thu&location=Long+Bien+Palace,+Ha+Noi"
+  },
+
   "storyChapters": [
     {
       "layout": "single",
@@ -14,7 +103,7 @@
       "dateLabel": "Mùa Thu Hà Nội • 2022",
       "title": "Ánh Mắt Chạm Nhau Giữa Phố Nhỏ",
       "narrative": "Giữa một chiều thu Hà Nội dịu nắng, cuộc gặp gỡ tưởng chừng tình cờ của Sáng và Thu lại khởi đầu cho những cuộc trò chuyện kéo dài bất tận.",
-      "quote": "“Có những người chỉ cần gặp một lần, trái tim đã biết là cả cuộc đời.”",
+      "quote": "\u201cCó những người chỉ cần gặp một lần, trái tim đã biết là cả cuộc đời.\u201d",
       "photo": "https://images.unsplash.com/photo-1522673607200-164d1b6ce486?auto=format&fit=crop&w=900&q=80",
       "frameStyle": "arch"
     },
@@ -24,7 +113,7 @@
       "dateLabel": "Những Ngày Hẹn Hò • 2023",
       "title": "Góp Nhặt Từng Bình Yên Nhỏ Bé",
       "narrative": "Không cần những điều quá đỗi xa hoa, hạnh phúc của hai đứa là những vòng xe dạo quanh Hồ Tây lộng gió và cái nắm tay thật chặt sau ngày dài.",
-      "quote": "“Bình yên nhất là khi có một người luôn mỉm cười đợi mình ở cuối ngày.”",
+      "quote": "\u201cBình yên nhất là khi có một người luôn mỉm cười đợi mình ở cuối ngày.\u201d",
       "photo": "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=900&q=80",
       "frameStyle": "polaroid"
     },
@@ -34,7 +123,7 @@
       "dateLabel": "Hành Trình Thanh Xuân • 2024",
       "title": "Đi Cùng Nhau Qua Bao Miền Nhớ",
       "narrative": "Từ biển xanh nắng vàng đến những con dốc mờ sương Đà Lạt, mỗi chuyến đi lại giúp Sáng và Thu thêm thấu hiểu, sẻ chia và thương nhau nhiều hơn.",
-      "quote": "“Hạnh phúc không phải là đích đến, mà là người nắm tay ta trên suốt chặng đường.”",
+      "quote": "\u201cHạnh phúc không phải là đích đến, mà là người nắm tay ta trên suốt chặng đường.\u201d",
       "photoLeft": "https://images.unsplash.com/photo-1529634806980-85c3dd6d34ac?auto=format&fit=crop&w=700&q=80",
       "photoRight": "https://images.unsplash.com/photo-1532712938310-34cb3982ef74?auto=format&fit=crop&w=700&q=80"
     },
@@ -44,7 +133,7 @@
       "dateLabel": "Khoảnh Khắc Ngỏ Lời • 2025",
       "title": "Lời Cầu Hôn Dưới Ánh Hoàng Hôn",
       "narrative": "Khi chiếc nhẫn nhỏ được trao đi cùng ánh mắt chân thành, cái gật đầu xúc động của Thu đã biến ước mơ về một mái ấm nhỏ trở thành hiện thực.",
-      "quote": "“Từ hôm nay, mọi mùa thu sau này của anh đều có tên em.”",
+      "quote": "\u201cTừ hôm nay, mọi mùa thu sau này của anh đều có tên em.\u201d",
       "photo": "https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?auto=format&fit=crop&w=900&q=80",
       "frameStyle": "arch"
     },
@@ -54,7 +143,7 @@
       "dateLabel": "Ngày Chụp Hình Cưới • 2026",
       "title": "Khoảnh Khắc Khoác Lên Mình Váy Cưới",
       "narrative": "Giây phút nhìn thấy Ngô Thị Thu rạng rỡ trong tà váy cưới trắng tinh khôi, Sáng biết rằng hành trình thanh xuân đẹp nhất đã tìm thấy bến đỗ.",
-      "quote": "“Khoảnh khắc thấy em trên lễ đường, cùng ánh mắt bóng dáng thân thương...”",
+      "quote": "\u201cKhoảnh khắc thấy em trên lễ đường, cùng ánh mắt bóng dáng thân thương...\u201d",
       "photo": "https://images.unsplash.com/photo-1606800052052-a08af7148866?auto=format&fit=crop&w=900&q=80",
       "frameStyle": "polaroid"
     },
@@ -64,11 +153,12 @@
       "dateLabel": "20 . 12 . 2026",
       "title": "Về Chung Một Nhà",
       "narrative": "Và giờ đây, trong tiếng nhạc Lễ Đường dịu êm, chúng tôi mong chờ được đón bạn tới chứng kiến khoảnh khắc thiêng liêng nhất của cuộc đời mình.",
-      "quote": "“Nhiều năm ấy chớp mắt trôi qua, để ta giờ đây về chung một nhà.”",
+      "quote": "\u201cNhiều năm ấy chớp mắt trôi qua, để ta giờ đây về chung một nhà.\u201d",
       "photoLeft": "https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=700&q=80",
       "photoRight": "https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=700&q=80"
     }
   ],
+
   "albumRows": [
     {
       "type": "single",
@@ -125,6 +215,7 @@
       }
     }
   ],
+
   "bankInfo": {
     "groom": {
       "bankName": "Techcombank",
@@ -139,6 +230,7 @@
       "qrUrl": "https://api.vietqr.io/image/970436-0123456789-compact.jpg?amount=0&addInfo=Mung%20cuoi%20Sang%20Thu"
     }
   },
+
   "initialWishes": [
     {
       "name": "Anh Hoàng & Chị Mai",
