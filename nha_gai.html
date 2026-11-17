@@ -1,0 +1,1416 @@
+<!DOCTYPE html>
+<html lang="vi" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>NGUYỄN SÁNG & NGÔ THU WEDDING | 20.12.2026</title>
+
+  <!-- Open Graph Meta Tags cho Zalo / Facebook Share -->
+  <meta property="og:title" content="NGUYỄN SÁNG & NGÔ THU WEDDING | 20.12.2026" />
+  <meta property="og:description" content="Trân trọng kính mời Quý khách tham dự Lễ Thành Hôn của Nguyễn Sáng & Ngô Thu vào ngày 20.12.2026 (12/11/2026 Âm lịch)" />
+  <meta property="og:image" content="https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=900&q=80" />
+  <meta property="og:type" content="website" />
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Nạp sẵn bộ Font cốt lõi để trang hiển thị tức thì (0ms), các font còn lại nạp động khi chọn -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Imperial+Script&family=Great+Vibes&display=swap&subset=vietnamese" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            cream: 'var(--bg-cream)',
+            cardBg: 'var(--bg-card)',
+            primary: 'var(--primary)',
+            primaryDark: 'var(--primary-dark)',
+            ink: 'var(--ink)',
+            espresso: '#231E1B',
+            terracotta: '#B57351',
+            champagne: '#C5A059'
+          },
+          fontFamily: {
+            serif: ['var(--font-serif)', 'Georgia', 'serif'],
+            script: ['var(--font-script)', 'cursive']
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Mặc định: Tông màu Nâu Tây trầm Espresso (#231E1B), nền kem ấm (#FAF6F0), điểm nhấn cam đất (#B57351) & vàng đồng (#C5A059) */
+    :root {
+      --bg-cream: #FAF6F0;
+      --bg-card: #EFE7DC;
+      --primary: #8B573E;
+      --primary-dark: #231E1B;
+      --ink: #231E1B;
+      --accent-gold: #C5A059;
+      --accent-terra: #B57351;
+      --font-serif: 'Cormorant Garamond', Georgia, serif;
+      --font-script: 'Imperial Script', cursive;
+    }
+
+    /* Tông Đỏ Đô (#7A1C1C) khi bấm nút chuyển đổi */
+    body.theme-burgundy {
+      --bg-cream: #FAF8F5;
+      --bg-card: #F6ECEB;
+      --primary: #7A1C1C;
+      --primary-dark: #521010;
+      --ink: #2C2424;
+      --accent-gold: #C5A059;
+      --accent-terra: #7A1C1C;
+    }
+
+    /* Chuẩn hóa số thẳng hàng ngang (Lining Numerals) */
+    body, .font-serif, .lining-nums, input, select, textarea, button {
+      font-family: var(--font-serif);
+      font-variant-numeric: lining-nums proportional-nums;
+      font-feature-settings: "lnum" 1, "pnum" 1;
+    }
+
+    body {
+      background-color: #DCD3C7;
+      color: var(--ink);
+      overflow-x: hidden;
+      -webkit-tap-highlight-color: transparent;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .font-script {
+      font-family: var(--font-script);
+      font-weight: 400;
+    }
+
+    .font-tu-gia {
+      font-family: var(--font-script);
+      font-weight: 400;
+    }
+
+    /* =====================================================
+       QUY TẮC MÀU NÚT XEM BẢN ĐỒ:
+       - Mặc định: nền màu chủ đạo đậm var(--primary), chữ màu kem sáng #FAF6F0
+       - Hover / Active: nền sáng trong suốt, chữ và viền màu chủ đạo var(--primary)
+       ===================================================== */
+    .btn-map-custom {
+      background-color: var(--primary);
+      color: #FAF6F0;
+      border: 1px solid var(--primary);
+      transition: all 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .btn-map-custom:hover,
+    .btn-map-custom:active {
+      background-color: transparent;
+      color: var(--primary);
+      border-color: var(--primary);
+    }
+
+    /* =====================================================
+       HIỆU ỨNG CUỘN TRANG (INTERSECTION OBSERVER)
+       ===================================================== */
+    .reveal {
+      opacity: 0;
+      transition: transform 0.95s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.95s cubic-bezier(0.22, 1, 0.36, 1);
+      will-change: transform, opacity;
+    }
+
+    .reveal-up {
+      transform: translate3d(0, 30px, 0);
+    }
+
+    /* Ảnh đơn: phóng nhẹ từ tâm scale(0.85 -> 1) */
+    .reveal-zoom {
+      transform: translate3d(0, 16px, 0) scale(0.85);
+    }
+
+    /* Cặp ảnh đôi: trượt từ 2 rìa trái/phải (-45px / +45px -> 0) */
+    .reveal-left {
+      transform: translate3d(-45px, 10px, 0) scale(0.95);
+    }
+
+    .reveal-right {
+      transform: translate3d(45px, 10px, 0) scale(0.95);
+    }
+
+    .reveal.active {
+      opacity: 1;
+      transform: translate3d(0, 0, 0) scale(1);
+    }
+
+    /* Hiệu ứng mở mượt Hộp Quà Cưới 2 QR */
+    .qr-collapse {
+      max-height: 0;
+      opacity: 0;
+      overflow: hidden;
+      transform: translateY(-8px);
+      transition: max-height 0.6s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.4s ease, transform 0.4s ease, margin-top 0.4s ease;
+    }
+
+    .qr-collapse.open {
+      max-height: 920px;
+      opacity: 1;
+      transform: translateY(0);
+      margin-top: 1.5rem;
+    }
+
+    /* Đường kẻ ánh vàng đồng */
+    .gold-line {
+      height: 1px;
+      width: 120px;
+      margin: 0 auto;
+      background: linear-gradient(90deg, transparent 0%, #C5A059 50%, transparent 100%);
+    }
+
+    /* Xoay nút nhạc nền */
+    @keyframes spinDisk {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    .music-spinning {
+      animation: spinDisk 7s linear infinite;
+    }
+
+    /* Chế độ thay ảnh trực tiếp */
+    .photo-editable {
+      cursor: pointer;
+    }
+    body.edit-photo-mode .photo-editable {
+      outline: 2px dashed #B57351;
+      outline-offset: -3px;
+    }
+
+    /* Select dropdown gọn đẹp */
+    select.custom-select {
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%238B573E'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='1.6' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 0.65rem center;
+      background-size: 0.85rem;
+    }
+  </style>
+</head>
+
+<body class="min-h-screen flex justify-center items-start">
+
+  <!-- Input file ẩn để tải ảnh hoặc mã QR từ máy người dùng -->
+  <input type="file" id="photoFileInput" accept="image/*" class="hidden" />
+
+  <!-- KHUNG THIỆP MOBILE CHUẨN (max-w-[430px]) -->
+  <main class="w-full max-w-[430px] min-h-screen bg-cream shadow-2xl relative overflow-hidden">
+
+    <!-- =====================================================
+         THANH CÔNG CỤ CỐ ĐỊNH TRÊN CÙNG (24 FONT CHỮ KÝ + 7 FONT NỘI DUNG + THAY ẢNH + ĐỔI MÀU)
+         ===================================================== -->
+    <header class="fixed top-2 left-1/2 -translate-x-1/2 w-full max-w-[430px] px-2.5 z-40 pointer-events-none flex flex-col gap-1.5">
+      <!-- Hàng 1: 24 Font Chữ Ký & 7 Font Nội Dung -->
+      <div class="grid grid-cols-2 gap-1.5 pointer-events-auto">
+        <select
+          id="scriptFontSelect"
+          onchange="changeScriptFont(this.value)"
+          aria-label="Chọn font chữ ký"
+          class="custom-select bg-white/95 hover:bg-white text-[#231E1B] border border-[#B57351]/60 shadow-md rounded-full pl-3 pr-6 py-1 text-[11px] font-medium focus:outline-none backdrop-blur-sm truncate cursor-pointer"
+        >
+          <option value="Imperial Script" selected>✍️ 1. Imperial Script (Mặc định)</option>
+          <option value="Great Vibes">✍️ 2. Great Vibes</option>
+          <option value="Alex Brush">✍️ 3. Alex Brush</option>
+          <option value="Pinyon Script">✍️ 4. Pinyon Script</option>
+          <option value="Allura">✍️ 5. Allura</option>
+          <option value="Dancing Script">✍️ 6. Dancing Script</option>
+          <option value="Parisienne">✍️ 7. Parisienne</option>
+          <option value="Sacramento">✍️ 8. Sacramento</option>
+          <option value="Tangerine">✍️ 9. Tangerine</option>
+          <option value="MonteCarlo">✍️ 10. MonteCarlo</option>
+          <option value="Fleur De Leah">✍️ 11. Fleur De Leah</option>
+          <option value="Mea Culpa">✍️ 12. Mea Culpa</option>
+          <option value="WindSong">✍️ 13. WindSong</option>
+          <option value="Birthstone">✍️ 14. Birthstone</option>
+          <option value="Corinthia">✍️ 15. Corinthia</option>
+          <option value="Playball">✍️ 16. Playball</option>
+          <option value="Satisfy">✍️ 17. Satisfy</option>
+          <option value="Herr Von Muellerhoff">✍️ 18. Herr Von Muellerhoff</option>
+          <option value="Mr De Haviland">✍️ 19. Mr De Haviland</option>
+          <option value="Mrs Saint Delafield">✍️ 20. Mrs Saint Delafield</option>
+          <option value="Rouge Script">✍️ 21. Rouge Script</option>
+          <option value="Italianno">✍️ 22. Italianno</option>
+          <option value="Yesteryear">✍️ 23. Yesteryear</option>
+          <option value="Qwigley">✍️ 24. Qwigley</option>
+        </select>
+
+        <select
+          id="serifFontSelect"
+          onchange="changeSerifFont(this.value)"
+          aria-label="Chọn font nội dung"
+          class="custom-select bg-white/95 hover:bg-white text-[#231E1B] border border-[#B57351]/60 shadow-md rounded-full pl-3 pr-6 py-1 text-[11px] font-medium focus:outline-none backdrop-blur-sm truncate cursor-pointer"
+        >
+          <option value="Cormorant Garamond" selected>📖 1. Cormorant Garamond</option>
+          <option value="Playfair Display">📖 2. Playfair Display</option>
+          <option value="EB Garamond">📖 3. EB Garamond</option>
+          <option value="Lora">📖 4. Lora</option>
+          <option value="Merriweather">📖 5. Merriweather</option>
+          <option value="Prata">📖 6. Prata</option>
+          <option value="Spectral">📖 7. Spectral</option>
+        </select>
+      </div>
+
+      <!-- Hàng 2: Nút Thay Ảnh & Đổi Tông Màu -->
+      <div class="flex justify-between items-center gap-1.5">
+        <button
+          id="btnReplacePhoto"
+          type="button"
+          onclick="togglePhotoReplaceMode()"
+          class="pointer-events-auto bg-white/95 hover:bg-white text-[#231E1B] border border-[#B57351]/60 shadow-md rounded-full px-3 py-1 text-[10.5px] tracking-wider uppercase font-medium flex items-center gap-1 backdrop-blur-sm transition active:scale-95"
+        >
+          <span>📷</span>
+          <span id="replacePhotoText">Thay ảnh</span>
+        </button>
+
+        <button
+          id="btnSwitchPalette"
+          type="button"
+          onclick="toggleColorPalette()"
+          class="pointer-events-auto bg-[#231E1B]/95 hover:bg-black text-[#FAF6F0] border border-[#C5A059]/60 shadow-md rounded-full px-3 py-1 text-[10.5px] tracking-wider uppercase font-medium flex items-center gap-1 backdrop-blur-sm transition active:scale-95"
+        >
+          <span>🎨</span>
+          <span id="paletteLabel">Tông màu: Nâu Tây</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- =====================================================
+         NÚT NHẠC NỀN CỐ ĐỊNH GÓC DƯỚI BÊN PHẢI
+         ===================================================== -->
+    <div class="fixed bottom-4 left-1/2 -translate-x-1/2 w-full max-w-[430px] px-4 z-40 pointer-events-none flex justify-end items-center gap-2">
+      <a
+        href="#rsvpSection"
+        class="pointer-events-auto rounded-full bg-[#FAF6F0]/95 hover:bg-white text-[#231E1B] border border-[#C5A059]/70 shadow-lg px-4 py-2 text-[11px] tracking-[0.14em] uppercase font-medium transition active:scale-95"
+      >
+        LỜI CHÚC
+      </a>
+
+      <button
+        id="musicToggleBtn"
+        type="button"
+        onclick="toggleMusic()"
+        aria-label="Bật hoặc tắt nhạc nền"
+        class="pointer-events-auto w-10 h-10 rounded-full bg-[#231E1B]/90 border border-[#C5A059]/80 shadow-lg flex items-center justify-center relative transition active:scale-90"
+      >
+        <svg class="w-4 h-4 text-[#C5A059]" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/>
+        </svg>
+        <span id="musicMuteLine" class="absolute w-5 h-[1.5px] bg-[#C5A059] rotate-45 rounded-full"></span>
+      </button>
+    </div>
+
+    <!-- =====================================================
+         PHẦN 1: HERO SECTION (ẢNH BÌA TOÀN MÀN HÌNH)
+         ===================================================== -->
+    <section class="relative w-full h-[85vh] max-h-[730px] min-h-[540px] overflow-hidden bg-[#231E1B]">
+      <img
+        src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=1000&q=80"
+        onerror="this.src='https://placehold.co/800x1200/231E1B/FAF6F0?text=Nguyen+Sang+%26+Ngo+Thu'"
+        alt="Ảnh cưới Nguyễn Sáng & Ngô Thu"
+        class="photo-editable w-full h-full object-cover object-center"
+      />
+      <!-- Lớp phủ gradient đáy -->
+      <div class="absolute inset-0 bg-gradient-to-t from-[#231E1B]/85 via-[#231E1B]/20 to-transparent pointer-events-none"></div>
+
+      <!-- Cụm chữ trắng căn giữa -->
+      <div class="absolute bottom-9 inset-x-0 text-center text-[#FAF6F0] px-4 pointer-events-none">
+        <div class="reveal reveal-up active lining-nums text-[52px] leading-none font-normal tracking-[0.06em] mb-1.5 drop-shadow">
+          20.12
+        </div>
+        <!-- Tên Dâu Rể tự động ngắt dòng cân đối khi font rộng -->
+        <h1
+          data-couple-display="pair"
+          class="reveal reveal-up active font-script text-[42px] leading-[1.15] mb-2 drop-shadow px-2"
+        >
+          Nguyễn Sáng &amp; Ngô Thu
+        </h1>
+        <p class="reveal reveal-up active text-[12px] tracking-[0.24em] uppercase font-normal text-[#C5A059]">
+          WELCOME TO OUR WEDDING
+        </p>
+      </div>
+    </section>
+
+    <!-- =====================================================
+         PHẦN 2: SAVE THE DATE
+         ===================================================== -->
+    <section class="pt-10 pb-6 px-6 text-center bg-cream">
+      <div class="reveal reveal-up">
+        <p class="text-[14px] tracking-[0.09em] uppercase text-ink leading-[1.6] font-normal">
+          QUYẾT ĐỊNH BÊN NHAU<br />TRỌN ĐỜI
+        </p>
+        <h2 class="font-script text-[42px] text-primary leading-tight my-1">
+          Save the date
+        </h2>
+        <p class="lining-nums text-[22px] tracking-[0.12em] text-primary font-normal mb-6">
+          20.12.2026
+        </p>
+      </div>
+
+      <!-- Ảnh dọc bo góc mềm phóng nhẹ từ tâm -->
+      <div class="reveal reveal-zoom relative rounded-[18px] overflow-hidden shadow-md mx-auto max-w-[335px] aspect-[3/4] bg-cardBg">
+        <img
+          src="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=900&q=80"
+          onerror="this.src='https://placehold.co/600x800/EFE7DC/8B573E?text=Save+The+Date'"
+          alt="Save the date Nguyễn Sáng & Ngô Thu"
+          loading="lazy"
+          class="photo-editable w-full h-full object-cover"
+        />
+      </div>
+    </section>
+
+    <!-- =====================================================
+         PHẦN 3: LỜI MỜI & GIA ĐÌNH HAI BÊN
+         ===================================================== -->
+    <section class="pt-1 pb-6 px-4 text-center bg-cream overflow-hidden">
+      <!-- Đường kẻ hoa văn Line-Art SVG -->
+      <div class="reveal reveal-up w-full overflow-hidden my-2">
+        <svg viewBox="0 0 400 72" class="w-full h-14 text-primary" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M-10 48 Q 110 22, 230 39 T 410 31" stroke="currentColor" stroke-width="0.9" fill="none" opacity="0.75"/>
+          <path d="M-10 53 Q 115 27, 235 44 T 410 36" stroke="currentColor" stroke-width="0.55" fill="none" opacity="0.5"/>
+          <g transform="translate(285, 6)" stroke="currentColor" stroke-width="0.9" fill="var(--bg-cream)">
+            <path d="M35 32 C25 18, 12 16, 8 25 C12 34, 24 36, 35 32 Z" />
+            <path d="M35 32 C22 10, 32 2, 42 10 C46 18, 40 26, 35 32 Z" />
+            <path d="M35 32 C42 12, 56 8, 60 18 C58 27, 46 31, 35 32 Z" />
+            <path d="M35 32 C48 22, 64 24, 62 33 C56 39, 44 36, 35 32 Z" />
+            <path d="M35 32 C28 24, 35 15, 43 22 C46 27, 40 31, 35 32 Z" />
+            <circle cx="37" cy="27" r="1.8" fill="currentColor"/>
+          </g>
+        </svg>
+      </div>
+
+      <!-- Tiêu đề lời mời -->
+      <div class="reveal reveal-up px-2 mt-1">
+        <p class="text-[12.5px] tracking-[0.06em] uppercase text-ink leading-[1.65] font-normal">
+          TRÂN TRỌNG KÍNH MỜI QUÝ KHÁCH<br />
+          DÀNH THỜI GIAN QUÝ GIÁ THAM DỰ LỄ CƯỚI CỦA
+        </p>
+        <h2
+          data-couple-display="pair"
+          class="font-script text-[42px] text-primary leading-tight my-2.5 px-1"
+        >
+          Nguyễn Sáng &amp; Ngô Thu
+        </h2>
+      </div>
+
+      <!-- Lưới 2 cột cân xứng: Nhà Trai & Nhà Gái -->
+      <div class="grid grid-cols-2 gap-3.5 mt-4 items-start">
+        <!-- Cột Trái: NHÀ TRAI -->
+        <div class="flex flex-col items-center">
+          <div class="reveal reveal-left w-full aspect-[3/4] rounded-[14px] overflow-hidden shadow-sm bg-cardBg mb-3">
+            <img
+              src="https://images.unsplash.com/photo-1537633552985-df8429e8048b?auto=format&fit=crop&w=600&q=80"
+              onerror="this.src='https://placehold.co/500x700/EFE7DC/8B573E?text=Chu+Re+Nguyen+Sang'"
+              alt="Nhà Trai - Chú Rể Nguyễn Sáng"
+              loading="lazy"
+              class="photo-editable w-full h-full object-cover"
+            />
+          </div>
+          <div class="reveal reveal-up w-full">
+            <h3 class="text-[13px] tracking-[0.08em] uppercase font-semibold text-ink mb-1">
+              NHÀ TRAI
+            </h3>
+            <p class="text-[14px] text-ink leading-[1.5] font-normal">
+              Ông Nguyễn Văn Lừng
+            </p>
+            <p class="text-[14px] text-ink leading-[1.5] font-normal">
+              Bà Nguyễn Thị Viên
+            </p>
+            <p class="text-[11px] tracking-[0.1em] uppercase text-ink/70 mt-2">
+              Chú Rể
+            </p>
+            <p
+              id="groomFamilyName"
+              data-couple-display="groom"
+              class="font-script text-[31px] text-primary leading-[1.15] mt-0.5 px-1"
+            >
+              Nguyễn Sáng
+            </p>
+          </div>
+        </div>
+
+        <!-- Cột Phải: NHÀ GÁI -->
+        <div class="flex flex-col items-center">
+          <div class="reveal reveal-right w-full aspect-[3/4] rounded-[14px] overflow-hidden shadow-sm bg-cardBg mb-3">
+            <img
+              src="https://images.unsplash.com/photo-1606800052052-a08af7148866?auto=format&fit=crop&w=600&q=80"
+              onerror="this.src='https://placehold.co/500x700/EFE7DC/8B573E?text=Co+Dau+Ngo+Thu'"
+              alt="Nhà Gái - Cô Dâu Ngô Thu"
+              loading="lazy"
+              class="photo-editable w-full h-full object-cover"
+            />
+          </div>
+          <div class="reveal reveal-up w-full">
+            <h3 class="text-[13px] tracking-[0.08em] uppercase font-semibold text-ink mb-1">
+              NHÀ GÁI
+            </h3>
+            <p class="text-[14px] text-ink leading-[1.5] font-normal">
+              Ông Ngô Văn Thanh
+            </p>
+            <p class="text-[14px] text-ink leading-[1.5] font-normal">
+              Bà Nguyễn Thị Nhung
+            </p>
+            <p class="text-[11px] tracking-[0.1em] uppercase text-ink/70 mt-2">
+              Cô Dâu
+            </p>
+            <p
+              id="brideFamilyName"
+              data-couple-display="bride"
+              class="font-script text-[31px] text-primary leading-[1.15] mt-0.5 px-1"
+            >
+              Ngô Thu
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Icon Nhẫn Cưới Đôi -->
+      <div class="reveal reveal-zoom my-5 flex justify-center">
+        <svg class="w-16 h-12 text-primary" viewBox="0 0 100 75" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <polygon points="35,14 42,14 45,20 38.5,26 32,20" stroke="currentColor" stroke-width="1.3" fill="none"/>
+          <line x1="32" y1="20" x2="45" y2="20" stroke="currentColor" stroke-width="1.1"/>
+          <ellipse cx="38" cy="44" rx="20" ry="18" stroke="currentColor" stroke-width="1.5"/>
+          <ellipse cx="38" cy="44" rx="16.5" ry="14.5" stroke="currentColor" stroke-width="0.9"/>
+          <ellipse cx="58" cy="42" rx="20" ry="18" stroke="currentColor" stroke-width="1.5"/>
+          <ellipse cx="58" cy="42" rx="16.5" ry="14.5" stroke="currentColor" stroke-width="0.9"/>
+        </svg>
+      </div>
+    </section>
+
+    <!-- =====================================================
+         PHẦN 4: THẺ SỰ KIỆN (LỄ THÀNH HÔN TRƯỚC - BUỔI TIỆC CHUNG VUI SAU)
+         ===================================================== -->
+    <section class="px-4 space-y-5 bg-cream pb-4">
+      <!-- THẺ 1: LỄ THÀNH HÔN -->
+      <div class="reveal reveal-up bg-cardBg rounded-[22px] py-7 px-5 text-center shadow-sm border border-primary/15">
+        <h3 class="text-[14.5px] tracking-[0.09em] uppercase text-ink font-semibold">
+          LỄ VU QUY
+        </h3>
+        <h4 class="font-tu-gia text-[36px] text-primary leading-tight my-1">
+          Tư Gia Nhà Gái
+        </h4>
+
+        <div class="my-3 inline-block border-y border-primary/40 py-2 px-4">
+          <span class="lining-nums text-[20px] sm:text-[22px] leading-none tracking-[0.05em] text-primary font-medium">
+            14:15 &nbsp;|&nbsp; Chủ Nhật, 20.12.2026
+          </span>
+        </div>
+
+        <p class="lining-nums italic text-[13.5px] text-ink/85 tracking-[0.02em] mb-3">
+          Tức ngày 12 tháng 11 năm Bính Ngọ (12/11/2026 Âm lịch)
+        </p>
+
+        <div class="flex justify-center my-2.5">
+          <svg class="w-5 h-5 text-primary" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 010-5 2.5 2.5 0 010 5z"/>
+          </svg>
+        </div>
+
+        <button
+          type="button"
+          onclick="openMapModal('Lễ Thành Hôn (14:15 - 20.12.2026)', 'Tư Gia Nhà Trai')"
+          class="btn-map-custom mt-1 inline-block active:scale-95 rounded-full px-12 py-1.5 text-[12px] tracking-[0.1em] uppercase font-medium shadow-sm"
+        >
+          XEM BẢN ĐỒ
+        </button>
+      </div>
+
+      <!-- THẺ 2: BUỔI TIỆC CHUNG VUI -->
+      <div class="reveal reveal-up bg-cardBg rounded-[22px] py-7 px-5 text-center shadow-sm border border-primary/15">
+        <h3 class="text-[14.5px] tracking-[0.09em] uppercase text-ink font-semibold">
+          BUỔI TIỆC CHUNG VUI
+        </h3>
+        <h4 class="font-tu-gia text-[36px] text-primary leading-tight my-1">
+          Tư Gia Nhà Gái
+        </h4>
+
+        <div class="my-3 inline-block border-y border-primary/40 py-2 px-4">
+          <span class="lining-nums text-[20px] sm:text-[22px] leading-none tracking-[0.05em] text-primary font-medium">
+            16:00 &nbsp;|&nbsp; Chủ Nhật, 20.12.2026
+          </span>
+        </div>
+
+        <p class="lining-nums italic text-[13.5px] text-ink/85 tracking-[0.02em] mb-3">
+          Tức ngày 12 tháng 11 năm Bính Ngọ (12/11/2026 Âm lịch)
+        </p>
+
+        <div class="flex justify-center my-2.5">
+          <svg class="w-5 h-5 text-primary" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 010-5 2.5 2.5 0 010 5z"/>
+          </svg>
+        </div>
+
+        <button
+          type="button"
+          onclick="openMapModal('Buổi Tiệc Chung Vui (16:00 - 20.12.2026)', 'Trung Tâm Tiệc Cưới')"
+          class="btn-map-custom mt-1 inline-block active:scale-95 rounded-full px-12 py-1.5 text-[12px] tracking-[0.1em] uppercase font-medium shadow-sm"
+        >
+          XEM BẢN ĐỒ
+        </button>
+      </div>
+    </section>
+
+    <!-- =====================================================
+         PHẦN 5: ALBUM ẢNH ("The Album Of Love" - ĐÚNG 9 ẢNH NHỊP 1 - 2 - 1 - 2 - 1 - 2)
+         ===================================================== -->
+    <section class="pt-8 pb-10 px-4 bg-cream overflow-hidden">
+      <h2 class="reveal reveal-up font-script text-[42px] text-primary text-center mb-5">
+        The Album Of Love
+      </h2>
+
+      <div class="space-y-3.5">
+        <!-- Hàng 1: 1 Ảnh đơn (#1) -->
+        <div class="reveal reveal-zoom w-full aspect-[4/3] rounded-[16px] overflow-hidden shadow-sm bg-cardBg">
+          <img
+            onclick="openLightbox(this)"
+            src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=900&q=80"
+            onerror="this.src='https://placehold.co/900x675/EFE7DC/8B573E?text=Album+1'"
+            alt="Album ảnh cưới 1"
+            loading="lazy"
+            class="photo-editable w-full h-full object-cover hover:scale-105 transition duration-500"
+          />
+        </div>
+
+        <!-- Hàng 2: 2 Ảnh đôi (#2 & #3) -->
+        <div class="grid grid-cols-2 gap-3.5">
+          <div class="reveal reveal-left aspect-[3/4] rounded-[16px] overflow-hidden shadow-sm bg-cardBg">
+            <img
+              onclick="openLightbox(this)"
+              src="https://images.unsplash.com/photo-1522673607200-164d1b6ce486?auto=format&fit=crop&w=600&q=80"
+              onerror="this.src='https://placehold.co/600x800/EFE7DC/8B573E?text=Album+2'"
+              alt="Album ảnh cưới 2"
+              loading="lazy"
+              class="photo-editable w-full h-full object-cover hover:scale-105 transition duration-500"
+            />
+          </div>
+          <div class="reveal reveal-right aspect-[3/4] rounded-[16px] overflow-hidden shadow-sm bg-cardBg">
+            <img
+              onclick="openLightbox(this)"
+              src="https://images.unsplash.com/photo-1529634806980-85c3dd6d34ac?auto=format&fit=crop&w=600&q=80"
+              onerror="this.src='https://placehold.co/600x800/EFE7DC/8B573E?text=Album+3'"
+              alt="Album ảnh cưới 3"
+              loading="lazy"
+              class="photo-editable w-full h-full object-cover hover:scale-105 transition duration-500"
+            />
+          </div>
+        </div>
+
+        <!-- Hàng 3: 1 Ảnh đơn (#4) -->
+        <div class="reveal reveal-zoom w-full aspect-[4/3] rounded-[16px] overflow-hidden shadow-sm bg-cardBg">
+          <img
+            onclick="openLightbox(this)"
+            src="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=900&q=80"
+            onerror="this.src='https://placehold.co/900x675/EFE7DC/8B573E?text=Album+4'"
+            alt="Album ảnh cưới 4"
+            loading="lazy"
+            class="photo-editable w-full h-full object-cover hover:scale-105 transition duration-500"
+          />
+        </div>
+
+        <!-- Hàng 4: 2 Ảnh đôi (#5 & #6) -->
+        <div class="grid grid-cols-2 gap-3.5">
+          <div class="reveal reveal-left aspect-[3/4] rounded-[16px] overflow-hidden shadow-sm bg-cardBg">
+            <img
+              onclick="openLightbox(this)"
+              src="https://images.unsplash.com/photo-1544078751-58fee2d8a03b?auto=format&fit=crop&w=600&q=80"
+              onerror="this.src='https://placehold.co/600x800/EFE7DC/8B573E?text=Album+5'"
+              alt="Album ảnh cưới 5"
+              loading="lazy"
+              class="photo-editable w-full h-full object-cover hover:scale-105 transition duration-500"
+            />
+          </div>
+          <div class="reveal reveal-right aspect-[3/4] rounded-[16px] overflow-hidden shadow-sm bg-cardBg">
+            <img
+              onclick="openLightbox(this)"
+              src="https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&w=600&q=80"
+              onerror="this.src='https://placehold.co/600x800/EFE7DC/8B573E?text=Album+6'"
+              alt="Album ảnh cưới 6"
+              loading="lazy"
+              class="photo-editable w-full h-full object-cover hover:scale-105 transition duration-500"
+            />
+          </div>
+        </div>
+
+        <!-- Hàng 5: 1 Ảnh đơn (#7) -->
+        <div class="reveal reveal-zoom w-full aspect-[4/3] rounded-[16px] overflow-hidden shadow-sm bg-cardBg">
+          <img
+            onclick="openLightbox(this)"
+            src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=900&q=80"
+            onerror="this.src='https://placehold.co/900x675/EFE7DC/8B573E?text=Album+7'"
+            alt="Album ảnh cưới 7"
+            loading="lazy"
+            class="photo-editable w-full h-full object-cover hover:scale-105 transition duration-500"
+          />
+        </div>
+
+        <!-- Hàng 6: 2 Ảnh đôi (#8 & #9) -->
+        <div class="grid grid-cols-2 gap-3.5">
+          <div class="reveal reveal-left aspect-[3/4] rounded-[16px] overflow-hidden shadow-sm bg-cardBg">
+            <img
+              onclick="openLightbox(this)"
+              src="https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?auto=format&fit=crop&w=600&q=80"
+              onerror="this.src='https://placehold.co/600x800/EFE7DC/8B573E?text=Album+8'"
+              alt="Album ảnh cưới 8"
+              loading="lazy"
+              class="photo-editable w-full h-full object-cover hover:scale-105 transition duration-500"
+            />
+          </div>
+          <div class="reveal reveal-right aspect-[3/4] rounded-[16px] overflow-hidden shadow-sm bg-cardBg">
+            <img
+              onclick="openLightbox(this)"
+              src="https://images.unsplash.com/photo-1591604466107-ec97de577aff?auto=format&fit=crop&w=600&q=80"
+              onerror="this.src='https://placehold.co/600x800/EFE7DC/8B573E?text=Album+9'"
+              alt="Album ảnh cưới 9"
+              loading="lazy"
+              class="photo-editable w-full h-full object-cover hover:scale-105 transition duration-500"
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =====================================================
+         PHẦN 6: LỊCH THÁNG 12.2026 & ĐẾM NGƯỢC (NỀN ESPRESSO #231E1B)
+         ===================================================== -->
+    <section class="bg-[#231E1B] text-[#FAF6F0] py-12 px-5 text-center">
+      <div class="reveal reveal-up">
+        <p class="text-[11.5px] tracking-[0.28em] text-[#C5A059] uppercase mb-1.5 font-normal">
+          SAVE THE DATE
+        </p>
+        <h2 class="text-[38px] italic text-[#FAF6F0] font-normal leading-tight mb-7">
+          Tháng 12 . 2026
+        </h2>
+      </div>
+
+      <!-- Khung Lịch Tháng 12/2026 (T2 -> CN) -->
+      <div class="reveal reveal-up rounded-[20px] border border-[#4A3F39] bg-[#2B2521]/75 p-5 mb-10 shadow-inner">
+        <div class="grid grid-cols-7 text-center text-[12px] tracking-wider text-[#C5A059] font-medium pb-3 mb-3.5 border-b border-[#4A3F39]">
+          <span>T2</span>
+          <span>T3</span>
+          <span>T4</span>
+          <span>T5</span>
+          <span>T6</span>
+          <span>T7</span>
+          <span>CN</span>
+        </div>
+
+        <div class="grid grid-cols-7 gap-y-3.5 items-center text-center lining-nums text-[15.5px] text-[#EDE5DC] font-normal">
+          <!-- Tuần 1: 01/12/2026 là Thứ Ba -->
+          <span></span>
+          <span>1</span>
+          <span>2</span>
+          <span>3</span>
+          <span>4</span>
+          <span>5</span>
+          <span>6</span>
+          <!-- Tuần 2 -->
+          <span>7</span>
+          <span>8</span>
+          <span>9</span>
+          <span>10</span>
+          <span>11</span>
+          <span>12</span>
+          <span>13</span>
+          <!-- Tuần 3: Ngày 20 Chủ Nhật khoanh tròn cam đất Terracotta #B57351 -->
+          <span>14</span>
+          <span>15</span>
+          <span>16</span>
+          <span>17</span>
+          <span>18</span>
+          <span>19</span>
+          <div class="flex items-center justify-center">
+            <span class="w-9 h-9 rounded-full bg-[#B57351] border-2 border-[#C5A059] text-[#FAF6F0] font-bold flex items-center justify-center shadow-md">
+              20
+            </span>
+          </div>
+          <!-- Tuần 4 -->
+          <span>21</span>
+          <span>22</span>
+          <span>23</span>
+          <span>24</span>
+          <span>25</span>
+          <span>26</span>
+          <span>27</span>
+          <!-- Tuần 5 -->
+          <span>28</span>
+          <span>29</span>
+          <span>30</span>
+          <span>31</span>
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </div>
+
+      <!-- 4 Ô Đếm Ngược Thời Gian Thực -->
+      <div class="reveal reveal-up">
+        <p class="text-[11.5px] tracking-[0.22em] text-[#C5A059] uppercase text-center mb-5 font-normal">
+          ĐẾM NGƯỢC ĐẾN NGÀY HẠNH PHÚC
+        </p>
+
+        <div class="grid grid-cols-4 gap-2.5">
+          <div class="rounded-[16px] bg-[#2B2521]/85 border border-[#4A3F39] py-4 px-1 text-center">
+            <div id="cdDays" class="lining-nums text-[28px] text-[#B57351] leading-none mb-2 font-normal">
+              33
+            </div>
+            <div class="text-[10px] tracking-[0.16em] text-[#C5B9AD] uppercase">
+              NGÀY
+            </div>
+          </div>
+
+          <div class="rounded-[16px] bg-[#2B2521]/85 border border-[#4A3F39] py-4 px-1 text-center">
+            <div id="cdHours" class="lining-nums text-[28px] text-[#B57351] leading-none mb-2 font-normal">
+              21
+            </div>
+            <div class="text-[10px] tracking-[0.16em] text-[#C5B9AD] uppercase">
+              GIỜ
+            </div>
+          </div>
+
+          <div class="rounded-[16px] bg-[#2B2521]/85 border border-[#4A3F39] py-4 px-1 text-center">
+            <div id="cdMinutes" class="lining-nums text-[28px] text-[#B57351] leading-none mb-2 font-normal">
+              38
+            </div>
+            <div class="text-[10px] tracking-[0.16em] text-[#C5B9AD] uppercase">
+              PHÚT
+            </div>
+          </div>
+
+          <div class="rounded-[16px] bg-[#2B2521]/85 border border-[#4A3F39] py-4 px-1 text-center">
+            <div id="cdSeconds" class="lining-nums text-[28px] text-[#B57351] leading-none mb-2 font-normal">
+              00
+            </div>
+            <div class="text-[10px] tracking-[0.16em] text-[#C5B9AD] uppercase">
+              GIÂY
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =====================================================
+         PHẦN 7: FORM XÁC NHẬN THAM DỰ (RSVP)
+         ===================================================== -->
+    <section id="rsvpSection" class="pt-10 pb-8 px-4 bg-cream">
+      <div class="reveal reveal-up text-center mb-5">
+        <h2 class="font-script text-[40px] text-primary leading-tight">
+          Xác Nhận Tham Dự
+        </h2>
+        <p class="text-[12.5px] tracking-[0.04em] uppercase text-ink/85 leading-[1.6] mt-1">
+          HÃY XÁC NHẬN SỰ CÓ MẶT CỦA QUÝ KHÁCH ĐỂ GIA ĐÌNH CHÚNG TÔI<br />
+          CHUẨN BỊ ĐÓN TIẾP MỘT CÁCH CHU ĐÁO NHẤT. TRÂN TRỌNG!
+        </p>
+      </div>
+
+      <form id="rsvpForm" onsubmit="handleRsvpSubmit(event)" class="reveal reveal-up space-y-3">
+        <div>
+          <input
+            type="text"
+            id="guestName"
+            required
+            placeholder="Tên của bạn"
+            class="w-full rounded-[10px] border border-primary/40 bg-white px-4 py-2.5 text-[15px] text-ink placeholder-ink/55 focus:outline-none focus:border-primary transition"
+          />
+        </div>
+
+        <div>
+          <select
+            id="guestRelation"
+            class="custom-select w-full rounded-[10px] border border-primary/40 bg-white px-4 py-2.5 text-[15px] text-ink focus:outline-none focus:border-primary transition"
+          >
+            <option value="Bạn chú rể">Mối quan hệ: Bạn chú rể</option>
+            <option value="Bạn cô dâu">Mối quan hệ: Bạn cô dâu</option>
+            <option value="Đồng nghiệp">Mối quan hệ: Đồng nghiệp</option>
+            <option value="Người thân">Mối quan hệ: Người thân</option>
+          </select>
+        </div>
+
+        <div>
+          <textarea
+            id="guestWish"
+            rows="3"
+            required
+            placeholder="Lời chúc gửi tới Sáng & Thu..."
+            class="w-full rounded-[10px] border border-primary/40 bg-white px-4 py-2.5 text-[15px] text-ink placeholder-ink/55 focus:outline-none focus:border-primary transition"
+          ></textarea>
+        </div>
+
+        <div>
+          <select
+            id="guestAttendance"
+            class="custom-select w-full rounded-[10px] border border-primary/40 bg-white px-4 py-2.5 text-[15px] text-ink focus:outline-none focus:border-primary transition"
+          >
+            <option value="Sẽ tham dự Lễ & Tiệc">Sẽ tham dự Lễ &amp; Tiệc</option>
+            <option value="Tham dự Tiệc 16:00">Tham dự Tiệc 16:00</option>
+            <option value="Rất tiếc không thể tham dự">Rất tiếc không thể tham dự</option>
+          </select>
+        </div>
+
+        <div class="pt-1">
+          <button
+            type="submit"
+            class="w-full rounded-full bg-primary hover:opacity-90 active:scale-[0.99] text-[#FAF6F0] py-3 text-[13px] tracking-[0.12em] uppercase font-medium shadow-md transition"
+          >
+            GỬI LỜI CHÚC &amp; XÁC NHẬN
+          </button>
+        </div>
+      </form>
+
+      <div id="rsvpConfirmBanner" class="hidden mt-3 rounded-xl bg-[#231E1B] text-[#FAF6F0] px-4 py-3 text-center text-[13.5px]">
+        ✨ Cảm ơn bạn! Lời chúc và xác nhận tham dự đã được gửi tới Nguyễn Sáng &amp; Ngô Thu.
+      </div>
+
+      <!-- Danh sách lời chúc -->
+      <div id="wishesList" class="mt-5 space-y-2.5 max-h-52 overflow-y-auto pr-1">
+        <div class="bg-cardBg/90 border border-primary/20 rounded-xl p-3.5 text-left">
+          <div class="flex justify-between items-center gap-2">
+            <span class="font-semibold text-primary text-[14.5px]">Hoàng Minh <span class="text-xs font-normal text-ink/70">(Bạn chú rể)</span></span>
+            <span class="text-[10px] uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-primary/15 text-primary">Sẽ tham dự Lễ &amp; Tiệc</span>
+          </div>
+          <p class="text-ink text-[14px] mt-1 italic">"Chúc hai bạn Nguyễn Sáng &amp; Ngô Thu trăm năm hạnh phúc, viên mãn bền lâu!"</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- =====================================================
+         PHẦN 8: WEDDING GIFT - HỘP MỪNG HẠNH PHÚC (BẤM MỞ MỚI HIỆN 2 QR)
+         ===================================================== -->
+    <section id="weddingGiftSection" class="py-11 px-5 text-center bg-cream border-t border-primary/20">
+      <div class="reveal reveal-up">
+        <p class="text-[11px] tracking-[0.28em] text-[#B57351] uppercase mb-2 font-medium">
+          WEDDING GIFT
+        </p>
+        <h2 class="text-[35px] italic uppercase leading-[1.18] text-ink mb-5 font-normal">
+          HỘP MỪNG<br />HẠNH PHÚC
+        </h2>
+        <p class="text-[14.5px] leading-[1.75] text-ink/85 max-w-[365px] mx-auto mb-6 font-normal">
+          Những lời chúc phúc và sự hiện diện của Quý khách là món quà vô cùng ý nghĩa đối với chúng tôi. Trong trường hợp Quý khách ở xa hoặc không thể đến chung vui trực tiếp, Quý khách có thể gửi lời chúc mừng tới cô dâu và chú rể qua thông tin bên dưới. Chúng tôi xin chân thành cảm ơn!
+        </p>
+
+        <!-- Nút bấm mở Hộp Quà Cưới -->
+        <button
+          id="btnToggleGiftQr"
+          type="button"
+          onclick="toggleGiftQrBox()"
+          aria-expanded="false"
+          class="inline-flex items-center justify-center gap-2 rounded-full border border-[#B57351] bg-white hover:bg-cardBg active:scale-95 px-7 py-2.5 text-[12.5px] tracking-[0.08em] uppercase text-ink font-medium shadow-sm transition"
+        >
+          <span>🎁</span>
+          <span id="btnToggleGiftQrText">MỞ HỘP QUÀ CƯỚI</span>
+        </button>
+      </div>
+
+      <!-- Khung 2 QR Chú Rể & Cô Dâu (Mặc định ẩn, bấm nút mới mở mượt) -->
+      <div id="collapsibleQrContainer" class="qr-collapse">
+        <div class="grid grid-cols-2 gap-3 text-center pt-1">
+          <!-- QR Chú Rể -->
+          <div class="bg-white border border-[#C5A059]/60 rounded-[18px] p-3.5 shadow-sm flex flex-col items-center">
+            <span class="text-[10.5px] tracking-[0.12em] uppercase text-primary font-semibold mb-2">
+              CHÚ RỂ: NGUYỄN SÁNG
+            </span>
+            <div class="w-28 h-28 bg-[#FAF6F0] p-1.5 rounded-xl border border-[#C5A059]/40 shadow-inner mb-2.5 overflow-hidden">
+              <img
+                src="https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=NGUYEN%20SANG%20-%20VIETCOMBANK%20-%209988776655"
+                alt="QR Mừng Cưới Chú Rể Nguyễn Sáng"
+                loading="lazy"
+                class="photo-editable w-full h-full object-contain"
+              />
+            </div>
+            <p class="text-[12px] text-ink/75">Ngân hàng: Vietcombank</p>
+            <p class="text-[12.5px] font-semibold text-ink mt-0.5">NGUYỄN SÁNG</p>
+            <p class="lining-nums text-[13.5px] text-primary font-semibold tracking-wider my-1">9988 7766 55</p>
+            <button
+              type="button"
+              onclick="copyAccountNumber('9988776655', 'Đã sao chép STK Chú Rể Nguyễn Sáng!')"
+              class="mt-1 w-full rounded-full bg-primary hover:opacity-90 text-[#FAF6F0] py-1.5 text-[10.5px] tracking-[0.08em] uppercase transition active:scale-95"
+            >
+              SAO CHÉP STK
+            </button>
+          </div>
+
+          <!-- QR Cô Dâu -->
+          <div class="bg-white border border-[#C5A059]/60 rounded-[18px] p-3.5 shadow-sm flex flex-col items-center">
+            <span class="text-[10.5px] tracking-[0.12em] uppercase text-primary font-semibold mb-2">
+              CÔ DÂU: NGÔ THU
+            </span>
+            <div class="w-28 h-28 bg-[#FAF6F0] p-1.5 rounded-xl border border-[#C5A059]/40 shadow-inner mb-2.5 overflow-hidden">
+              <img
+                src="https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=NGO%20THU%20-%20TECHCOMBANK%20-%201903888999"
+                alt="QR Mừng Cưới Cô Dâu Ngô Thu"
+                loading="lazy"
+                class="photo-editable w-full h-full object-contain"
+              />
+            </div>
+            <p class="text-[12px] text-ink/75">Ngân hàng: Techcombank</p>
+            <p class="text-[12.5px] font-semibold text-ink mt-0.5">NGÔ THU</p>
+            <p class="lining-nums text-[13.5px] text-primary font-semibold tracking-wider my-1">1903 888 999</p>
+            <button
+              type="button"
+              onclick="copyAccountNumber('1903888999', 'Đã sao chép STK Cô Dâu Ngô Thu!')"
+              class="mt-1 w-full rounded-full bg-primary hover:opacity-90 text-[#FAF6F0] py-1.5 text-[10.5px] tracking-[0.08em] uppercase transition active:scale-95"
+            >
+              SAO CHÉP STK
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =====================================================
+         PHẦN 9: FOOTER LỜI CẢM ƠN
+         ===================================================== -->
+    <footer class="bg-[#231E1B] text-[#FAF6F0] pt-12 pb-20 px-6 text-center relative overflow-hidden">
+      <div class="reveal reveal-up">
+        <p class="text-[12px] tracking-[0.28em] text-[#C5A059] uppercase mb-4">
+          LỜI CẢM ƠN
+        </p>
+
+        <div class="gold-line mb-6"></div>
+
+        <p class="italic text-[16px] leading-[1.75] text-[#EDE5DC] max-w-[345px] mx-auto mb-5">
+          Cảm ơn Quý khách đã dành thời gian, tình cảm và những lời chúc tốt đẹp cho ngày trọng đại của chúng tôi.
+        </p>
+
+        <p class="text-[14px] leading-[1.75] text-[#C5B9AD] max-w-[345px] mx-auto mb-7">
+          Sự hiện diện của Quý khách đã góp phần làm nên những khoảnh khắc hạnh phúc và đáng nhớ. Trân trọng cảm ơn!
+        </p>
+
+        <div class="gold-line mb-7"></div>
+
+        <!-- Chữ ký Nguyễn Sáng & Ngô Thu tự động ngắt dòng cân đối -->
+        <h3
+          data-couple-display="pair"
+          class="font-script text-[40px] text-[#C5A059] leading-[1.15] px-2"
+        >
+          Nguyễn Sáng &amp; Ngô Thu
+        </h3>
+      </div>
+    </footer>
+
+  </main>
+
+  <!-- =====================================================
+       MODAL XEM BẢN ĐỒ ĐỊA ĐIỂM CƯỚI
+       ===================================================== -->
+  <div id="mapModal" class="fixed inset-0 bg-black/65 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
+    <div class="bg-cream w-full max-w-[390px] rounded-2xl overflow-hidden shadow-2xl border border-primary/25">
+      <div class="bg-[#231E1B] text-[#FAF6F0] py-3.5 px-5 flex justify-between items-center">
+        <h3 id="mapModalTitle" class="text-xs tracking-widest uppercase font-semibold text-[#C5A059]">Chỉ đường Google Maps</h3>
+        <button type="button" onclick="closeMapModal()" class="w-7 h-7 rounded-full bg-white/15 flex items-center justify-center text-white">✕</button>
+      </div>
+      <div class="p-5 text-center">
+        <p id="mapModalAddress" class="text-[15px] font-semibold text-ink mb-3">Tư Gia Nhà Trai</p>
+        <div class="w-full h-56 rounded-xl overflow-hidden border border-primary/20 mb-4 bg-stone-100">
+          <iframe
+            class="w-full h-full border-0"
+            loading="lazy"
+            allowfullscreen
+            src="https://www.openstreetmap.org/export/embed.html?bbox=105.8200%2C21.0000%2C105.8800%2C21.0500&amp;layer=mapnik&amp;marker=21.0285%2C105.8542">
+          </iframe>
+        </div>
+        <a
+          href="https://www.google.com/maps/search/?api=1&query=Ha+Noi"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-block w-full rounded-full bg-primary text-[#FAF6F0] py-2.5 text-xs tracking-widest uppercase font-medium shadow hover:opacity-90 transition"
+        >
+          Mở ứng dụng Google Maps
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- =====================================================
+       MODAL LIGHTBOX PHÓNG TO ẢNH TRONG ALBUM
+       ===================================================== -->
+  <div id="lightboxModal" onclick="closeLightbox()" class="fixed inset-0 bg-black/90 z-50 hidden items-center justify-center p-4">
+    <button type="button" onclick="closeLightbox()" class="absolute top-5 right-5 w-10 h-10 rounded-full bg-white/15 text-white text-xl flex items-center justify-center">✕</button>
+    <img id="lightboxImage" src="" alt="Phóng to ảnh cưới" class="max-w-full max-h-[88vh] rounded-xl object-contain shadow-2xl" />
+  </div>
+
+  <!-- THÔNG BÁO TOAST NHỎ GỌN -->
+  <div id="toastNotification" class="fixed top-20 left-1/2 -translate-x-1/2 bg-[#231E1B] text-[#FAF6F0] border border-[#C5A059]/60 px-5 py-2 rounded-full shadow-xl text-xs tracking-wider uppercase font-medium z-50 opacity-0 pointer-events-none transition-opacity duration-300">
+    Đã cập nhật!
+  </div>
+
+  <!-- =====================================================
+       JAVASCRIPT ĐIỀU KHIỂN TOÀN BỘ TÍNH NĂNG
+       ===================================================== -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      initScrollRevealObserver();
+      initCountdownToWedding();
+      initPhotoReplacementHandler();
+      adjustCoupleNamesLayout();
+    });
+
+    window.addEventListener('resize', adjustCoupleNamesLayout);
+
+    // 1. Logic đo chiều rộng chữ: Tự động ngắt "Nguyễn" dòng trên - "Sáng" dòng dưới & đồng bộ "Ngô" - "Thu"
+    function adjustCoupleNamesLayout() {
+      const groomEl = document.getElementById('groomFamilyName');
+      const brideEl = document.getElementById('brideFamilyName');
+      const pairEls = document.querySelectorAll('[data-couple-display="pair"]');
+
+      // Đo thử 1 dòng trên cột Nhà Trai & Nhà Gái
+      if (groomEl && brideEl) {
+        groomEl.textContent = 'Nguyễn Sáng';
+        brideEl.textContent = 'Ngô Thu';
+
+        const groomTooWide = groomEl.scrollWidth > groomEl.clientWidth + 2;
+        const brideTooWide = brideEl.scrollWidth > brideEl.clientWidth + 2;
+
+        if (groomTooWide || brideTooWide) {
+          groomEl.innerHTML = 'Nguyễn<br/>Sáng';
+          brideEl.innerHTML = 'Ngô<br/>Thu';
+        }
+      }
+
+      // Đo thử 1 dòng cho các cụm tên đôi "Nguyễn Sáng & Ngô Thu" ở Hero, Lời mời & Footer
+      pairEls.forEach((el) => {
+        el.textContent = 'Nguyễn Sáng & Ngô Thu';
+        if (el.scrollWidth > el.clientWidth + 2) {
+          el.innerHTML = 'Nguyễn Sáng<br/><span class="text-[0.75em]">&amp;</span><br/>Ngô Thu';
+        }
+      });
+    }
+
+    // 2. Nạp động Google Fonts khi chọn từ 2 Droplist (không làm chậm lúc mở trang)
+    const loadedGoogleFonts = new Set([
+      'Cormorant Garamond',
+      'Imperial Script',
+      'Great Vibes'
+    ]);
+
+    function loadGoogleFontDynamically(fontFamilyName) {
+      if (loadedGoogleFonts.has(fontFamilyName)) {
+        setTimeout(adjustCoupleNamesLayout, 30);
+        return;
+      }
+      loadedGoogleFonts.add(fontFamilyName);
+      const formattedName = fontFamilyName.replace(/\s+/g, '+');
+      const linkEl = document.createElement('link');
+      linkEl.rel = 'stylesheet';
+      linkEl.href = `https://fonts.googleapis.com/css2?family=${formattedName}:ital,wght@0,400;0,600;1,400&display=swap&subset=vietnamese`;
+      linkEl.onload = () => adjustCoupleNamesLayout();
+      document.head.appendChild(linkEl);
+      if (document.fonts && document.fonts.ready) {
+        document.fonts.ready.then(() => adjustCoupleNamesLayout());
+      }
+    }
+
+    function changeScriptFont(fontName) {
+      loadGoogleFontDynamically(fontName);
+      document.documentElement.style.setProperty('--font-script', `'${fontName}', cursive`);
+      setTimeout(adjustCoupleNamesLayout, 120);
+      showToast(`✍️ Font chữ ký: ${fontName}`);
+    }
+
+    function changeSerifFont(fontName) {
+      loadGoogleFontDynamically(fontName);
+      document.documentElement.style.setProperty('--font-serif', `'${fontName}', Georgia, serif`);
+      setTimeout(adjustCoupleNamesLayout, 120);
+      showToast(`📖 Font nội dung: ${fontName}`);
+    }
+
+    // 3. Chuyển đổi tông màu chủ đạo: Nâu Tây Espresso <-> Đỏ Đô (#7A1C1C)
+    let isBurgundyPalette = false;
+    function toggleColorPalette() {
+      isBurgundyPalette = !isBurgundyPalette;
+      document.body.classList.toggle('theme-burgundy', isBurgundyPalette);
+      const label = document.getElementById('paletteLabel');
+      if (isBurgundyPalette) {
+        label.textContent = 'Tông màu: Đỏ Đô';
+        showToast('🎨 Đã chuyển sang tông Đỏ Đô (#7A1C1C)');
+      } else {
+        label.textContent = 'Tông màu: Nâu Tây';
+        showToast('🎨 Đã chuyển sang tông Nâu Tây Espresso');
+      }
+    }
+
+    // 4. Hiệu ứng xuất hiện khi cuộn trang (IntersectionObserver)
+    function initScrollRevealObserver() {
+      const revealEls = document.querySelectorAll('.reveal');
+      if (!('IntersectionObserver' in window)) {
+        revealEls.forEach(el => el.classList.add('active'));
+        return;
+      }
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('active');
+          } else {
+            const rect = entry.boundingClientRect;
+            if (rect.top > window.innerHeight * 0.9) {
+              entry.target.classList.remove('active');
+            }
+          }
+        });
+      }, {
+        threshold: 0.12,
+        rootMargin: '0px 0px -20px 0px'
+      });
+
+      revealEls.forEach((el) => observer.observe(el));
+    }
+
+    // 5. Đồng hồ đếm ngược thời gian thực tới 14:15 ngày 20/12/2026 (+07:00)
+    function initCountdownToWedding() {
+      const targetTimestamp = new Date('2026-12-20T14:15:00+07:00').getTime();
+      const daysEl = document.getElementById('cdDays');
+      const hoursEl = document.getElementById('cdHours');
+      const minutesEl = document.getElementById('cdMinutes');
+      const secondsEl = document.getElementById('cdSeconds');
+
+      function updateTick() {
+        const now = Date.now();
+        const diff = targetTimestamp - now;
+
+        if (diff <= 0) {
+          daysEl.textContent = '00';
+          hoursEl.textContent = '00';
+          minutesEl.textContent = '00';
+          secondsEl.textContent = '00';
+          return;
+        }
+
+        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+        daysEl.textContent = String(days).padStart(2, '0');
+        hoursEl.textContent = String(hours).padStart(2, '0');
+        minutesEl.textContent = String(minutes).padStart(2, '0');
+        secondsEl.textContent = String(seconds).padStart(2, '0');
+      }
+
+      updateTick();
+      setInterval(updateTick, 1000);
+    }
+
+    // 6. Đóng / Mở mượt khung 2 mã QR Hộp Quà Cưới
+    let isGiftQrExpanded = false;
+    function toggleGiftQrBox() {
+      const container = document.getElementById('collapsibleQrContainer');
+      const btnText = document.getElementById('btnToggleGiftQrText');
+      const btn = document.getElementById('btnToggleGiftQr');
+
+      isGiftQrExpanded = !isGiftQrExpanded;
+      container.classList.toggle('open', isGiftQrExpanded);
+      btn.setAttribute('aria-expanded', String(isGiftQrExpanded));
+      btnText.textContent = isGiftQrExpanded ? 'THU GỌN HỘP QUÀ CƯỚI' : 'MỞ HỘP QUÀ CƯỚI';
+    }
+
+    // 7. Chế độ thay ảnh trực tiếp từ máy người dùng
+    let isPhotoEditMode = false;
+    let selectedImgElement = null;
+
+    function togglePhotoReplaceMode() {
+      isPhotoEditMode = !isPhotoEditMode;
+      document.body.classList.toggle('edit-photo-mode', isPhotoEditMode);
+      const label = document.getElementById('replacePhotoText');
+      if (isPhotoEditMode) {
+        label.textContent = 'Đang bật thay ảnh';
+        showToast('📷 Chạm vào bất kỳ ảnh hoặc QR nào để tải ảnh lên!');
+      } else {
+        label.textContent = 'Thay ảnh';
+        showToast('Đã tắt chế độ thay ảnh');
+      }
+    }
+
+    function initPhotoReplacementHandler() {
+      const fileInput = document.getElementById('photoFileInput');
+      const editableImgs = document.querySelectorAll('.photo-editable');
+
+      editableImgs.forEach((img) => {
+        img.addEventListener('click', (e) => {
+          if (isPhotoEditMode) {
+            e.stopPropagation();
+            selectedImgElement = img;
+            fileInput.click();
+          }
+        });
+      });
+
+      fileInput.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (file && selectedImgElement) {
+          const reader = new FileReader();
+          reader.onload = (ev) => {
+            selectedImgElement.src = ev.target.result;
+            showToast('✨ Đã thay ảnh thành công!');
+          };
+          reader.readAsDataURL(file);
+        }
+      });
+    }
+
+    // 8. Xử lý gửi lời chúc & xác nhận tham dự (RSVP)
+    function handleRsvpSubmit(event) {
+      event.preventDefault();
+      const nameInput = document.getElementById('guestName');
+      const relationInput = document.getElementById('guestRelation');
+      const wishInput = document.getElementById('guestWish');
+      const attendanceInput = document.getElementById('guestAttendance');
+      const wishesList = document.getElementById('wishesList');
+      const banner = document.getElementById('rsvpConfirmBanner');
+
+      const name = nameInput.value.trim();
+      const relation = relationInput.value;
+      const wish = wishInput.value.trim();
+      const attendance = attendanceInput.value;
+
+      if (!name || !wish) return;
+
+      const newWishCard = document.createElement('div');
+      newWishCard.className = 'bg-cardBg/90 border border-primary/25 rounded-xl p-3.5 text-left';
+
+      const topRow = document.createElement('div');
+      topRow.className = 'flex justify-between items-center gap-2';
+
+      const authorSpan = document.createElement('span');
+      authorSpan.className = 'font-semibold text-primary text-[14.5px]';
+      authorSpan.textContent = `${name} (${relation})`;
+
+      const statusBadge = document.createElement('span');
+      statusBadge.className = 'text-[10px] uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-primary/15 text-primary';
+      statusBadge.textContent = attendance;
+
+      topRow.appendChild(authorSpan);
+      topRow.appendChild(statusBadge);
+
+      const wishPara = document.createElement('p');
+      wishPara.className = 'text-ink text-[14px] mt-1 italic';
+      wishPara.textContent = `"${wish}"`;
+
+      newWishCard.appendChild(topRow);
+      newWishCard.appendChild(wishPara);
+
+      wishesList.prepend(newWishCard);
+      banner.classList.remove('hidden');
+      event.target.reset();
+      showToast('💌 Đã gửi lời chúc tới Nguyễn Sáng & Ngô Thu!');
+    }
+
+    // 9. Nhạc nền Piano nhẹ nhàng bằng Web Audio API
+    let audioCtx = null;
+    let isMusicPlaying = false;
+    let musicInterval = null;
+    const notesSequence = [
+      587.33, 440.00, 493.88, 369.99, 392.00, 293.66, 392.00, 440.00,
+      587.33, 659.25, 739.99, 587.33, 493.88, 587.33, 440.00, 392.00
+    ];
+    let currentNoteIdx = 0;
+
+    function playGentleChime(frequency) {
+      if (!audioCtx || !isMusicPlaying) return;
+      const now = audioCtx.currentTime;
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(frequency, now);
+
+      gain.gain.setValueAtTime(0.001, now);
+      gain.gain.exponentialRampToValueAtTime(0.07, now + 0.08);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + 1.4);
+
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+
+      osc.start(now);
+      osc.stop(now + 1.45);
+    }
+
+    function toggleMusic() {
+      const btn = document.getElementById('musicToggleBtn');
+      const muteLine = document.getElementById('musicMuteLine');
+
+      if (!audioCtx) {
+        const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+        audioCtx = new AudioContextClass();
+      }
+      if (audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+
+      isMusicPlaying = !isMusicPlaying;
+      if (isMusicPlaying) {
+        muteLine.classList.add('hidden');
+        btn.classList.add('music-spinning');
+        playGentleChime(notesSequence[currentNoteIdx]);
+        musicInterval = setInterval(() => {
+          currentNoteIdx = (currentNoteIdx + 1) % notesSequence.length;
+          playGentleChime(notesSequence[currentNoteIdx]);
+        }, 650);
+        showToast('🎵 Đã bật nhạc nền thiệp cưới');
+      } else {
+        muteLine.classList.remove('hidden');
+        btn.classList.remove('music-spinning');
+        clearInterval(musicInterval);
+        showToast('🔇 Đã tắt nhạc nền');
+      }
+    }
+
+    // 10. Phóng to ảnh Album & Bản đồ & Sao chép STK
+    function openLightbox(imgEl) {
+      if (isPhotoEditMode) return;
+      const modal = document.getElementById('lightboxModal');
+      const target = document.getElementById('lightboxImage');
+      target.src = imgEl.src;
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function closeLightbox() {
+      const modal = document.getElementById('lightboxModal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    function openMapModal(title, address) {
+      document.getElementById('mapModalTitle').textContent = title;
+      document.getElementById('mapModalAddress').textContent = address;
+      const modal = document.getElementById('mapModal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function closeMapModal() {
+      const modal = document.getElementById('mapModal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    function copyAccountNumber(accountNumber, toastMsg) {
+      const tempInput = document.createElement('textarea');
+      tempInput.value = accountNumber;
+      document.body.appendChild(tempInput);
+      tempInput.select();
+      document.execCommand('copy');
+      document.body.removeChild(tempInput);
+      showToast(toastMsg);
+    }
+
+    let toastTimer = null;
+    function showToast(msg) {
+      const toast = document.getElementById('toastNotification');
+      toast.textContent = msg;
+      toast.style.opacity = '1';
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => {
+        toast.style.opacity = '0';
+      }, 2400);
+    }
+  </script>
+</body>
+</html>
