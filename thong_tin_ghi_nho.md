@@ -114,3 +114,35 @@ Hàm này restore ảnh từ `WEDDING_CONFIG` vào DOM khi tải trang hoặc sa
 | Nút QR luôn hiện "Đóng" | HTML hardcode sai text ban đầu | Đổi thành `🎁 Mở Hộp Mừng Cưới (QR)` |
 | Sau export nút QR sai | `exportSingleSelfContainedHtml` không reset nút | Thêm `giftBtnClone.innerHTML = '<span>🎁 Mở Hộp...</span>'` |
 | `heroInvitePrefix` + tên khách hiện cùng lúc | Nhúng tên mặc định vào prefix | Tách: prefix = "Trân trọng kính mời", guest = "Quý Khách & Gia Đình" |
+
+---
+
+## Cấu trúc thư mục & Route
+
+```
+thiep_cuoi_online_by_sang/
+├── index.html              → domain.com/
+├── nha-trai/
+│   └── index.html          → domain.com/nha-trai
+├── nha-gai/
+│   └── index.html          → domain.com/nha-gai
+├── assets/
+├── vercel.json             → config cleanUrls
+├── nha_trai.html           → file gốc (vẫn giữ để edit)
+├── nha_gai.html            → file gốc (vẫn giữ để edit)
+└── wedding-config.json
+```
+
+> **Workflow:** Sửa `nha_trai.html` → copy vào `nha-trai/index.html` trước khi deploy.
+
+### vercel.json
+```json
+{ "cleanUrls": true, "trailingSlash": false }
+```
+- `cleanUrls: true` → tự bỏ `.html` khỏi URL
+- `trailingSlash: false` → `domain.com/nha-trai` thay vì `domain.com/nha-trai/`
+
+### Deploy lên Vercel
+1. Push lên GitHub
+2. Vercel tự detect và deploy
+3. URL đẹp: `https://ten-project.vercel.app/nha-trai`
