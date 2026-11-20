@@ -1076,28 +1076,18 @@
       _crop.src = src;
       _crop.targetImg = targetImg;
 
-      // Đọc tỉ lệ từ CONTAINER của ảnh (khung hiển thị thực tế), không phải ảnh gốc
-      // Container có thể có aspect-ratio CSS hoặc kích thước rendered rõ ràng
-      const container = targetImg.closest('[data-aspect]') || targetImg.closest('[class*="aspect-"]') || targetImg.parentElement;
-      let ratioW = 4, ratioH = 3; // default ngang
+      // 1. Đọc tỉ lệ khung từ data-aspect trên container
+      const container = targetImg.closest('[data-aspect]') || targetImg.parentElement;
+      let ratioW = 4, ratioH = 3;
       if (container) {
-        // Ưu tiên data-aspect attribute
         const da = container.getAttribute('data-aspect');
         if (da && da.includes('/')) {
           const parts = da.split('/');
           ratioW = parseFloat(parts[0]);
           ratioH = parseFloat(parts[1]);
         } else {
-          // Fallback: đọc kích thước rendered thực tế
-          const rect = container.getBoundingClientRect();
-          if (rect.width > 0 && rect.height > 0) {
-            ratioW = rect.width;
-            ratioH = rect.height;
-          } else {
-            // Fallback cuối: parse aspect-[W/H] từ className
-            const m = (container.className || '').match(/aspect-\[(\d+)\/(\d+)\]/);
-            if (m) { ratioW = parseInt(m[1]); ratioH = parseInt(m[2]); }
-          }
+          const m = (container.className || '').match(/aspect-\[(\d+)\/(\d+)\]/);
+          if (m) { ratioW = parseInt(m[1]); ratioH = parseInt(m[2]); }
         }
       }
       _crop.ratioW = ratioW;
@@ -1107,123 +1097,141 @@
       const vp    = document.getElementById('cropVpNhaGai');
       const img   = document.getElementById('cropImgNhaGai');
 
-      // Đặt viewport đúng tỉ lệ khung đích
-      const vpW = Math.min(vp.parentElement.offsetWidth - 32 || 320, 360);
-      const vpH = vpW * (ratioH / ratioW);
-      vp.style.width  = vpW + 'px';
-      vp.style.height = vpH + 'px';
+      // 2. Hiển thị modal trước để vp có kích thước thực khi img.onload chạy
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+
+      // 3. Set aspect-ratio cho vp, xoá width/height cứng để CSS tự định
+      vp.style.width  = '';
+      vp.style.height = '';
       vp.style.aspectRatio = ratioW + '/' + ratioH;
 
+      // 4. Reset slider về 100%
+      const slider = document.getElementById('cropZoomNhaGai');
+      slider.value = 100;
+      const initFill = ((100 - 25) / 275) * 100;
+      slider.style.background = 'linear-gradient(90deg,#C5A059 ' + initFill + '%,rgba(255,255,255,0.2) ' + initFill + '%)';
+
+      // 5. Load ảnh — đọc vpW/vpH sau khi modal đã visible
       img.onload = () => {
-        const iW = img.naturalWidth, iH = img.naturalHeight;
-        // Cover: scale đủ để lấp đầy khung (không để lộ nền)
+        const vpW = vp.offsetWidth  || 300;
+        const vpH = vp.offsetHeight || Math.round(vpW * (ratioH / ratioW));
+        const iW  = img.naturalWidth;
+        const iH  = img.naturalHeight;
+        // baseScale: scale nhỏ nhất để ảnh cover toàn khung
         const sc = Math.max(vpW / iW, vpH / iH);
-        _crop.baseScale = sc; _crop.scale = sc;
+        _crop.baseScale = sc;
+        _crop.scale = sc;
         _crop.tx = (vpW - iW * sc) / 2;
         _crop.ty = (vpH - iH * sc) / 2;
         _cropApply();
         _cropSliderSync();
       };
       img.src = src;
-
-      modal.classList.remove('hidden');
-      modal.classList.add('flex');
     }
 
     function closeCropModalNhaGai() {
-      document.getElementById('cropModalNhaGai').classList.add('hidden');
-      document.getElementById('cropModalNhaGai').classList.remove('flex');
+      const modal = document.getElementById('cropModalNhaGai');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+      document.getElementById('cropImgNhaGai').src = '';
+      _crop.baseScale = 0;
+      _crop.scale = 1;
     }
 
     function confirmCropNhaGai() {
       const vp  = document.getElementById('cropVpNhaGai');
       const img = document.getElementById('cropImgNhaGai');
-      const vpW = vp.offsetWidth, vpH = vp.offsetHeight;
-      const sc = _crop.scale;
+      const vpW = vp.offsetWidth;
+      const vpH = vp.offsetHeight;
+      const sc  = _crop.scale;
 
-      // Vùng ảnh gốc hiện thị trong viewport
-      const srcX = Math.max(0, -_crop.tx / sc);
-      const srcY = Math.max(0, -_crop.ty / sc);
-      const srcW = Math.min(img.naturalWidth  - srcX, vpW / sc);
-      const srcH = Math.min(img.naturalHeight - srcY, vpH / sc);
+      // Toạ độ ảnh gốc tương ứng vùng hiển thị
+      const srcX = -_crop.tx / sc;
+      const srcY = -_crop.ty / sc;
+      const srcW =  vpW / sc;
+      const srcH =  vpH / sc;
 
-      // Output canvas đúng tỉ lệ khung đích (ratioW:ratioH), tránh méo
-      const targetRatio = _crop.ratioW / _crop.ratioH;
-      const maxRes = 1200;
+      // Clamp vào trong ảnh gốc
+      const cX = Math.max(0, srcX);
+      const cY = Math.max(0, srcY);
+      const cW = Math.min(img.naturalWidth  - cX, srcW);
+      const cH = Math.min(img.naturalHeight - cY, srcH);
+
+      // Output: đúng tỉ lệ ratioW/ratioH, tối đa 1200px
+      const tr = _crop.ratioW / _crop.ratioH;
       let outW, outH;
-      if (targetRatio >= 1) {
-        outW = Math.min(maxRes, Math.round(srcW));
-        outH = Math.round(outW / targetRatio);
+      if (tr >= 1) {
+        outW = Math.min(1200, img.naturalWidth);
+        outH = Math.round(outW / tr);
       } else {
-        outH = Math.min(maxRes, Math.round(srcH));
-        outW = Math.round(outH * targetRatio);
+        outH = Math.min(1200, img.naturalHeight);
+        outW = Math.round(outH * tr);
       }
 
       const canvas = document.createElement('canvas');
       canvas.width  = outW;
       canvas.height = outH;
-      canvas.getContext('2d').drawImage(img, srcX, srcY, srcW, srcH, 0, 0, outW, outH);
-      const dataUrl = canvas.toDataURL('image/jpeg', 0.88);
-      if (_crop.targetImg) _crop.targetImg.src = dataUrl;
+      canvas.getContext('2d').drawImage(img, cX, cY, cW, cH, 0, 0, outW, outH);
+      if (_crop.targetImg) _crop.targetImg.src = canvas.toDataURL('image/jpeg', 0.88);
       closeCropModalNhaGai();
-      showToast('✨ Đã căn góc & thay ảnh thành công!');
+      showToast('Đã căn góc & thay ảnh thành công!');
     }
 
     function _cropApply() {
       const img = document.getElementById('cropImgNhaGai');
-      img.style.position = 'absolute';
+      if (!_crop.baseScale) return;
       img.style.left   = _crop.tx + 'px';
       img.style.top    = _crop.ty + 'px';
-      img.style.width  = (_crop.baseScale ? img.naturalWidth  * _crop.scale : 0) + 'px';
-      img.style.height = (_crop.baseScale ? img.naturalHeight * _crop.scale : 0) + 'px';
-      img.style.maxWidth = 'none';
-      img.style.transform = '';
+      img.style.width  = (img.naturalWidth  * _crop.scale) + 'px';
+      img.style.height = (img.naturalHeight * _crop.scale) + 'px';
     }
 
     function _cropClamp() {
       const vp  = document.getElementById('cropVpNhaGai');
+      const vpW = vp.offsetWidth;
+      const vpH = vp.offsetHeight;
       const img = document.getElementById('cropImgNhaGai');
-      const iW = img.naturalWidth  * _crop.scale;
-      const iH = img.naturalHeight * _crop.scale;
-      const vpW = vp.offsetWidth, vpH = vp.offsetHeight;
-      // Khi ảnh lớn hơn viewport: giữ ảnh không để lộ nền
-      // Khi ảnh nhỏ hơn viewport (zoom out < baseScale): căn giữa tự do
-      if (iW >= vpW) {
+      const iW  = img.naturalWidth  * _crop.scale;
+      const iH  = img.naturalHeight * _crop.scale;
+      if (_crop.scale >= _crop.baseScale) {
+        // Ảnh cover khung: không để lộ nền
         _crop.tx = Math.min(0, Math.max(vpW - iW, _crop.tx));
-      } else {
-        _crop.tx = (vpW - iW) / 2;
-      }
-      if (iH >= vpH) {
         _crop.ty = Math.min(0, Math.max(vpH - iH, _crop.ty));
       } else {
+        // Zoom out < baseScale: ảnh nhỏ hơn khung → căn giữa
+        _crop.tx = (vpW - iW) / 2;
         _crop.ty = (vpH - iH) / 2;
       }
     }
 
     function _cropSliderSync() {
       const slider = document.getElementById('cropZoomNhaGai');
-      const pct = Math.round(_crop.scale / _crop.baseScale * 100);
-      slider.value = Math.min(300, Math.max(25, pct));
-      const fill = (pct - 25) / 275 * 100;
-      slider.style.background = `linear-gradient(90deg,#C5A059 ${fill}%,rgba(255,255,255,0.2) ${fill}%)`;
+      if (!_crop.baseScale) return;
+      const pct     = Math.round((_crop.scale / _crop.baseScale) * 100);
+      const clamped = Math.min(300, Math.max(25, pct));
+      slider.value  = clamped;
+      const fill = ((clamped - 25) / 275) * 100;
+      slider.style.background = 'linear-gradient(90deg,#C5A059 ' + fill + '%,rgba(255,255,255,0.2) ' + fill + '%)';
     }
 
     function onCropZoomNhaGai(val) {
-      const pct = parseFloat(val);
+      if (!_crop.baseScale) return;
+      const pct      = parseFloat(val);
       const newScale = _crop.baseScale * (pct / 100);
       const vp = document.getElementById('cropVpNhaGai');
-      const cx = vp.offsetWidth / 2, cy = vp.offsetHeight / 2;
-      const r = newScale / _crop.scale;
+      const cx = vp.offsetWidth  / 2;
+      const cy = vp.offsetHeight / 2;
+      const r  = newScale / _crop.scale;
       _crop.tx = cx - (cx - _crop.tx) * r;
       _crop.ty = cy - (cy - _crop.ty) * r;
       _crop.scale = newScale;
-      _cropClamp(); _cropApply();
-      const fill = (pct - 25) / 275 * 100;
+      _cropClamp();
+      _cropApply();
+      const fill = ((pct - 25) / 275) * 100;
       document.getElementById('cropZoomNhaGai').style.background =
-        `linear-gradient(90deg,#C5A059 ${fill}%,rgba(255,255,255,0.2) ${fill}%)`;
+        'linear-gradient(90deg,#C5A059 ' + fill + '%,rgba(255,255,255,0.2) ' + fill + '%)';
     }
-
-    // Touch/mouse events cho viewport crop
     function _initCropEvents() {
       const vp = document.getElementById('cropVpNhaGai');
       vp.addEventListener('mousedown',  e => { _crop.dragging = true; _crop.lx = e.clientX; _crop.ly = e.clientY; }, { passive: true });
