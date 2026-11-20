@@ -294,11 +294,11 @@
         </svg>
       </button>
 
-      <button id="musicToggleBtn" type="button" onclick="toggleMusic()" aria-label="Bật hoặc tắt nhạc nền" class="pointer-events-auto w-10 h-10 rounded-full bg-[#231E1B]/90 border border-[#C5A059]/80 shadow-lg flex items-center justify-center relative transition active:scale-90">
+      <button id="musicToggleBtn" type="button" onclick="toggleMusic()" aria-label="Bật hoặc tắt nhạc nền" class="pointer-events-auto w-10 h-10 rounded-full bg-[#231E1B]/90 border border-[#C5A059]/80 shadow-lg flex items-center justify-center relative transition active:scale-90 music-spinning">
         <svg class="w-4 h-4 text-[#C5A059]" viewBox="0 0 24 24" fill="currentColor">
           <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"></path>
         </svg>
-        <span id="musicMuteLine" class="absolute w-5 h-[1.5px] bg-[#C5A059] rotate-45 rounded-full"></span>
+        <span id="musicMuteLine" class="absolute w-5 h-[1.5px] bg-[#C5A059] rotate-45 rounded-full hidden"></span>
       </button>
     </div>
 
@@ -721,7 +721,7 @@
       <div id="wishesList" class="mt-5 space-y-2.5 max-h-52 overflow-y-auto pr-1">
         <div class="bg-cardBg/90 border border-primary/20 rounded-xl p-3.5 text-left">
           <div class="flex justify-between items-center gap-2">
-            <span class="font-semibold text-primary text-[14.5px]">Hoàng Minh <span class="text-xs font-normal text-ink/70">(Bạn chú rể)</span></span>
+            <span class="font-semibold text-primary text-[14.5px]">Minh Hoàng</span>
             <span class="text-[10px] uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-primary/15 text-primary">Sẽ tham dự Lễ &amp; Tiệc</span>
           </div>
           <p class="text-ink text-[14px] mt-1 italic">"Chúc hai bạn Ngô Thu &amp; Nguyễn Sáng trăm năm hạnh phúc, viên mãn bền lâu!"</p>
@@ -829,10 +829,10 @@
       <div class="p-5 text-center">
         <p id="mapModalAddress" class="text-[15px] font-semibold text-ink mb-3">Tư Gia Nhà Gái</p>
         <div class="w-full h-56 rounded-xl overflow-hidden border border-primary/20 mb-4 bg-stone-100">
-          <iframe class="w-full h-full border-0" loading="lazy" allowfullscreen="" src="https://www.openstreetmap.org/export/embed.html?bbox=105.8200%2C21.0000%2C105.8800%2C21.0500&amp;layer=mapnik&amp;marker=21.0285%2C105.8542" __gcrchildframeremotetoken="413bae7ce02c4cc28977512414c19f57">
+          <iframe class="w-full h-full border-0" loading="lazy" allowfullscreen="" src="https://www.openstreetmap.org/export/embed.html?bbox=106.1215%2C21.4251%2C106.1515%2C21.4551&amp;layer=mapnik&amp;marker=21.44008%2C106.13650">
           </iframe>
         </div>
-        <a href="https://maps.app.goo.gl/TcoUtEMLBEWs3LCYA" target="_blank" rel="noopener noreferrer" class="inline-block w-full rounded-full bg-primary text-[#FAF6F0] py-2.5 text-xs tracking-widest uppercase font-medium shadow hover:opacity-90 transition">
+        <a href="https://www.google.com/maps?q=21.44008,106.13650" target="_blank" rel="noopener noreferrer" class="inline-block w-full rounded-full bg-primary text-[#FAF6F0] py-2.5 text-xs tracking-widest uppercase font-medium shadow hover:opacity-90 transition">
           Mở ứng dụng Google Maps
         </a>
       </div>
@@ -871,6 +871,16 @@
       initPhotoReplacementHandler();
       adjustCoupleNamesLayout();
       _initCropEvents();
+
+      // Tự động phát nhạc nền khi mở trang (không phát khi edit mode)
+      if (!isEditMode) {
+        initAutoPlayMusic();
+      }
+
+      // Nhà gái không có bìa phong bì → bắt đầu auto-scroll sau 5s kể từ khi tải xong
+      if (!isEditMode) {
+        setTimeout(() => startAutoScroll(), 5000);
+      }
     });
 
     window.addEventListener('resize', adjustCoupleNamesLayout);
@@ -1333,31 +1343,50 @@
       showToast('💌 Đã gửi lời chúc tới Ngô Thu & Nguyễn Sáng!');
     }
 
-    // 9. Nhạc nền từ file MP3
+    // 9. Nhạc nền từ file MP3 — phát khi click/touch đầu tiên vào trang
     let bgAudio = null;
     let isMusicPlaying = false;
+    let _musicStarted = false;
+
+    function _initBgAudio() {
+      if (bgAudio) return;
+      bgAudio = new Audio('../assets/nhac-nha-gai.mp3');
+      bgAudio.loop   = true;
+      bgAudio.volume = 0.55;
+    }
+
+    function _startMusicOnFirstInteraction() {
+      if (_musicStarted) return;
+      _musicStarted = true;
+      _initBgAudio();
+      bgAudio.play().then(() => {
+        isMusicPlaying = true;
+        document.getElementById('musicMuteLine').classList.add('hidden');
+        document.getElementById('musicToggleBtn').classList.add('music-spinning');
+      }).catch(() => {});
+    }
+
+    function initAutoPlayMusic() {
+      // Phát ngay khi click/touch bất kỳ lần đầu tiên
+      window.addEventListener('click',      _startMusicOnFirstInteraction, { once: true, passive: true });
+      window.addEventListener('touchstart', _startMusicOnFirstInteraction, { once: true, passive: true });
+    }
 
     function toggleMusic() {
-      const btn = document.getElementById('musicToggleBtn');
+      _initBgAudio();
+      _musicStarted = true;
+      const btn      = document.getElementById('musicToggleBtn');
       const muteLine = document.getElementById('musicMuteLine');
-
-      if (!bgAudio) {
-        bgAudio = new Audio('../assets/nhac-nha-gai.mp3');
-        bgAudio.loop = true;
-        bgAudio.volume = 0.55;
-      }
 
       isMusicPlaying = !isMusicPlaying;
       if (isMusicPlaying) {
         bgAudio.play().catch(() => {});
         muteLine.classList.add('hidden');
         btn.classList.add('music-spinning');
-        showToast('🎵 Đã bật nhạc nền thiệp cưới');
       } else {
         bgAudio.pause();
         muteLine.classList.remove('hidden');
         btn.classList.remove('music-spinning');
-        showToast('🔇 Đã tắt nhạc nền');
       }
     }
 
@@ -1410,6 +1439,69 @@
       toastTimer = setTimeout(() => {
         toast.style.opacity = '0';
       }, 2400);
+    }
+
+    // =========================================================================
+    // AUTO-SCROLL — cuộn chậm, dừng khi chạm/kéo, resume sau 3s idle
+    // (Tham khảo từ nha-trai/index.html)
+    // =========================================================================
+    const AUTO_SCROLL_SPEED = 0.6;   // px mỗi frame (~36px/giây ở 60fps)
+    const AUTO_SCROLL_RESUME_DELAY = 3000; // ms chờ sau khi người dùng ngừng tương tác
+
+    let _autoScrollRaf = null;
+    let _autoScrollPaused = false;
+    let _autoScrollResumeTimer = null;
+    let _autoScrollActive = false;
+
+    function startAutoScroll() {
+      if (_autoScrollActive) return;
+      _autoScrollActive = true;
+      _autoScrollPaused = false;
+
+      // Lắng nghe touch và wheel — dừng auto scroll khi người dùng tương tác
+      window.addEventListener('touchstart', _onUserScrollInteraction, { passive: true });
+      window.addEventListener('touchmove',  _onUserScrollInteraction, { passive: true });
+      window.addEventListener('wheel',       _onUserScrollInteraction, { passive: true });
+      window.addEventListener('mousedown',   _onUserScrollInteraction, { passive: true });
+
+      // Khởi chạy vòng lặp
+      _autoScrollLoop();
+    }
+
+    function stopAutoScroll() {
+      _autoScrollActive = false;
+      _autoScrollPaused = false;
+      if (_autoScrollRaf) { cancelAnimationFrame(_autoScrollRaf); _autoScrollRaf = null; }
+      if (_autoScrollResumeTimer) { clearTimeout(_autoScrollResumeTimer); _autoScrollResumeTimer = null; }
+      window.removeEventListener('touchstart', _onUserScrollInteraction);
+      window.removeEventListener('touchmove',  _onUserScrollInteraction);
+      window.removeEventListener('wheel',       _onUserScrollInteraction);
+      window.removeEventListener('mousedown',   _onUserScrollInteraction);
+    }
+
+    function _onUserScrollInteraction() {
+      if (!_autoScrollActive) return;
+      _autoScrollPaused = true;
+      if (_autoScrollResumeTimer) clearTimeout(_autoScrollResumeTimer);
+      _autoScrollResumeTimer = setTimeout(() => {
+        if (_autoScrollActive) _autoScrollPaused = false;
+      }, AUTO_SCROLL_RESUME_DELAY);
+    }
+
+    function _autoScrollLoop() {
+      if (!_autoScrollActive) return;
+
+      if (!_autoScrollPaused) {
+        const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+        if (window.scrollY >= maxScroll) {
+          // Đã đến cuối trang — dừng hoàn toàn
+          stopAutoScroll();
+          return;
+        }
+        window.scrollBy({ top: AUTO_SCROLL_SPEED, behavior: 'instant' });
+      }
+
+      _autoScrollRaf = requestAnimationFrame(_autoScrollLoop);
     }
 
     // Lưu trực tiếp vào file local qua File System Access API (Chrome/Edge)
