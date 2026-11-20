@@ -969,6 +969,12 @@
                     <button type="button" onclick="exportSingleSelfContainedHtml()" class="w-full py-3 px-4 rounded-xl bg-terracotta hover:bg-[#875544] text-ivory font-semibold text-xs uppercase tracking-wider shadow-md transition">
                         📦 Tải File index.html Hoàn Chỉnh
                     </button>
+                    <button type="button" onclick="saveDirectlyToFile()" class="w-full py-3 px-4 rounded-xl bg-espresso hover:bg-[#1a1210] text-ivory font-semibold text-xs uppercase tracking-wider shadow-md transition">
+                        💾 Lưu Trực Tiếp Vào File (Local)
+                    </button>
+                    <p class="text-[10px] text-taupe/70 leading-relaxed">
+                        💡 Chỉ dùng được trên Chrome/Edge. Chọn đúng file <code>index.html</code> trong thư mục dự án để ghi thẳng vào — không cần tải về rồi copy thủ công.
+                    </p>
                     <div class="grid grid-cols-2 gap-2 pt-1">
                         <button type="button" onclick="exportDraftJson()" class="py-2 px-3 rounded-xl bg-champagne hover:bg-sand/70 text-espresso text-[11px] font-medium transition">
                             💾 Lưu Bản Nháp (.json)
@@ -1845,6 +1851,68 @@
             };
             reader.readAsText(file);
             event.target.value = '';
+        }
+
+        // Lưu trực tiếp vào file local qua File System Access API (Chrome/Edge)
+        async function saveDirectlyToFile() {
+            if (!window.showSaveFilePicker) {
+                showToast('Trình duyệt không hỗ trợ. Hãy dùng Chrome hoặc Edge.');
+                return;
+            }
+            try {
+                // Sinh HTML giống hệt exportSingleSelfContainedHtml
+                const exportConfig = JSON.parse(JSON.stringify(WEDDING_CONFIG));
+                exportConfig.showEditorButton = false;
+                if ((exportConfig.mp3Url || '').startsWith('blob:')) {
+                    exportConfig.mp3Url = './assets/le-duong.mp3';
+                }
+                const safeJson = JSON.stringify(exportConfig, null, 4);
+                const docClone = document.documentElement.cloneNode(true);
+                const bodyClone = docClone.querySelector('body');
+                if (bodyClone) bodyClone.classList.remove('mobile-edit-active');
+                ['mobileEditBanner', 'mobilePublishModal', 'universalTextModal',
+                 'mobileTextEditModal', 'eventLinkModal', 'bankEditModal', 'lightboxModal',
+                 'photoCropModal'].forEach((id) => {
+                    const el = docClone.querySelector('#' + id);
+                    if (el) { el.classList.add('hidden'); el.classList.remove('flex'); }
+                });
+                const coverClone = docClone.querySelector('#envelopeCover');
+                if (coverClone) {
+                    coverClone.classList.remove('opacity-0', 'pointer-events-none', 'scale-105');
+                    coverClone.style.display = '';
+                }
+                const giftClone = docClone.querySelector('#giftQrPanel');
+                if (giftClone) giftClone.classList.add('hidden');
+                const giftBtnClone = docClone.querySelector('#toggleGiftBtn');
+                if (giftBtnClone) giftBtnClone.innerHTML = '<span>🎁 Mở Hộp Mừng Cưới (QR)</span>';
+                const ytClone = docClone.querySelector('#ytAudioContainer');
+                if (ytClone) ytClone.innerHTML = '<div id="ytMusicPlayer"></div>';
+                docClone.querySelectorAll('.is-visible').forEach((el) => el.classList.remove('is-visible'));
+                ['loveStoryChaptersContainer', 'editorialAlbumGrid', 'wishesListContainer', 'calendarDaysGrid'].forEach((id) => {
+                    const el = docClone.querySelector('#' + id);
+                    if (el) el.innerHTML = '';
+                });
+                const replacementBlock = '/*__WEDDING_CONFIG_START__*/\n        const WEDDING_CONFIG = ' + safeJson + ';\n        /*__WEDDING_CONFIG_END__*/';
+                const updatedHtml = '<!DOCTYPE html>\n' + docClone.outerHTML.replace(
+                    /\/\*__WEDDING_CONFIG_START__\*\/[\s\S]*?\/\*__WEDDING_CONFIG_END__\*\//,
+                    replacementBlock
+                );
+
+                // Mở hộp thoại chọn file để ghi
+                const fileHandle = await window.showSaveFilePicker({
+                    suggestedName: 'index.html',
+                    types: [{ description: 'HTML File', accept: { 'text/html': ['.html'] } }]
+                });
+                const writable = await fileHandle.createWritable();
+                await writable.write(updatedHtml);
+                await writable.close();
+                showToast('✓ Đã lưu trực tiếp vào file thành công!');
+            } catch (err) {
+                if (err.name !== 'AbortError') {
+                    console.error(err);
+                    showToast('Lỗi khi lưu file: ' + err.message);
+                }
+            }
         }
 
         // Xuất ra ĐÚNG 1 FILE index.html sạch sẽ, chứa toàn bộ chữ và ảnh mới

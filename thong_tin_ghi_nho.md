@@ -146,3 +146,53 @@ thiep_cuoi_online_by_sang/
 1. Push lên GitHub
 2. Vercel tự detect và deploy
 3. URL đẹp: `https://ten-project.vercel.app/nha-trai`
+
+---
+
+## Hàm `saveDirectlyToFile()` — Lưu trực tiếp vào file local
+
+**Yêu cầu:** Chrome hoặc Edge (dùng File System Access API)  
+**Có trong:** `nha-trai/index.html`, `nha-gai/index.html`
+
+### Cách hoạt động:
+1. Sinh HTML hoàn chỉnh (giống `exportSingleSelfContainedHtml`)
+2. Mở hộp thoại chọn file `showSaveFilePicker`
+3. Người dùng chọn đúng `index.html` trong thư mục dự án
+4. Ghi thẳng vào file → không cần tải về rồi copy
+
+### Vị trí nút trong UI:
+- **nha-trai**: Trong `mobilePublishModal` → ngay dưới nút "📦 Tải File index.html Hoàn Chỉnh"
+- **nha-gai**: Floating bar góc dưới phải → icon 💾 cạnh nút nhạc
+
+### Lưu ý quan trọng:
+- `nha-gai/index.html` không có hệ thống WEDDING_CONFIG → hàm chỉ lưu `document.documentElement.outerHTML` (ảnh base64 đã inline sẵn khi chỉnh sửa)
+- `nha-trai/index.html` có WEDDING_CONFIG → hàm sinh HTML sạch như `exportSingleSelfContainedHtml`
+- Nếu user nhấn Cancel → `AbortError` → không hiện lỗi, bỏ qua
+
+---
+
+## Crop Modal riêng của `nha-gai/index.html`
+
+File này **không dùng** hệ thống `openPhotoCropModal` của nha-trai. Có crop modal độc lập:
+
+| ID | Vai trò |
+|---|---|
+| `cropModalNhaGai` | Modal overlay fullscreen |
+| `cropVpNhaGai` | Viewport crop (div overflow:hidden) |
+| `cropImgNhaGai` | Ảnh được kéo/zoom bên trong viewport |
+| `cropZoomNhaGai` | Thanh slider zoom 50–300% |
+
+### Các hàm:
+- `openCropModal(src, targetImg)` — mở modal, nhận src base64 + phần tử img đích
+- `confirmCropNhaGai()` — canvas crop → gán vào targetImg → đóng modal
+- `closeCropModalNhaGai()` — huỷ
+- `onCropZoomNhaGai(val)` — slider zoom
+- `_initCropEvents()` — bind mouse/touch events (gọi trong DOMContentLoaded)
+- `_cropApply()` — apply transform left/top/width/height vào ảnh
+- `_cropClamp()` — giới hạn không cho ảnh ra ngoài viewport
+
+### Cơ chế đổi ảnh của nha-gai (khác nha-trai):
+- Class `photo-editable` trên các `<img>`
+- `togglePhotoReplaceMode()` → toggle `edit-photo-mode` trên body
+- `initPhotoReplacementHandler()` → click img → `fileInput.click()` → `FileReader` → `openCropModal()`
+- Input file: `<input type="file" id="photoFileInput">`
