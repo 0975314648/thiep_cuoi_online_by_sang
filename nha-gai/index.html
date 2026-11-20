@@ -1144,17 +1144,28 @@
     function _cropClamp() {
       const vp  = document.getElementById('cropVpNhaGai');
       const img = document.getElementById('cropImgNhaGai');
-      const iW = img.naturalWidth * _crop.scale;
+      const iW = img.naturalWidth  * _crop.scale;
       const iH = img.naturalHeight * _crop.scale;
-      _crop.tx = Math.min(0, Math.max(vp.offsetWidth  - iW, _crop.tx));
-      _crop.ty = Math.min(0, Math.max(vp.offsetHeight - iH, _crop.ty));
+      const vpW = vp.offsetWidth, vpH = vp.offsetHeight;
+      // Khi ảnh lớn hơn viewport: giữ ảnh không để lộ nền
+      // Khi ảnh nhỏ hơn viewport (zoom out < baseScale): căn giữa tự do
+      if (iW >= vpW) {
+        _crop.tx = Math.min(0, Math.max(vpW - iW, _crop.tx));
+      } else {
+        _crop.tx = (vpW - iW) / 2;
+      }
+      if (iH >= vpH) {
+        _crop.ty = Math.min(0, Math.max(vpH - iH, _crop.ty));
+      } else {
+        _crop.ty = (vpH - iH) / 2;
+      }
     }
 
     function _cropSliderSync() {
       const slider = document.getElementById('cropZoomNhaGai');
       const pct = Math.round(_crop.scale / _crop.baseScale * 100);
-      slider.value = Math.min(300, Math.max(50, pct));
-      const fill = (pct - 50) / 250 * 100;
+      slider.value = Math.min(300, Math.max(25, pct));
+      const fill = (pct - 25) / 275 * 100;
       slider.style.background = `linear-gradient(90deg,#C5A059 ${fill}%,rgba(255,255,255,0.2) ${fill}%)`;
     }
 
@@ -1168,7 +1179,7 @@
       _crop.ty = cy - (cy - _crop.ty) * r;
       _crop.scale = newScale;
       _cropClamp(); _cropApply();
-      const fill = (pct - 50) / 250 * 100;
+      const fill = (pct - 25) / 275 * 100;
       document.getElementById('cropZoomNhaGai').style.background =
         `linear-gradient(90deg,#C5A059 ${fill}%,rgba(255,255,255,0.2) ${fill}%)`;
     }
@@ -1192,7 +1203,7 @@
           _cropClamp(); _cropApply();
         } else if (e.touches.length === 2) {
           const dist = Math.hypot(e.touches[0].clientX - e.touches[1].clientX, e.touches[0].clientY - e.touches[1].clientY);
-          const newScale = Math.max(_crop.baseScale, Math.min(_crop.baseScale * 3, _crop.pinchScaleStart * dist / _crop.pinchDist));
+          const newScale = Math.max(_crop.baseScale * 0.5, Math.min(_crop.baseScale * 3, _crop.pinchScaleStart * dist / _crop.pinchDist));
           const vp = document.getElementById('cropVpNhaGai');
           const rect = vp.getBoundingClientRect();
           const mx = (e.touches[0].clientX + e.touches[1].clientX) / 2 - rect.left;
@@ -1202,7 +1213,16 @@
           _crop.scale = newScale; _cropClamp(); _cropApply(); _cropSliderSync();
         }
       }, { passive: false });
-      vp.addEventListener('touchend', e => { if (e.touches.length === 0) _crop.dragging = false; }, { passive: true });
+      vp.addEventListener('touchend', e => {
+        if (e.touches.length === 0) {
+          _crop.dragging = false;
+        } else if (e.touches.length === 1) {
+          // Chuyển từ pinch về 1 ngón: reset điểm kéo để tránh nhảy vị trí
+          _crop.dragging = true;
+          _crop.lx = e.touches[0].clientX;
+          _crop.ly = e.touches[0].clientY;
+        }
+      }, { passive: true });
     }
 
     // 8. Xử lý gửi lời chúc & xác nhận tham dự (RSVP)
@@ -1365,25 +1385,42 @@
 
     // Lưu trực tiếp vào file local qua File System Access API (Chrome/Edge)
     async function saveDirectlyToFile() {
-      if (!window.showSaveFilePicker) {
-        showToast('Trình duyệt không hỗ trợ. Hãy dùng Chrome hoặc Edge.');
+      const html = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
+
+      // Desktop Chrome/Edge: File System Access API
+      if (window.showSaveFilePicker) {
+        try {
+          const fileHandle = await window.showSaveFilePicker({
+            suggestedName: 'thiep-cuoi-nha-gai.html',
+            types: [{ description: 'HTML File', accept: { 'text/html': ['.html'] } }]
+          });
+          const writable = await fileHandle.createWritable();
+          await writable.write(html);
+          await writable.close();
+          showToast('✓ Đã lưu trực tiếp vào file thành công!');
+        } catch (err) {
+          if (err.name !== 'AbortError') {
+            console.error(err);
+            showToast('Lỗi khi lưu file: ' + err.message);
+          }
+        }
         return;
       }
+
+      // Mobile Android / Firefox: anchor download fallback
       try {
-        const html = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
-        const fileHandle = await window.showSaveFilePicker({
-          suggestedName: 'index.html',
-          types: [{ description: 'HTML File', accept: { 'text/html': ['.html'] } }]
-        });
-        const writable = await fileHandle.createWritable();
-        await writable.write(html);
-        await writable.close();
-        showToast('✓ Đã lưu trực tiếp vào file thành công!');
+        const blob = new Blob([html], { type: 'text/html' });
+        const url  = URL.createObjectURL(blob);
+        const a    = document.createElement('a');
+        a.href     = url;
+        a.download = 'thiep-cuoi-nha-gai.html';
+        document.body.appendChild(a);
+        a.click();
+        setTimeout(() => { URL.revokeObjectURL(url); a.remove(); }, 3000);
+        showToast('✓ Đang tải xuống file thiệp...');
       } catch (err) {
-        if (err.name !== 'AbortError') {
-          console.error(err);
-          showToast('Lỗi khi lưu file: ' + err.message);
-        }
+        // iOS Safari không tải blob — hướng dẫn chia sẻ thủ công
+        showToast('💡 iOS: Nhấn nút Chia sẻ ↑ → "Lưu vào Tệp" để lưu thiệp.');
       }
     }
   </script>
@@ -1496,7 +1533,7 @@
     <!-- Zoom slider -->
     <div class="w-full px-5 pb-4 pt-2 shrink-0 flex items-center gap-3">
       <span class="text-[#FAF6F0]/50 text-lg select-none">−</span>
-      <input id="cropZoomNhaGai" type="range" min="50" max="300" value="100" step="1"
+      <input id="cropZoomNhaGai" type="range" min="25" max="300" value="100" step="1"
              oninput="onCropZoomNhaGai(this.value)"
              class="flex-1 h-1 rounded-full appearance-none cursor-pointer"
              style="background:linear-gradient(90deg,#C5A059 0%,rgba(255,255,255,0.2) 0%);">
