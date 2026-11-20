@@ -745,14 +745,14 @@
         </p>
 
         <!-- Nút bấm mở Hộp Quà Cưới -->
-        <button id="btnToggleGiftQr" type="button" onclick="toggleGiftQrBox()" aria-expanded="true" class="inline-flex items-center justify-center gap-2 rounded-full border border-[#B57351] bg-white hover:bg-cardBg active:scale-95 px-7 py-2.5 text-[12.5px] tracking-[0.08em] uppercase text-ink font-medium shadow-sm transition">
+        <button id="btnToggleGiftQr" type="button" onclick="toggleGiftQrBox()" aria-expanded="false" class="inline-flex items-center justify-center gap-2 rounded-full border border-[#B57351] bg-white hover:bg-cardBg active:scale-95 px-7 py-2.5 text-[12.5px] tracking-[0.08em] uppercase text-ink font-medium shadow-sm transition">
           <span>🎁</span>
-          <span id="btnToggleGiftQrText">THU GỌN HỘP QUÀ CƯỚI</span>
+          <span id="btnToggleGiftQrText">MỞ HỘP QUÀ CƯỚI</span>
         </button>
       </div>
 
       <!-- Khung 2 QR Chú Rể & Cô Dâu (Mặc định ẩn, bấm nút mới mở mượt) -->
-      <div id="collapsibleQrContainer" class="qr-collapse open">
+      <div id="collapsibleQrContainer" class="qr-collapse">
         <div class="grid grid-cols-2 gap-3 text-center pt-1">
           <!-- QR Chú Rể -->
           <div class="bg-white border border-[#C5A059]/60 rounded-[18px] p-3.5 shadow-sm flex flex-col items-center">
@@ -1020,7 +1020,7 @@
     }
 
     // 6. Đóng / Mở mượt khung 2 mã QR Hộp Quà Cưới
-    let isGiftQrExpanded = true;
+    let isGiftQrExpanded = false;
     function toggleGiftQrBox() {
       const container = document.getElementById('collapsibleQrContainer');
       const btnText = document.getElementById('btnToggleGiftQrText');
@@ -1333,62 +1333,30 @@
       showToast('💌 Đã gửi lời chúc tới Ngô Thu & Nguyễn Sáng!');
     }
 
-    // 9. Nhạc nền Piano nhẹ nhàng bằng Web Audio API
-    let audioCtx = null;
+    // 9. Nhạc nền từ file MP3
+    let bgAudio = null;
     let isMusicPlaying = false;
-    let musicInterval = null;
-    const notesSequence = [
-      587.33, 440.00, 493.88, 369.99, 392.00, 293.66, 392.00, 440.00,
-      587.33, 659.25, 739.99, 587.33, 493.88, 587.33, 440.00, 392.00
-    ];
-    let currentNoteIdx = 0;
-
-    function playGentleChime(frequency) {
-      if (!audioCtx || !isMusicPlaying) return;
-      const now = audioCtx.currentTime;
-      const osc = audioCtx.createOscillator();
-      const gain = audioCtx.createGain();
-
-      osc.type = 'sine';
-      osc.frequency.setValueAtTime(frequency, now);
-
-      gain.gain.setValueAtTime(0.001, now);
-      gain.gain.exponentialRampToValueAtTime(0.07, now + 0.08);
-      gain.gain.exponentialRampToValueAtTime(0.0001, now + 1.4);
-
-      osc.connect(gain);
-      gain.connect(audioCtx.destination);
-
-      osc.start(now);
-      osc.stop(now + 1.45);
-    }
 
     function toggleMusic() {
       const btn = document.getElementById('musicToggleBtn');
       const muteLine = document.getElementById('musicMuteLine');
 
-      if (!audioCtx) {
-        const AudioContextClass = window.AudioContext || window.webkitAudioContext;
-        audioCtx = new AudioContextClass();
-      }
-      if (audioCtx.state === 'suspended') {
-        audioCtx.resume();
+      if (!bgAudio) {
+        bgAudio = new Audio('../assets/nhac-nha-gai.mp3');
+        bgAudio.loop = true;
+        bgAudio.volume = 0.55;
       }
 
       isMusicPlaying = !isMusicPlaying;
       if (isMusicPlaying) {
+        bgAudio.play().catch(() => {});
         muteLine.classList.add('hidden');
         btn.classList.add('music-spinning');
-        playGentleChime(notesSequence[currentNoteIdx]);
-        musicInterval = setInterval(() => {
-          currentNoteIdx = (currentNoteIdx + 1) % notesSequence.length;
-          playGentleChime(notesSequence[currentNoteIdx]);
-        }, 650);
         showToast('🎵 Đã bật nhạc nền thiệp cưới');
       } else {
+        bgAudio.pause();
         muteLine.classList.remove('hidden');
         btn.classList.remove('music-spinning');
-        clearInterval(musicInterval);
         showToast('🔇 Đã tắt nhạc nền');
       }
     }
