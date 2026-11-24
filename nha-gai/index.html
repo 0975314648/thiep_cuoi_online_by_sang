@@ -679,7 +679,6 @@
         <div>
           <select id="guestRelation" class="custom-select w-full rounded-[10px] border border-primary/40 bg-white px-4 py-2.5 text-[15px] text-ink focus:outline-none focus:border-primary transition" __gcruniqueid="3">
             <option value="Bạn cô dâu">Mối quan hệ: Bạn cô dâu</option>
-            <option value="Bạn chú rể">Mối quan hệ: Bạn chú rể</option>
             <option value="Đồng nghiệp">Mối quan hệ: Đồng nghiệp</option>
             <option value="Người thân">Mối quan hệ: Người thân</option>
           </select>
@@ -732,7 +731,7 @@
           Hộp Mừng Hạnh Phúc
         </h2>
         <p class="text-[14.5px] leading-[1.75] text-ink/85 max-w-[365px] mx-auto mb-6 font-normal">
-          Những lời chúc phúc và sự hiện diện của Quý khách là món quà vô cùng ý nghĩa đối với chúng tôi. Trong trường hợp Quý khách ở xa hoặc không thể đến chung vui trực tiếp, Quý khách có thể gửi lời chúc mừng tới cô dâu và chú rể qua thông tin bên dưới. Chúng tôi xin chân thành cảm ơn!
+          Những lời chúc phúc và sự hiện diện của Quý khách là món quà vô cùng ý nghĩa đối với chúng tôi.
         </p>
 
       </div>
@@ -828,9 +827,26 @@
   <!-- =====================================================
        MODAL LIGHTBOX PHÓNG TO ẢNH TRONG ALBUM
        ===================================================== -->
-  <div id="lightboxModal" onclick="closeLightbox()" class="fixed inset-0 bg-black/90 z-50 hidden items-center justify-center p-4">
-    <button type="button" onclick="closeLightbox()" class="absolute top-5 right-5 w-10 h-10 rounded-full bg-white/15 text-white text-xl flex items-center justify-center">✕</button>
-    <img id="lightboxImage" src="" alt="Phóng to ảnh cưới" class="max-w-full max-h-[88vh] rounded-xl object-contain shadow-2xl">
+  <div id="lightboxModal" class="fixed inset-0 z-[60] bg-[#231E1B]/95 backdrop-blur-md hidden flex-col items-center justify-between p-4 select-none">
+    <!-- Nút đóng -->
+    <div class="w-full flex justify-end pt-1 pb-2 shrink-0">
+      <button type="button" onclick="closeLightbox()" class="w-10 h-10 rounded-full bg-white/15 backdrop-blur-sm flex items-center justify-center text-[#FAF6F0] text-lg">✕</button>
+    </div>
+
+    <!-- Vùng chạm vuốt + ảnh -->
+    <div id="lightboxTouchArea" class="flex-1 w-full flex items-center justify-center min-h-0 relative">
+      <!-- Nút trước -->
+      <button type="button" onclick="stepLightbox(-1)" class="absolute left-0 z-10 w-11 h-11 rounded-full bg-white/15 backdrop-blur-sm flex items-center justify-center text-[#FAF6F0] text-xl select-none">‹</button>
+      <!-- Ảnh -->
+      <img id="lightboxImage" src="" alt="Phóng to ảnh cưới" class="max-h-[80vh] w-auto max-w-full rounded-2xl object-contain shadow-2xl" style="touch-action:none;">
+      <!-- Nút sau -->
+      <button type="button" onclick="stepLightbox(1)" class="absolute right-0 z-10 w-11 h-11 rounded-full bg-white/15 backdrop-blur-sm flex items-center justify-center text-[#FAF6F0] text-xl select-none">›</button>
+    </div>
+
+    <!-- Bộ đếm ảnh -->
+    <div class="w-full text-center pt-3 pb-1 shrink-0">
+      <span id="lightboxCounter" class="text-[#FAF6F0]/50 text-xs tracking-wider"></span>
+    </div>
   </div>
 
   <!-- THÔNG BÁO TOAST NHỎ GỌN -->
@@ -867,6 +883,10 @@
       if (!isEditMode) {
         setTimeout(() => startAutoScroll(), 5000);
       }
+
+      // Khởi tạo lightbox: thu thập ảnh album & bắt sự kiện vuốt/phím tắt
+      collectAlbumImages();
+      initLightboxGestures();
     });
 
     window.addEventListener('resize', adjustCoupleNamesLayout);
@@ -1366,20 +1386,79 @@
       }
     }
 
-    // 10. Phóng to ảnh Album & Bản đồ & Sao chép STK
+    // 10. Phóng to ảnh Album — Xem toàn màn hình & vuốt trái/phải
+    const albumImages = [];
+    let currentLightboxIndex = 0;
+
+    function collectAlbumImages() {
+      albumImages.length = 0;
+      // Chỉ thu thập ảnh trong album cưới (có thuộc tính onclick openLightbox), loại bỏ hoàn toàn mã QR và các ảnh khác
+      const imgs = document.querySelectorAll('img[onclick*="openLightbox"]');
+      imgs.forEach(img => {
+        if (img.src) albumImages.push(img.src);
+      });
+    }
+
     function openLightbox(imgEl) {
       if (isPhotoEditMode) return;
+      collectAlbumImages();
+      const imgs = Array.from(document.querySelectorAll('img[onclick*="openLightbox"]'));
+      const idx = imgs.indexOf(imgEl);
+      currentLightboxIndex = idx >= 0 ? idx : 0;
+      updateLightboxContent();
       const modal = document.getElementById('lightboxModal');
-      const target = document.getElementById('lightboxImage');
-      target.src = imgEl.src;
-      modal.classList.remove('hidden');
-      modal.classList.add('flex');
+      if (modal) {
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+      }
     }
 
     function closeLightbox() {
       const modal = document.getElementById('lightboxModal');
-      modal.classList.add('hidden');
-      modal.classList.remove('flex');
+      if (modal) {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+      }
+    }
+
+    function stepLightbox(direction) {
+      if (!albumImages.length) return;
+      currentLightboxIndex = (currentLightboxIndex + direction + albumImages.length) % albumImages.length;
+      updateLightboxContent();
+    }
+
+    function updateLightboxContent() {
+      const src = albumImages[currentLightboxIndex];
+      if (!src) return;
+      const img = document.getElementById('lightboxImage');
+      const counter = document.getElementById('lightboxCounter');
+      if (img) img.src = src;
+      if (counter) counter.textContent = `${currentLightboxIndex + 1} / ${albumImages.length}`;
+    }
+
+    function initLightboxGestures() {
+      // Phím tắt: Escape đóng, mũi tên trái/phải chuyển ảnh
+      window.addEventListener('keydown', (e) => {
+        const modal = document.getElementById('lightboxModal');
+        if (!modal || modal.classList.contains('hidden')) return;
+        if (e.key === 'Escape') closeLightbox();
+        if (e.key === 'ArrowLeft') stepLightbox(-1);
+        if (e.key === 'ArrowRight') stepLightbox(1);
+      });
+
+      // Vuốt trái/phải trên mobile
+      const touchArea = document.getElementById('lightboxTouchArea');
+      if (!touchArea) return;
+      let startX = 0;
+      touchArea.addEventListener('touchstart', (e) => {
+        startX = e.changedTouches[0].screenX;
+      }, { passive: true });
+      touchArea.addEventListener('touchend', (e) => {
+        const diff = e.changedTouches[0].screenX - startX;
+        if (Math.abs(diff) > 40) {
+          stepLightbox(diff < 0 ? 1 : -1);
+        }
+      }, { passive: true });
     }
 
     function openMapModal(title, address) {
